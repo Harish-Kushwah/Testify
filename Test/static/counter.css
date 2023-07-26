@@ -1,0 +1,12 @@
+.launch-time{
+   display: flex;
+}
+.launch-time div
+{
+  flex-basis: 60px;
+}
+.launch-time div p
+{
+   font-size: 50px;
+   margin-bottom: -14px;
+}

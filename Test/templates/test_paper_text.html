@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+
+{% block title %} Welcome to Online Testing System {% endblock title %}
+
+{%block top %} 
+   
+{% endblock top%}
+
+{%block content %}
+    <form action="{% url 'Test:calculateTest' %}" method ="POST">
+        {% csrf_token %}
+        <!-- {% for question in questions %}
+           <div class="question">
+                <input type = "hidden" name ="qno{{question.question_id}}" value = "{{question.question_id}}">
+                {{question.question_statement}}
+           </div>
+           <div class ="options"> <input type="radio" , name ="q{{question.question_id}}" value = "a">A. {{ question.opt_a }}</div>
+           <div class ="options"> <input type="radio" , name ="q{{question.question_id}}" value = "b">B. {{ question.opt_b }}</div>
+           <div class ="options"> <input type="radio" , name ="q{{question.question_id}}" value = "c">C. {{ question.opt_c }}</div>
+           <div class ="options"> <input type="radio" , name ="q{{question.question_id}}" value = "d">D. {{ question.opt_d }}</div>
+
+           <br><br>
+        {% endfor %} -->
+
+        
+        <div class="questionimg">
+            {%for img in images %}
+            <div> <img src=" /media/{{ img.question_image}}" alt="" width="500" height="200"></div>
+            <input type = "hidden" name ="qno{{question.question_id}}" value = "{{question.question_id}}">
+            <div class ="options"> <input type="radio" , name ="q{{question.question_id}}" value = "a">A.</div>
+            <div class ="options"> <input type="radio" , name ="q{{question.question_id}}" value = "b">B.</div>
+            <div class ="options"> <input type="radio" , name ="q{{question.question_id}}" value = "c">C.</div>
+            <div class ="options"> <input type="radio" , name ="q{{question.question_id}}" value = "d">D.</div>
+            {% endfor %}
+        </div>
+        <div><input type="submit" value = "Submit"></div>
+    </form>
+
+{%endblock content%}

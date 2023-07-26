@@ -1,0 +1,131 @@
+{% extends 'main.html' %} {% block title %} Welcome to Online Testing System {%endblock title %}
+
+  {%block top %}
+    <!-- <a href="{% url 'Test:registrationform' %}">SignUp</a>
+    <a href="{% url 'Test:login' %}">Login</a>
+    <a href="{% url 'Test:logout' %}">About</a>
+    <a href="{% url 'Test:logout' %}">Contact</a> -->
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:registrationform' %}">SignUp</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:login' %}">login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">About</a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link active" aria-current="page" href="{% url 'Test:uploadQuestion' %}">Contact</a>
+        </li>
+      </ul>
+  </div>
+  {% load static %}
+  {% endblock top%}
+
+  {% block scripts %}
+    
+  
+  {% endblock scripts %}
+
+
+{%block content %}
+
+    <!-- <div class="launch-time">
+        <div>
+            <p id ="days">00</p>
+            <span>Days</span>
+        </div>
+        <div>
+            <p id ="hours">00</p>
+            <span>Hours</span>
+        </div>
+        <div>
+            <p id = "minutes">00</p>
+            <span>Minutes</span>
+        </div>
+        <div>
+            <p id ="seconds">00</p>
+            <span>Second</span>
+        </div>
+    </div>
+     <script src = "{% static 'main.js' %}">
+    
+    </script>  -->
+
+  <!-- <script >
+    /*
+    var hr = parseInt('{{hr}}')
+    var min = parseInt('{{min}}')
+    var sec =parseInt('{{sec}}')
+    console.log(typeof(hr))
+
+        var newTime  = new Date()
+        newTime.setDate(newTime.getDate())
+        newTime.setHours(newTime.getHours()+hr)
+        newTime.setMinutes(newTime.getMinutes() + min)
+        newTime.setSeconds(newTime.getSeconds() + sec)
+        console.log(newTime)
+        var countDownDate = new Date(newTime).getTime();
+     var x = setInterval(function(){
+        var now = new Date().getTime();
+        var distance = countDownDate - now
+
+        var days = Math.floor(distance/(1000*60*60*24))
+        var hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+        var minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+        var seconds = Math.floor((distance%(1000*60))/(1000));
+        if(distance>0){
+        document.getElementById('days').innerHTML =days 
+        document.getElementById('hours').innerHTML =hours 
+        document.getElementById('minutes').innerHTML =minutes 
+        document.getElementById('seconds').innerHTML =seconds 
+        }
+     } , 1000)*/
+    </script>  -->
+    <p> Welcome to result page</p>
+    {% comment %} <div class="qimg"> <img src="media/pichart/plot.png" alt="" hight=400 width=400 > {% endcomment %}
+      {% comment %} <img src="media/pichart/{{img}}" alt="" hight=400 width=400 > {% endcomment %}
+      {% comment %} <h1> {{img}}</h1> {% endcomment %}
+      {% if chart %}
+      <img src="data:image/png;base64,{{chart|safe}}" alt="" hight=400 width=400 >
+      <img src=" /media/pichart/{{chart}}"  alt="" hight=400 width=400 >
+      {% endif %}
+
+        <h1>"User :" {{ request.session.name }}</h1>
+       {% comment %} {%for cr in chart %}
+            <div class="qimg"> <img src=" /media/{{ cr.current_exam_pi_image}}" alt="" ></div>
+            {% endfor %}  {% endcomment %}
+      {% comment %} {%for cr in chart %} {% endcomment %}
+            <div class="qimg"> <img src=" /media/{{ chart.current_exam_pi_image}}" alt="" ></div> 
+            {% comment %} {% endfor %} {% endcomment %}
+    </div>
+
+    <table>
+       <tr>
+           <th>Date</th>
+           <th>Time</th>
+           <th>Attempt</th>
+           <th>Right</th>
+           <th>Wrong</th>
+           <th>Points</th>
+       </tr>
+       {% for r in results %}
+        <tr>
+           <td>{{r.date}}</td>
+           <td>{{r.time}}</td>
+           <td>{{r.attempt}}</td>
+           <td>{{r.right}}</td>
+           <td>{{r.wrong}}</td>
+           <td>{{r.points}}</td>
+        </tr>
+       {% endfor %}
+    </table>
+    
+{%endblock content%}
+
+
+
+

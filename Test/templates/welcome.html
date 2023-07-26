@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+ {% block title %} Welcome to Online Testing System {%endblock title %}
+
+  {%block top %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:registrationform' %}">SignUp</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:login' %}">login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">About</a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link active" aria-current="page" href="{% url 'Test:uploadQuestion' %}">Contact</a>
+        </li>
+      </ul>
+  </div>
+  {% endblock top%}
+
+
+  <div class="header">  
+    <div class="textbox">
+        <h1>Test your knowledge with  Testi<span>fy.</span></h1>
+        <p>
+        Welcome to Online Exam Testing <br />
+        here you can test your skills and learn new things
+        </p>
+        <a href="" class="hero-btn">Visit Us to Know More</a>
+    </div>
+   </div>
+
+{%block content %}
+
+{%endblock content%}
+
+
+
+

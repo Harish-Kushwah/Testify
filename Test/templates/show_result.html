@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+
+{% block title %} Test Result {% endblock title %}
+
+{%block top %} 
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'Test:home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">Logout</a>
+          </li>
+        </ul>
+    </div>
+{% endblock top%}
+
+{%block content %}
+     <p> Welcome to result page</p>
+
+     <table>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Attempt</th>
+            <th>Right</th>
+            <th>Wrong</th>
+            <th>Points</th>
+        </tr>
+        {% for r in results %}
+         <tr>
+            <td>{{r.date}}</td>
+            <td>{{r.time}}</td>
+            <td>{{r.attempt}}</td>
+            <td>{{r.right}}</td>
+            <td>{{r.wrong}}</td>
+            <td>{{r.points}}</td>
+         </tr>
+        {% endfor %}
+     </table>
+{%endblock content%}

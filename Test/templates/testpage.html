@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="document.forms['autoSubmit'].submit()">
+    <form action="{% url 'Test:customs_test_paper' %}" name="autoSubmit">
+        {% csrf_token %}
+
+    </form>
+    
+       <script>
+       
+        function preventBack()
+             {
+                window.history.forward();
+             }
+             setTimeout("preventBack()",0);
+             window.onunload = function()
+             {
+                null
+             };
+      </script>
+</body>
+</html>
+
+

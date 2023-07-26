@@ -1,0 +1,157 @@
+{% extends 'main.html' %}
+
+{% block title %} Welcome to Online Testing System {% endblock title %}
+
+{% load static %}
+{%block top %} 
+       <link rel="stylesheet" href="{% static 'exam.css ' %}" />
+       <style>
+        
+        
+       </style>
+{% endblock top%}
+
+
+{%block content %}
+    <form id="form" action="{% url 'Test:calculateTest' %}" method ="POST" >
+        {% csrf_token %}
+
+        {% if examStatus == 1 %}
+        <!-- Question will be in the form of image -->
+        <div class="exam-page">
+            <div class="exam-header">
+                <h2>Exam Section</h2>
+            </div>
+            
+          <div class="exam-section">     
+                
+           <div class="questionimg">
+            <div class="info-sec">
+                <h4>Name :<span> {{ request.session.name }}</span></h4>
+               
+           
+                </h4>
+                <h4>Total Question : <span>{{ totalQuestion }}</span>
+                </h4>
+                <h4>Topic Name : <span>{{ topicName }}</span></h4>
+                <h4>Total Time :<span>{{time}} min</span></h4>
+                <h4>Time Remaining :</h4>
+
+                
+                <div class="launch-time">
+                     
+                    <div>
+                        <p id ="hours">00</p>
+                        <span>Hours</span>
+                    </div>
+                    <div>
+                        <p id="colon">:</p>
+                    </div>
+                    <div>
+                        <p id = "minutes">00</p>
+                        <span>Minutes</span>
+                    </div>
+                    <div>
+                        <p id="colon">:</p>
+                    </div>
+                    <div>
+                        <p id ="seconds">00</p>
+                        <span>Second</span>
+                    </div>
+                </div>
+
+            </div> 
+            {%for img in questions %}
+            <div class="qimg"> <img src=" /media/{{ img.question_image}}" alt="" ></div>
+          
+            <input type = "hidden" name ="qno{{img.question_id}}" value = "{{img.question_id}}">
+
+            <div class = "optGroup">
+                <div class ="options"> <input type="radio" , name ="q{{img.question_id}}" value = "a">A.</div>
+                <div class ="options"> <input type="radio" , name ="q{{img.question_id}}" value = "b">B.</div>
+                <div class ="options"> <input type="radio" , name ="q{{img.question_id}}" value = "c">C.</div>
+                <div class ="options"> <input type="radio" , name ="q{{img.question_id}}" value = "d">D.</div>
+            </div>
+            {% endfor %}
+
+            <div class="exam-btn">
+                <input type="submit" value = "Submit" id = "refreshed" value="no">
+
+            </div>
+        </div>
+        
+       </div>
+        {% elif examStatus == 2 %}
+          <h1>Sorry..! please Enter valid topic names </h1>
+        {% endif %}
+    </div>
+    </form>
+
+
+    <script >
+        var hr = parseInt('{{hr}}')
+        var min = parseInt('{{min}}')
+        var sec =parseInt('{{sec}}')
+        console.log(typeof(hr))
+    
+            var newTime  = new Date()
+            newTime.setDate(newTime.getDate())
+            newTime.setHours(newTime.getHours()+hr)
+            newTime.setMinutes(newTime.getMinutes() + min)
+            newTime.setSeconds(newTime.getSeconds() + sec)
+            console.log(newTime)
+            var countDownDate = new Date(newTime).getTime();
+         var x = setInterval(function(){
+            var now = new Date().getTime();
+            var distance = countDownDate - now
+    
+            var days = Math.floor(distance/(1000*60*60*24))
+            var hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+            var minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+            var seconds = Math.floor((distance%(1000*60))/(1000));
+            if(distance>0){
+            document.getElementById('hours').innerHTML =hours 
+            document.getElementById('minutes').innerHTML =minutes 
+            document.getElementById('seconds').innerHTML =seconds 
+            }
+            else{
+                document.getElementById('form').submit();
+            }
+         } , 1000)
+
+         //prevent back reloading of page
+         /*
+         $(document).ready(function(){
+            function disableBack(){
+                window.history.forward()
+            }
+            window.onload = disableBack()
+            window.onpageshow = function(evt){
+                if(evt.persisted) disableBack()
+            }
+         });
+
+         window.onload = function()
+         {
+            var e = document.getElementById("refreshed")
+            if(e.value == "no") {
+                e.value = "yes"
+            }
+            else {
+                e.value ="no";
+                location.reload();
+            }
+         }*/
+         
+         function preventBack()
+         {
+            window.history.forward();
+         }
+         setTimeout("preventBack()",0);
+         window.onunload = function()
+         {
+            null
+         };
+        
+        </script> 
+{%endblock content%}

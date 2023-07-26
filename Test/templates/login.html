@@ -1,0 +1,77 @@
+{% extends 'main.html' %}
+
+{% block title %} Login {% endblock title %}
+
+{%block top %} 
+    <!-- <a href="{% url 'Test:registrationform' %}">SignUp</a> -->
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'Test:registrationform' %}">SignUp</a>
+          </li>
+        </ul>
+    </div>
+{% endblock top%}
+
+
+{%block content %}
+     
+    {% if loginError %}
+        <div id="error"> {{ loginError }}</div>
+    {% endif %}
+    <!-- <div class = "all-form">
+        <form action="{% url 'Test:login' %}" , method="POST">
+            {% csrf_token %}
+
+            <div class = "form-unit">
+                <label for = "username">Username</label>
+                <input type="text" name = "username">
+            </div>
+            <div class = "form-unit">
+                <label for = "password">Password</label>
+                <input type="password" name = "password">
+            </div>
+
+            <div class="form-unit">
+                <input type="submit" class="btn btn-primary" value = "Login">
+                <input type="reset"  class="btn btn-primary" value ="Clear">
+            </div>
+        </form> -->
+       <div class="login-page">
+        <div class="login-image">
+          <div class="container mt-5">
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <div class="card" >
+                  <div class="card-header custom-header text-white">
+                    <h4>Login</h4>
+                  </div>
+                  <div class="card-body">
+                   
+                    <form action="{% url 'Test:login' %}" , method="POST">
+                        {% csrf_token %}
+                      <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required placeholder="Enter username">
+                      </div>
+                      <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="Enter password">
+                      </div>
+                      <div class="form-btn">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+                      </div>
+                    </form>
+
+                   New User  : <a href="{% url 'Test:registrationform' %}">click hear</a>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+        
+{%endblock content%}

@@ -1,0 +1,81 @@
+{% extends 'main.html' %}
+
+{% block title %}Registration form {% endblock title %}
+
+{%block top %} 
+    <!-- <a href="{% url 'Test:login' %}">Login</a> -->
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'Test:login' %}">Login</a>
+          </li>
+        </ul>
+    </div>
+{% endblock top%}
+
+
+{%block content %}
+     <!-- <div class = "all-form">
+        <form action="{% url 'Test:store-candidate' %}" method="post">
+            {% csrf_token %}
+
+            <label for="username">Username</label>
+            <input type="text" name = username>
+
+            <label for="password">Password</label>
+            <input type="password" name = password>
+            
+            <label for="name">Name</label>
+            <input type="text" name = name>
+
+            <input type="submit" value="Submit">
+            <input type = "reset" value = "Clear">
+        </form>
+
+    <div>
+        Already have account, <a href="{% url 'Test:login' %}"></a>
+    </div>
+     </div> -->
+     <!-- <p> Welcome to Online System here you can test your skills</p> -->
+
+     <div class="login-image">
+     <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header custom-header text-white">
+                <h4>SignUp</h4>
+              </div>
+              <div class="card-body">
+               
+                <form action="{% url 'Test:store-candidate' %}" , method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="password" name = name required placeholder="Enter name">
+                       </div>
+                  <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required placeholder="Enter username">
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required placeholder="Set password">
+                  </div>
+                 
+                  <div class="form-btn">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                  </div>
+                </form>
+
+                Already have account, <a href="{% url 'Test:login' %}">Click Hear</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{%endblock content%}

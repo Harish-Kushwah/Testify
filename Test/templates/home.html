@@ -1,0 +1,75 @@
+{% extends 'main.html' %}
+
+{% block title %} home{% endblock title %}
+
+{%block top %} 
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">About</a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link active" aria-current="page" href="{% url 'Test:uploadQuestion' %}">uploadQuestion</a>
+        </li>
+      </ul>
+  </div>
+{% endblock top %}
+
+{%block content %}
+    <div class="home-page">
+     <div class="home-page-header">
+      <h1> Welcome ,<br> "<span> {{ request.session.name }}</span> " to your home page</h1>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta perferendis molestias cupiditate officiis tempora veniam laudantium! Natus nostrum totam reprehenderit accusamus non voluptatibus quo nobis fugiat, sunt necessitatibus dolor? Doloremque, ipsa in nobis quos ad cum sunt delectus quasi deleniti quaerat accusamus, eaque repellendus nam illo. Facere quam facilis ullam?</p>
+     </div>
+     
+    <div class="test-header">
+      <h3> Create Your Own Test </h3>
+      </div>
+    <div class="custome-test">
+      
+     <form action="{% url 'Test:customs_test_paper' %}" method="post">
+      {% csrf_token %}
+        <div class="form-item">
+        <label for="topic_name">Topic Name</label>
+        <input type="text" name = topic_name required placeholder="Enter topic name">
+        </div>
+      <div class="form-item">
+        <label for="total_que">Total number of Question </label>
+        <input type="number" name = total_que required placeholder="Enter number of Question">
+      </div>
+      
+        <div class="btn-field">
+        <input type="submit" value="Submit">
+        <input type = "reset" value = "Clear" required>
+        </div>
+      
+      </form>
+    </div>
+    <div class="test-header">
+      <h3>SELECT THE TEST'S</h3>
+      </div>
+     <div class="test">
+     <div class = "button-link">
+        <a href="{% url 'Test:testpaper' %}?n=1" for ="bt1"> Test of One question <br><span> click hear</span></a>
+        <!-- <button type="button">Submit</button> -->
+     </div>
+     <div class = "button-link">
+        <a href="{% url 'Test:testpaper' %}?n=5">Test of Five question<br><span> click hear</span></a>
+     </div>
+     <div class = "button-link">
+        <a href="{% url 'Test:testpaper' %}?n=10">Test of Ten question<br><span> click hear</span></a>
+     </div>
+     <div class = "button-link">
+        <a href="{% url 'Test:testhistory' %}?n=1">Test history<br><span> click hear</span></a>
+     </div>
+    </div>
+  </div>
+  
+
+{%endblock content%}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      {% block title %} {% endblock title%}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'theme.css' %}" />
+    <link rel="stylesheet" href="{% static 'welcome.css' %}" />
+    <link rel="stylesheet" href="{% static 'login.css' %}" />
+    <link rel="stylesheet" href="{% static 'signup.css' %}" />
+    <link rel="stylesheet" href="{% static 'home.css' %}" />
+    <link rel="stylesheet" href="{% static 'upload_question.css' %}" />
+    <link rel="stylesheet" href="{% static 'candidate_history.css' %}" />
+    <link rel="stylesheet" href="{% static 'counter.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+ 
+ 
+   <!-- some problem to add this style from the theme.css -->
+   <style>
+    
+    .navbar-brand
+    {
+      color: #F64C72;
+      font-size: 30px;
+    }
+    .navbar-brand span
+    {
+      color: rgb(11, 11, 11);
+    }
+    .container button
+    {
+      color: white;
+    }
+    .navbar-toggler
+    {
+    border: 2px solid black;
+    }
+
+    .nav-item::after{
+      content: ' ';
+      width: 0%;
+      height: 2px;
+      background: #f44336;
+      display: block;
+      margin: auto;
+      transition: 0.5s;
+    }
+    .nav-item a:hover::after{
+      width: 100%;
+    }
+    li.nav-item {
+      font-size: 18px;
+      color: black;
+      font-weight: bold;
+    }
+
+    .uploadPage
+    {
+      height: 700px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
+      flex-wrap: wrap;
+      background-image: linear-gradient(rgba(220, 201, 175), rgba(232, 228, 223));
+      padding-top:20px;
+    }
+    .uploadPage .upload-page-form
+    {
+      margin: 10px;
+      border: 2px solid royalblue;
+      border-radius:5px;
+      padding: 20px;
+      width: 80%;
+      max-width :600px
+    }
+    .uploadPage .upload-page-form .input-field
+    {
+    
+      padding:10px;
+      font-weight: 400px;
+      font-size: 15px;
+      /* border: 3px solid rgb(12, 46, 9); */
+      border-radius:15px 0px ;
+      margin: 10px;
+      box-shadow: 10px 10px 150px greenyellow;
+      background-color: aliceblue;
+      display:flex;
+      max-width:500px;
+  }
+    .uploadPage .upload-page-form .input-field input
+    {
+      width:90%;
+      max-width:70%;
+      margin:3px;
+      padding:5px;
+      border-radius:10px;
+      max-height:40px;
+    
+    }
+    .uploadPage .upload-page-form .input-field label
+    {
+      margin:3px;
+      padding:5px;
+      font-size:18px;
+    }
+  .uploadPage .upload-page-form .btn-field
+  {
+    border: 2px solid rgb(214, 210, 203);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      box-shadow: 10px 10px 150px greenyellow;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px;
+      flex-wrap: wrap;
+      max-width:500px
+  }
+  .uploadPage .upload-page-form .btn-field input{
+    
+    height: 40px;
+    width: 80px;
+    border-radius: 5px;
+    margin: 3px;
+    padding: 5px;
+    background-color: rgb(70, 70, 227);
+    color: white;
+  }
+  .home-page .custome-test{
+    width:90%;
+    max-width: 700px;
+  }
+  .home-page .custome-test .form-item{
+    width:90%;
+  }
+  .home-page .custome-test .form-item input
+  {
+    width:90%;
+  }
+  </style>
+
+  {% block scripts %}
+  
+  {% endblock scripts%}
+
+  
+</head>
+  <body>
+   
+    <!-- Header Starts -->
+    <nav class="navbar navbar-expand-lg navbar-light border-bottom border-bottom-dark" style="background-color: rgb(201, 214, 197);">
+      <div class="container-fluid">
+        <a href="{% url 'Test:welcome' %} " class="navbar-brand"> <span>Testi</span>fy.</a>
+       
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target= "#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+          
+          <!-- This block is used for the menu  -->
+          {% block top %} {% endblock %}
+
+          <!-- <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form> -->
+      </div>
+    </nav>
+    <!-- Header ends -->
+    
+
+    {% block content %} {% endblock %}
+
+    <!-- Footer Start -->
+    <footer class="bg-dark text-light py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>About Us</h5>
+            <p>
+              At Testify, we provide you with a seamless online exam experience, making it easier for you to take your exams remotely from anywhere and at any time. Whether you are a student preparing for exams or a professional looking to upskill, we've got you covered!
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h5>Contact Us</h5>
+            <p>
+              testify@gmail.com
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h5>Useful Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="{% url 'Test:home' %}">Home</a></li>
+              <li><a href="{% url 'Test:registrationform' %}">Sign Up</a></li>
+              <li><a href="{% url 'Test:login' %}">Login</a></li>
+              <!-- Add more relevant links here -->
+            </ul>
+          </div>
+        </div>
+        <hr>
+        <p class="text-center">© 2023 Online Exam Testing. All rights reserved.</p>
+      </div>
+    </footer>
+    <!-- Footer End -->
+
+  </body>
+</html>
