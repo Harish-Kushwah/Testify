@@ -20,9 +20,23 @@
       </ul>
   </div>
 {% endblock top %}
+{%block msg %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show " id="success-alert" role="alert">
+        
+        <div class="msg-text">{{message}} <strong>{{ request.session.name }}</strong>  </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %}
+{% endblock msg%}
+{% block scripts %}
+
+{%endblock scripts %}
 
 {%block content %}
+   
     <div class="home-page">
+      
      <div class="home-page-header">
       <h1> Welcome ,<br> "<span> {{ request.session.name }}</span> " to your home page</h1>
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta perferendis molestias cupiditate officiis tempora veniam laudantium! Natus nostrum totam reprehenderit accusamus non voluptatibus quo nobis fugiat, sunt necessitatibus dolor? Doloremque, ipsa in nobis quos ad cum sunt delectus quasi deleniti quaerat accusamus, eaque repellendus nam illo. Facere quam facilis ullam?</p>
@@ -45,7 +59,9 @@
       </div>
       
         <div class="btn-field">
-        <input type="submit" value="Submit">
+          <input type="button"   value="Submit" >
+            <!-- <input type="submit" value="Submit" > -->
+          
         <input type = "reset" value = "Clear" required>
         </div>
       
@@ -56,20 +72,62 @@
       </div>
      <div class="test">
      <div class = "button-link">
-        <a href="{% url 'Test:testpaper' %}?n=1" for ="bt1"> Test of One question <br><span> click hear</span></a>
-        <!-- <button type="button">Submit</button> -->
+        <!-- <a  href="#exampleModal" class="btnlinclass" data-bs-toggle="modal" data-bs-target="#exampleModal" id="btnlink">
+         
+          Test of One question <br><span> click hear</span></a> -->
+          <!-- <a data-toggle="modal" data-id="@book.Id" title="Add this item" class="open-AddBookDialog"></a> -->
+          <!-- <a href="#exampleModal" data-bs-target="#exampleModal" data-toggle="modal" data-book-id="my_id_value">Open Modal</a> -->
+          <a href="{% url 'Test:testpaper' %}?n=1" >Test of One question<br><span> click hear</span></a>
+
      </div>
      <div class = "button-link">
-        <a href="{% url 'Test:testpaper' %}?n=5">Test of Five question<br><span> click hear</span></a>
+        <a href="{% url 'Test:testpaper' %}?n=5" >Test of Five question<br><span> click hear</span></a>
      </div>
      <div class = "button-link">
-        <a href="{% url 'Test:testpaper' %}?n=10">Test of Ten question<br><span> click hear</span></a>
+        <a href="{% url 'Test:testpaper' %}?n=10" for ="bt1" 
+       >Test of Ten question<br><span> click hear</span></a>
      </div>
      <div class = "button-link">
-        <a href="{% url 'Test:testhistory' %}?n=1">Test history<br><span> click hear</span></a>
+        <a href="{% url 'Test:testhistory' %}" >Test history<br><span> click hear</span></a>
      </div>
     </div>
   </div>
+  <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalLabel">Test Instructions</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       
+        <ol>
+          <li>Don't Refresh the Page</li>
+          <li>Don't press back button</li>
+          <li>There is 1 min for each Questions</li>
+          <h3 id="modal_body">hello</h3>
+        </ol>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="btnlink" >Next</button>
+        <!-- <button type="button" class="btn btn-primary"> <a href="{% url 'Test:testpaper' %}?n=1" > 
+          Test of One question <br><span> click hear</span></a> click</button> -->
+          
+       
+            <!-- <button type="button">Submit</button> -->
+      
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
   
 
 {%endblock content%}

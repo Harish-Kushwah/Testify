@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{% static 'counter.css' %}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
- 
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  
    <!-- some problem to add this style from the theme.css -->
    <style>
@@ -146,16 +146,83 @@
   {
     width:90%;
   }
+  .alert{
+    margin-bottom: 0px;
+  }
+ 
+  
+  .modal-content
+  {
+    box-shadow: 10px 10px 90px rgb(80, 86, 71);
+    background-color: aliceblue;
+    background-image: linear-gradient(to right,rgb(170, 219, 131), rgba(232, 228, 223));
+  }
+  .modal-body li
+  {
+    color: black;
+    font-size: 22px;
+    font-weight: 100px;
+  }
+  .alert .msg-text
+  {
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+  }
+  .alert .msg-text strong {
+    color: #f44336;
+  }
   </style>
 
   {% block scripts %}
   
   {% endblock scripts%}
 
+  <script>
+    const myModal = document.getElementById('myModal')
+    const myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', () => {
+      myInput.focus()
+    })
+
+   
+   
+
+   /* $(document).ready(function () {
+ 
+      window.setTimeout(function() {
+          $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+              $(this).remove(); 
+          });
+      }, 5000);
+       
+      });
+
+      setTimeout(function() {
+        bootstrap.Alert.getOrCreateInstance(document.querySelector(".alert")).close();
+    }, 3000)*/
+     </script>
+
+     <script type="text/javascript">
+
+      $(document).ready(function () {
+       
+      window.setTimeout(function() {
+          $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+              $(this).remove(); 
+          });
+      }, 5000);
+       
+      });
+      </script>
   
 </head>
   <body>
    
+    <!-- <div class="alert alert-danger">
+      This is an example message...
+      </div> -->
     <!-- Header Starts -->
     <nav class="navbar navbar-expand-lg navbar-light border-bottom border-bottom-dark" style="background-color: rgb(201, 214, 197);">
       <div class="container-fluid">
@@ -175,9 +242,11 @@
       </div>
     </nav>
     <!-- Header ends -->
-    
+    {% block msg %}
+    {% endblock msg %}
     {% block headerContent %}
     {% endblock headerContent %}
+
     {% block content %} {% endblock content%}
 
     <!-- Footer Start -->

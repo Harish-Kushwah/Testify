@@ -1,3 +1,10 @@
+.alert{
+    margin-bottom: 0px;
+  }
+.modal-content
+{
+    background-color: rgb(199, 125, 28);
+}
 .home-page
 {
     height: 100%;

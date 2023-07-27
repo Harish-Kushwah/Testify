@@ -6,12 +6,16 @@ import pandas as pd
 from scipy import stats
 import random
 import datetime
+from django.contrib import messages
+# from django.contrib.messages.storage.session.SessionStorage
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for showing welcome page to new  user  by rendering 'welcome.html'
 def welcome(request):
+    logoutStatus = 1
     template = loader.get_template('welcome.html')  #load the html file
-    return HttpResponse(template.render())
+    return render(request , 'welcome.html',{'logoutStatus':logoutStatus})
+
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for show SignUp form to new  user  by rendering 'registration_form.html'
@@ -27,6 +31,8 @@ def candidateRegistration(request):
         #check if the user already exists
         if len(Candidate.objects.filter(username=username)) :
             userStatus = 1
+            messages.info(request,"Sorry,Username Already exists , please try different Username")
+            return HttpResponseRedirect('registrationform')
         else:
             candidate =  Candidate()
             candidate.username = username
@@ -34,11 +40,13 @@ def candidateRegistration(request):
             candidate.name = request.POST['name']
             candidate.save()
             userStatus = 2
+            messages.info(request,"Account Created Successfully,Please Login Yourself")
+            return render(request,'login.html')
     else:
         userStatus = 3 #request dose not have method post
 
     context = {'userStatus' : userStatus}
-    res = render(request ,'registration.html',context)
+    res = render(request ,'registration_form.html',context)
     return res
 
 #-----------------------------------------------------------------------------------------------------------
@@ -50,12 +58,20 @@ def loginView(request):
         candidate = Candidate.objects.filter(username = username,password = password)
         if len(candidate) == 0:
             loginError = "Invalid username or password"
-            res = render(request,'login.html',{'loginError':loginError})
+            storage = messages.get_messages(request)
+            storage.used = False
+        
+            messages.info(request,loginError)
+            
+
+            return render(request,'login.html')
         else:
             #login success
+            loginSuccess ="Login Successful,"
+            messages.info(request,loginSuccess)
             request.session['username'] = candidate[0].username
             request.session['name'] = candidate[0].name
-            res = HttpResponseRedirect('home')
+            return  HttpResponseRedirect('home')
     else:
         res = render(request,'login.html')
     return res
@@ -72,10 +88,15 @@ def candidateHome(request):
 #-----------------------------------------------------------------------------------------------------------
 #This view used for logout user and redirects on welcome page
 def logoutView(request):
+    logoutStatus = 1 #user not logout
+    username =''
     if 'name'  in request.session.keys():
+        username = request.session['username']
         del request.session['username']
         del request.session['name']
-    return HttpResponseRedirect('welcome')
+        logoutStatus = 2  #user logout successfully
+    context = {'logoutStatus':logoutStatus , 'username':username}
+    return render(request , 'welcome.html',context)
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for creating N Questions test paper question in IMAGE format by rendering 'test_paper.html' file

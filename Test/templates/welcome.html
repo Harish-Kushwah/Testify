@@ -20,6 +20,23 @@
   </div>
   {% endblock top%}
 
+  {%block msg %}
+  {% if logoutStatus %}
+
+  <!-- user logout successfully -->
+  {% if logoutStatus == 2 %}
+  <div class="alert alert-success alert-dismissible fade show " id="success-alert" role="alert">
+  
+    <div class="msg-text">Logout successful, <strong>{{ username }}</strong></div>
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+
+{%endif %}
+
+{% endblock msg%}
+
   {% block headerContent %}
   <div class="header">  
     <div class="textbox">
@@ -35,6 +52,8 @@
 
 
 {%block content %}
+    
+    
 
 {%endblock content%}
 

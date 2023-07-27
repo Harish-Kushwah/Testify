@@ -8,9 +8,7 @@ app_name = 'Test'
 urlpatterns = [
     path('', welcome,name = 'welcome'),
     path('test-history',testResultHistory ,name = 'testhistory'),
-    path('welcome', welcome,name = 'welcome'),
-    path('new-candidate', candidateRegistrationForm , name  = 'registrationform'),
-    path('store-candidate', candidateRegistration , name ='store-candidate' ),
+    path('registrationform', candidateRegistration , name ='registrationform' ),
     path('login', loginView, name = 'login'),
     path('home', candidateHome , name='home'),
     path('test-paper',testPaper,name = 'testpaper'),
@@ -19,6 +17,7 @@ urlpatterns = [
     path('result',showTestResult , name = 'result'),
     path('logout',logoutView , name = 'logout'),
     path('uploadQuestion',uploadQuestion , name = 'uploadQuestion'),
+
 
 ]
 

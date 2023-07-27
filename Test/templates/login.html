@@ -2,6 +2,9 @@
 
 {% block title %} Login {% endblock title %}
 
+{% block scripts %}
+   
+{% endblock scripts%}
 {%block top %} 
     <!-- <a href="{% url 'Test:registrationform' %}">SignUp</a> -->
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
@@ -16,9 +19,9 @@
 
 {%block content %}
      
-    {% if loginError %}
+    {% comment %} {% if loginError %}
         <div id="error"> {{ loginError }}</div>
-    {% endif %}
+    {% endif %} {% endcomment %}
     <!-- <div class = "all-form">
         <form action="{% url 'Test:login' %}" , method="POST">
             {% csrf_token %}
@@ -37,17 +40,33 @@
                 <input type="reset"  class="btn btn-primary" value ="Clear">
             </div>
         </form> -->
-       <div class="login-page">
+        {%block msg %}
+
+        
+    {% endblock msg%}
+
+     
+      <div class="login-page">
+       
         <div class="login-image">
+         
           <div class="container mt-5">
+           
             <div class="row justify-content-center">
               <div class="col-md-6">
+               
                 <div class="card" >
-                  <div class="card-header custom-header text-white">
-                    <h4>Login</h4>
+                  {% for message in messages %}
+                  <div class="alert alert-warning alert-dismissible fade show " id = "alert-warning" role="alert">
+                     <div class="msg-text">{{ message }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
+                {% endfor %}
+                    <div class="card-header custom-header text-white">
+                      <h4>Login</h4>
+                    </div>
                   <div class="card-body">
-                   
+                    
                     <form action="{% url 'Test:login' %}" , method="POST">
                         {% csrf_token %}
                       <div class="mb-3">
@@ -66,12 +85,17 @@
 
                    New User  : <a href="{% url 'Test:registrationform' %}">click hear</a>
   
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                  </div>
+               </div>
+             </div>
+           </div>
+         </div>
       </div>
-    </div>
+    {% comment %} </div> {% endcomment %}
+   
+  
+    
+    
+
         
 {%endblock content%}
