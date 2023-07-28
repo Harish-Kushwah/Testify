@@ -16,15 +16,36 @@
     <link rel="stylesheet" href="{% static 'signup.css' %}" />
     <link rel="stylesheet" href="{% static 'home.css' %}" />
     <link rel="stylesheet" href="{% static 'upload_question.css' %}" />
-    <link rel="stylesheet" href="{% static 'candidate_history.css' %}" />
-    <link rel="stylesheet" href="{% static 'counter.css' %}" />
+    <!-- <link rel="stylesheet" href="{% static 'candidate_history.css' %}" /> -->
+    <!-- <link rel="stylesheet" href="{% static 'counter.css' %}" /> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  
-   <!-- some problem to add this style from the theme.css -->
+   <!-- NOTE: some problem to add CSS from the theme.css thats why added in main.html -->
    <style>
-    
+    .home-page .test
+    {
+      box-shadow: 10px 10px 90px rgb(105, 109, 105);
+      background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
+    }
+    .home-page .custome-test
+    {
+      box-shadow: 10px 10px 90px rgb(105, 109, 105);
+      background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
+    }
+    .report-card-page .report-card-para
+    {
+      border: 2px solid green;
+     
+    }
+    .report-card-page .report-card-para p .special-inc
+    {
+    color: #056509;
+    }
+    a{
+      text-decoration: none;
+    }
     .navbar-brand
     {
       color: #F64C72;
@@ -73,6 +94,22 @@
       background-image: linear-gradient(rgba(220, 201, 175), rgba(232, 228, 223));
       padding-top:20px;
     }
+    .uploadPage h3 {
+      border:3px solid rgb(16, 24, 171) ;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 12px 0px ;
+    color: rgb(11, 41, 12);
+    font-size: 30px;
+   border: 2px solid black;
+   padding: 10px;
+   border-radius: 10px 0px;
+   box-shadow: 10px -10px 100px rgb(32, 160, 3);
+   /* background-color: rgb(141, 137, 133); */
+   background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
+
+
+    }
     .uploadPage .upload-page-form
     {
       margin: 10px;
@@ -80,7 +117,9 @@
       border-radius:5px;
       padding: 20px;
       width: 80%;
-      max-width :600px
+      max-width :600px;
+      box-shadow: 10px 10px 90px rgb(105, 109, 105);
+      background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
     }
     .uploadPage .upload-page-form .input-field
     {
@@ -91,7 +130,6 @@
       /* border: 3px solid rgb(12, 46, 9); */
       border-radius:15px 0px ;
       margin: 10px;
-      box-shadow: 10px 10px 150px greenyellow;
       background-color: aliceblue;
       display:flex;
       max-width:500px;
@@ -172,6 +210,16 @@
   .alert .msg-text strong {
     color: #f44336;
   }
+  .card-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-header h4{
+    text-shadow: 1px 2px 5px rgb(0, 0, 0);
+  }
+
+  
   </style>
 
   {% block scripts %}
@@ -182,26 +230,8 @@
     const myModal = document.getElementById('myModal')
     const myInput = document.getElementById('myInput')
 
-    myModal.addEventListener('shown.bs.modal', () => {
-      myInput.focus()
-    })
+    
 
-   
-   
-
-   /* $(document).ready(function () {
- 
-      window.setTimeout(function() {
-          $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
-              $(this).remove(); 
-          });
-      }, 5000);
-       
-      });
-
-      setTimeout(function() {
-        bootstrap.Alert.getOrCreateInstance(document.querySelector(".alert")).close();
-    }, 3000)*/
      </script>
 
      <script type="text/javascript">
@@ -219,10 +249,7 @@
   
 </head>
   <body>
-   
-    <!-- <div class="alert alert-danger">
-      This is an example message...
-      </div> -->
+  
     <!-- Header Starts -->
     <nav class="navbar navbar-expand-lg navbar-light border-bottom border-bottom-dark" style="background-color: rgb(201, 214, 197);">
       <div class="container-fluid">
@@ -235,19 +262,23 @@
           <!-- This block is used for the menu  -->
           {% block top %} {% endblock %}
 
-          <!-- <form class="d-flex" role="search">
+           <!-- <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
-          </form> -->
+          </form>  -->
       </div>
     </nav>
     <!-- Header ends -->
+
+
     {% block msg %}
     {% endblock msg %}
+
     {% block headerContent %}
     {% endblock headerContent %}
 
     {% block content %} {% endblock content%}
+
 
     <!-- Footer Start -->
     <footer class="bg-dark text-light py-4">
@@ -264,6 +295,22 @@
             <p>
               testify@gmail.com
             </p>
+            <a href="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" class="bi bi-instagram" viewBox="0 0 16 16">
+              <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+            </svg>
+            </a>
+            <a href="">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" class="bi bi-linkedin" viewBox="0 0 16 16">
+                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+              </svg>
+              </a>
+            
+            <a href="">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" class="bi bi-facebook" viewBox="0 0 16 16">
+                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+              </svg>
+              </a>
           </div>
           <div class="col-md-4">
             <h5>Useful Links</h5>
@@ -273,6 +320,7 @@
               <li><a href="{% url 'Test:login' %}">Login</a></li>
               <!-- Add more relevant links here -->
             </ul>
+            
           </div>
         </div>
         <hr>

@@ -25,9 +25,26 @@
     <h1>Report Card</h1>
     </div>
     {% if testAttempted == 1 %}
+
      <div class="report-card-para">
-     <p>Hi <span class="special">{{candidate.name}}</span>,<br> you have attempted in total <span class="special">{{candidate.test_attempted}} </span>tests,<br>you have scored <span class="special">{{ points }}</span> on the scale of 10.</p>
-     <p><span class="special">{{Status}}</span></p>
+     <p>Hi <span class="special">{{candidate.name}}</span>,<br> you have attempted in total <span class="special">{{candidate.test_attempted}} </span>tests,<br>you current score is <span class="special">{{ points }}</span> on the scale of 10.</p>
+     <p>Current Performance : 
+        {%if Status == 1 %}
+       <span class="special">Decreasing
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+        </svg>
+       
+       </span>
+       {% elif Status == 2%}
+       <span class="special-inc">Increasing
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+          <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+        </svg>
+       </span>
+       {% endif %}
+      </p>
+
     </div>
 
      <div class="pichart-image">

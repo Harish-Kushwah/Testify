@@ -216,6 +216,6 @@
        /* border: 2px solid red; */
        padding: 0px;
        margin: 0px;
-       flex-direction: row;
+       flex-direction: column;
     }
 }

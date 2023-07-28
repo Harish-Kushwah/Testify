@@ -36,7 +36,6 @@
 }
 .report-card-page .report-card-para
 {
-    /* border:2px solid rgb(16, 171, 39) ; */
     margin: 10px;
     font-size: 22px;
     flex-wrap: wrap;
@@ -47,7 +46,7 @@
     border-top:0px ;
     border-bottom:0px ;
     box-shadow: 10px 10px 20px grey;
-   background-image: linear-gradient(rgba(230, 222, 204, 0.7),rgba(236, 236, 236, 0.7));
+    background-image: linear-gradient(rgba(230, 222, 204, 0.7),rgba(236, 236, 236, 0.7));
     width: 400px;
     /* background-color: rgb(247, 222, 195); */
 
@@ -63,6 +62,10 @@
 .report-card-page .report-card-para p .special
 {
     color: crimson;
+}
+.report-card-page .report-card-para p .special-inc
+{
+    color: #038009;
 }
 .report-card-page .pichart-image
 {
