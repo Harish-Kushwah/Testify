@@ -30,7 +30,8 @@
     border-radius: 10px;
     margin-top: 0px;
     flex-wrap: wrap;
-
+    box-shadow: 10px 10px 90px rgb(105, 109, 105);
+    background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
 
 
 }

@@ -162,9 +162,9 @@ def getTrendResult(results):
     plt.grid(True)
     plt.show()
 
-    if slope < 0:
-        return "Decreasing "
+    if slope <= 0:
+        return 1 #Decreasing
     else:
-        return "Increasing"
+        return  2 #Increasing
 
 #-----------------------------------------------------------------------------------------------------------

@@ -287,7 +287,8 @@ def testResultHistory(request):
         li = plotTrend(results)
         trend = li[0]
         status =li[1]
-        
+    
+
  
     points =format(candidate[0].points, ".2f")
     context = {'candidate' : candidate[0] ,

@@ -44,33 +44,34 @@
      
     <div class="test-header">
       <h3> Create Your Own Test </h3>
-      </div>
-    <div class="custome-test">
-      
+    </div>
+    <div class="custome-test"> 
      <form action="{% url 'Test:customs_test_paper' %}" method="post">
       {% csrf_token %}
         <div class="form-item">
-        <label for="topic_name">Topic Name</label>
-        <input type="text" name = topic_name required placeholder="Enter topic name">
+          <label for="topic_name">Topic Name</label>
+          <input type="text" name = topic_name required placeholder="Enter topic name">
         </div>
-      <div class="form-item">
-        <label for="total_que">Total number of Question </label>
-        <input type="number" name = total_que required placeholder="Enter number of Question">
-      </div>
+        <div class="form-item">
+          <label for="total_que">Total number of Question </label>
+          <input type="number" name = total_que required placeholder="Enter number of Question">
+        </div>
       
         <div class="btn-field">
-          <input type="button"   value="Submit" >
-            <!-- <input type="submit" value="Submit" > -->
+            <input type="submit" value="Submit" > 
           
-        <input type = "reset" value = "Clear" required>
+            <input type = "reset" value = "Clear" required>
         </div>
       
       </form>
+
     </div>
+
     <div class="test-header">
       <h3>SELECT THE TEST'S</h3>
       </div>
-     <div class="test">
+    
+      <div class="test">
      <div class = "button-link">
         <!-- <a  href="#exampleModal" class="btnlinclass" data-bs-toggle="modal" data-bs-target="#exampleModal" id="btnlink">
          
@@ -84,7 +85,7 @@
         <a href="{% url 'Test:testpaper' %}?n=5" >Test of Five question<br><span> click hear</span></a>
      </div>
      <div class = "button-link">
-        <a href="{% url 'Test:testpaper' %}?n=10" for ="bt1" 
+        <a href="{% url 'Test:testpaper' %}?n=10" 
        >Test of Ten question<br><span> click hear</span></a>
      </div>
      <div class = "button-link">
