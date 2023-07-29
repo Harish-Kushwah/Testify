@@ -8,5 +8,6 @@ admin.site.register(Result)
 admin.site.register(Question)
 admin.site.register(QuestionImages)
 admin.site.register(PiChartData)
+admin.site.register(QuestionRating)
 # admin
 # Register your models here.

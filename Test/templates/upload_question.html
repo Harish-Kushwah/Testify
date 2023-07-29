@@ -16,6 +16,16 @@
     </div>
 {% endblock top%}
 
+{%block msg %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show " id="success-alert" role="alert">
+        
+        <div class="msg-text">{{message}} <strong>{{ request.session.name }}</strong>  </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %}
+{% endblock msg%}
+
 {%block content %}
     
      <div class="uploadPage">

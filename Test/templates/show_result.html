@@ -19,8 +19,22 @@
 
 {%block content %}
      <p> Welcome to result page</p>
-    
-     <table>
+
+     <div>
+     {% for r in results %}
+        <h3>Date : {{r.date}}</h3>
+        <h3>Time : {{r.time}}</h3>
+        <h3>Attempt :{{r.attempt}}</h3>
+        <h3>Right :{{r.right}}</h3>
+        <h3>Wrong :{{r.wrong}}</h3>
+        <h3>Points :{{r.points}}</h3>
+        <h3>not_attempted_ques :{{r.not_attempted_ques}}</h3>
+        <h3>right_attempted_ques :{{r.right_attempted_ques}}</h3>
+        <h3>wrong_attempted_ques :{{r.wrong_attempted_ques}}</h3>
+    {% endfor %}
+  </div>
+
+     <!-- <table>
         <tr>
             <th>Date</th>
             <th>Time</th>
@@ -28,6 +42,9 @@
             <th>Right</th>
             <th>Wrong</th>
             <th>Points</th>
+            <th>not_attempted_ques</th>
+            <th>right_attempted_ques</th>
+            <th>wrong_attempted_ques</th>
         </tr>
         {% for r in results %}
          <tr>
@@ -37,10 +54,13 @@
             <td>{{r.right}}</td>
             <td>{{r.wrong}}</td>
             <td>{{r.points}}</td>
+            <td>{{r.not_attempted_ques}}</td>
+            <td>{{r.right_attempted_ques}}</td>
+            <td>{{r.wrong_attempted_ques}}</td>
           
          </tr>
         {% endfor %}
-     </table>
+     </table> -->
   
     <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
