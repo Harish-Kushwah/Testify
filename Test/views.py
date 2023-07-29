@@ -195,7 +195,10 @@ def calculateTestResult(request):
     total_attempt = 0
     total_right = 0
     total_wrong = 0
-    qid_list = []
+    wrong_attempted_ques =[]
+    right_attempted_ques =[]
+    not_attempted_ques =[]
+    qid_list = [] #all questions of the test
     for k in request.POST:
         if k.startswith('qno'):
             qid_list.append(int(request.POST[k]))
@@ -203,20 +206,29 @@ def calculateTestResult(request):
     for n in qid_list:
         question_img = QuestionImages.objects.get(question_id = n)
         try:
-            if question_img.ans == request.POST['q' + str(n)]:
+              
+            if question_img.ans == request.POST['op' + str(n)]:
                 total_right +=1
+                right_attempted_ques.append(question_img.question_id)
             else:
                 total_wrong +=1
+                wrong_attempted_ques.append(question_img.question_id)
             total_attempt+=1
+            
         except:
             pass
-
     if total_attempt!=0:
         points = (total_right - total_wrong) /  total_attempt *10
     else:
         points = 0
 
-    #store it into result table
+    # finds the set of not_attempted question of the test
+    right_and_wrong_que = set(right_attempted_ques).union(set(wrong_attempted_ques))
+    qid_list =  set(qid_list)
+    setA  = right_and_wrong_que - qid_list
+    setB  = qid_list - right_and_wrong_que
+    not_attempted_ques = list(setA.union(setB))
+   
     username = Candidate.objects.get(username = request.session['username'])
     result = Result()
     result.username = username
@@ -224,7 +236,11 @@ def calculateTestResult(request):
     result.right = total_right
     result.wrong = total_wrong
     result.points = points
+    result.not_attempted_ques = not_attempted_ques
+    result.wrong_attempted_ques = wrong_attempted_ques
+    result.right_attempted_ques = right_attempted_ques
     result.save()
+
     #update candidate table
     candidate = username
     candidate.test_attempted +=1
@@ -235,6 +251,16 @@ def calculateTestResult(request):
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for Showing test result of each test  by rendering "show_result.html" file
+# NOTE:When result will be displayed at that time rating will be updated each question 
+
+def get_difficulty_of_question(questionRating):
+    right = questionRating.total_times_right
+    wrong = questionRating.total_times_wrong
+    total_attempted = right + wrong
+    difficulty = right/total_attempted
+    return difficulty
+
+
 def showTestResult(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
@@ -242,25 +268,60 @@ def showTestResult(request):
     #fetch latest result
     results  = Result.objects.filter(result_id = Result.objects.latest('result_id').result_id , username_id = request.session['username'])
     context = {'results' : results}
+    for res in results:
+        not_attempted_ques = res.not_attempted_ques
+        right_attempted_ques = res.right_attempted_ques
+        wrong_attempted_ques = res.wrong_attempted_ques
+
+        for question in not_attempted_ques:
+            questionRating  = QuestionRating.objects.get(question_id = question)
+            if questionRating!=None:
+                questionRating.total_times_not_attempted+=1
+                questionRating.difficulty=get_difficulty_of_question(questionRating)
+                questionRating.save()
+
+        for question in right_attempted_ques:
+            questionRating  = QuestionRating.objects.get(question_id = question)
+            if questionRating !=None:
+                questionRating.total_times_right+=1
+                questionRating.difficulty=get_difficulty_of_question(questionRating)
+                questionRating.save()
+
+        for question in wrong_attempted_ques:
+            questionRating  = QuestionRating.objects.get(question_id = question)
+            if questionRating !=None:
+                questionRating.total_times_wrong+=1
+                questionRating.difficulty=get_difficulty_of_question(questionRating)
+                questionRating.save()
+        
     res = render(request,'show_result.html' , context)
     return res
 
+
 #-----------------------------------------------------------------------------------------------------------
 #This view used for Uploading Question  by rendering "upload_question.html" file
+# NOTE:When new question will uploaded at that time question row added in QuestionRating table 
 
 def uploadQuestion(request):
     if 'name' not in request.session.keys():
         return HttpResponseRedirect('login')
     if request.method == 'POST':
         questionImg = QuestionImages()
+        questionRating = QuestionRating()
         questionImg.question_title = request.POST['title']
         questionImg.ans = request.POST['ans']
 
+
         if len(request.FILES)!=0:
             questionImg.question_image = request.FILES['img']
+            questionRating.question_id = questionImg
+            # print(str(questionImg.question_id))
+
         else :
           res = HttpResponseRedirect('home')
         questionImg.save()
+        questionRating.save()
+        messages.success(request,"Question added successfully")
     res = render(request, 'upload_question.html' )
     return res
 

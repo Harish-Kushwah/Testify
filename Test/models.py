@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 class Candidate(models.Model):
@@ -30,15 +31,28 @@ class Result(models.Model):
     right = models.IntegerField()
     wrong = models.IntegerField()
     points = models.FloatField()
+    wrong_attempted_ques = ArrayField(models.TextField(),null=True)
+    not_attempted_ques = ArrayField(models.TextField(),null=True)
+    right_attempted_ques = ArrayField(models.TextField(),null=True)
 
     # def __str__(self):
-    #     return self
+    #     return self.username
 
 class QuestionImages(models.Model):
     question_id = models.BigAutoField(primary_key=True , auto_created=True)
     question_title = models.CharField(max_length=100)
     question_image = models.FileField(upload_to="question/" , max_length=250,null=True,default=None)
     ans = models.CharField(max_length=2)
+
+class QuestionRating(models.Model):
+    question_rating_id = models.BigAutoField(primary_key=True , auto_created=True)
+    question_id = models.ForeignKey(QuestionImages,on_delete=models.CASCADE)
+    total_times_not_attempted = models.IntegerField(default=0)
+    total_times_wrong = models.IntegerField(default=0)
+    total_times_right = models.IntegerField(default=0)
+    difficulty  = models.FloatField(default=0.0)
+
+    
     
 class PiChartData(models.Model):
     piChart_id = models.BigAutoField(primary_key=True , auto_created=True)
