@@ -7,6 +7,7 @@ app_name = 'Test'
 
 urlpatterns = [
     path('', welcome,name = 'welcome'),
+    path('account', account,name = 'account'),
     path('test-history',testResultHistory ,name = 'testhistory'),
     path('registrationform', candidateRegistration , name ='registrationform' ),
     path('login', loginView, name = 'login'),

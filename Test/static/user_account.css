@@ -1,0 +1,27 @@
+.profile-header
+{
+    background-image:linear-gradient(to top,rgba(233, 17, 89,0.9),rgba(231, 2, 2,0.8),rgb(178, 0, 0) );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profile-image-sec
+{
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+   
+}
+.profile-image img
+{
+    border-radius: 50%;
+    height: 200px;
+    width: 199px;
+}
+.profile-name 
+{
+    color: black;
+    font-size: 50px;
+}
