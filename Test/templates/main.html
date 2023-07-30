@@ -11,6 +11,7 @@
     </title>
 
     <link rel="stylesheet" href="{% static 'theme.css' %}" />
+    <link rel="stylesheet" href="{% static 'user_account.css' %}" />
     <link rel="stylesheet" href="{% static 'welcome.css' %}" />
     <link rel="stylesheet" href="{% static 'login.css' %}" />
     <link rel="stylesheet" href="{% static 'signup.css' %}" />
@@ -24,6 +25,23 @@
  
    <!-- NOTE: some problem to add CSS from the theme.css thats why added in main.html -->
    <style>
+    .form-select
+    {
+    height: 50px;
+    border:2px solid black 
+    }
+    .form-select option
+    {
+      font-size:18px;
+    }
+    .optGroup
+    {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:row;
+    }
+
     .home-page .test
     {
       box-shadow: 10px 10px 90px rgb(105, 109, 105);

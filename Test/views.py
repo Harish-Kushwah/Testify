@@ -7,6 +7,7 @@ from scipy import stats
 import random
 import datetime
 from django.contrib import messages
+from django.contrib.auth.hashers import make_password,check_password
 # from django.contrib.messages.storage.session.SessionStorage
 
 #-----------------------------------------------------------------------------------------------------------
@@ -36,8 +37,8 @@ def candidateRegistration(request):
         else:
             candidate =  Candidate()
             candidate.username = username
-            candidate.password = request.POST['password']
-            candidate.name = request.POST['name']
+            candidate.password = make_password(request.POST['password'])
+            candidate.name =request.POST['name']
             candidate.save()
             userStatus = 2
             messages.info(request,"Account Created Successfully,Please Login Yourself")
@@ -54,24 +55,22 @@ def candidateRegistration(request):
 def loginView(request):
     if request.method == 'POST':
         username = request.POST['username']
-        password = request.POST['password']
-        candidate = Candidate.objects.filter(username = username,password = password)
-        if len(candidate) == 0:
+        password =request.POST['password']
+        candidates = Candidate.objects.filter(username = username)
+        for candidate in candidates:
+            if check_password(password,candidate.password):
+                loginSuccess ="Login Successful,"
+                messages.info(request,loginSuccess)
+                request.session['username'] = candidate.username
+                request.session['name'] = candidate.name
+                return  HttpResponseRedirect('home')
+        else:
             loginError = "Invalid username or password"
             storage = messages.get_messages(request)
             storage.used = False
-        
             messages.info(request,loginError)
-            
-
             return render(request,'login.html')
-        else:
-            #login success
-            loginSuccess ="Login Successful,"
-            messages.info(request,loginSuccess)
-            request.session['username'] = candidate[0].username
-            request.session['name'] = candidate[0].name
-            return  HttpResponseRedirect('home')
+           
     else:
         res = render(request,'login.html')
     return res
@@ -257,7 +256,7 @@ def get_difficulty_of_question(questionRating):
     right = questionRating.total_times_right
     wrong = questionRating.total_times_wrong
     total_attempted = right + wrong
-    difficulty = right/total_attempted
+    difficulty = (right/total_attempted)*100
     return difficulty
 
 
@@ -310,13 +309,11 @@ def uploadQuestion(request):
         questionRating = QuestionRating()
         questionImg.question_title = request.POST['title']
         questionImg.ans = request.POST['ans']
-
-
+        questionImg.question_in_exam =request.POST['exam']
+        
         if len(request.FILES)!=0:
             questionImg.question_image = request.FILES['img']
             questionRating.question_id = questionImg
-            # print(str(questionImg.question_id))
-
         else :
           res = HttpResponseRedirect('home')
         questionImg.save()
@@ -364,6 +361,15 @@ def testResultHistory(request):
     
     res = render(request, 'candidate_history.html' , context)
     return res
+
+def account(request):
+    if 'name' not in request.session.keys():
+        res = HttpResponseRedirect('login')
+    candidate = Candidate.objects.filter(username = request.session['username'])
+    context = {'candidate':candidate[0]}
+    res = render(request, 'user_account.html',context)
+    return res
+    
 #-----------------------------------------------------------------------------------------------------------
 
 

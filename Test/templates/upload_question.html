@@ -30,12 +30,23 @@
     
      <div class="uploadPage">
         <h3> Add your Question </h3>
-        <form class="upload-page-form" action="" method="post" enctype = "multipart/form-data">
+        <form class="upload-page-form" action="{% url 'Test:uploadQuestion' %}" method="post" enctype = "multipart/form-data">
             {% csrf_token %}
 
             <div class="input-field">
             <label for="title">Question Title : </label>
             <input type="text" name = title required placeholder="Enter Title">
+            </div>
+
+            <div class="input-field">
+             <label for="exam">Question For Exam : </label> 
+            <!-- <input type="text" name = title required placeholder="Enter Title">  -->
+            <div class = "optGroup">
+              <div class ="options"> <input type="radio" , name ="exam" value = "NIMCET">NIM-CET</div>
+              <div class ="options"> <input type="radio" , name ="exam" value = "MHTCET">MHT-CET</div>
+              <div class ="options"> <input type="radio" , name ="exam" value = "OTHER">OTHER</div>
+            </div>
+            
             </div>
 
             <div class="input-field">

@@ -4,10 +4,15 @@ from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 class Candidate(models.Model):
     username = models.CharField(primary_key=True , max_length=20)
-    password = models.CharField(null=False, max_length=20)
+    password = models.TextField(null=False)
     name = models.CharField(null=False,max_length=30)
     test_attempted = models.IntegerField(default=0)
     points = models.FloatField(default=0)
+    email = models.EmailField(max_length=254,null=True)
+    profileImage = models.ImageField(upload_to="profile_images/" , max_length=250,null=True,default=None ,blank=True)
+    about = models.TextField(null=True,default=None ,blank=True)
+    contact_no = models.TextField(max_length=10,null=True,default=None ,blank=True)
+    
     # def __str__(self):
     #     return self
 
@@ -41,6 +46,7 @@ class Result(models.Model):
 class QuestionImages(models.Model):
     question_id = models.BigAutoField(primary_key=True , auto_created=True)
     question_title = models.CharField(max_length=100)
+    question_in_exam = models.CharField(max_length=100,default="OTHER")
     question_image = models.FileField(upload_to="question/" , max_length=250,null=True,default=None)
     ans = models.CharField(max_length=2)
 
@@ -52,7 +58,6 @@ class QuestionRating(models.Model):
     total_times_right = models.IntegerField(default=0)
     difficulty  = models.FloatField(default=0.0)
 
-    
     
 class PiChartData(models.Model):
     piChart_id = models.BigAutoField(primary_key=True , auto_created=True)

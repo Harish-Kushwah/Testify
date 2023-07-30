@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+ {% block title %} Profile {%endblock title %}
+
+ {%block top %} 
+ <div class="collapse navbar-collapse " id="navbarSupportedContent">
+   <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+     <li class="nav-item">
+       <a class="nav-link active" aria-current="page" href="{% url 'Test:home' %}">Home</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">logout</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">About</a>
+     </li>
+   </ul>
+</div>
+{% endblock top %}
+
+  {%block msg %}
+  {% if logoutStatus %}
+
+  <!-- user logout successfully -->
+  {% if logoutStatus == 2 %}
+  <div class="alert alert-success alert-dismissible fade show " id="success-alert" role="alert">
+  
+    <div class="msg-text">Logout successful, <strong>{{ username }}</strong></div>
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+
+{%endif %}
+
+{% endblock msg%}
+
+
+{%block content %}
+       <div class="profile-header">
+        <div class="profile-image-sec">
+         <div class="profile-image"> <img src=" /media/{{candidate.profileImage}}" alt="" height="200",width="200"></div>
+         <p class = "profile-name">{{candidate.name}}</p>
+        </div>
+       </div>
+
+       
+       <h1>{{candidate.points}}</h1>
+       <h1>{{candidate.email}}</h1>
+       <p>{{candidate.about}}</p>
+       <h1>{{candidate.test_attempted}}</h1>
+       <h1>{{candidate.contact_no}}</h1>
+
+
+
+{%endblock content%}
