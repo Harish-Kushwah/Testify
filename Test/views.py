@@ -366,7 +366,16 @@ def account(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
     candidate = Candidate.objects.filter(username = request.session['username'])
-    context = {'candidate':candidate[0]}
+    results = Result.objects.filter(username = request.session['username'])
+    points =format(candidate[0].points, ".2f")
+    
+    if candidate[0].profileImage ==None:
+        profileImage = 1 #not set
+    else:
+        profileImage = 2 #when set 
+    
+    context = {'candidate':candidate[0],'points':points ,'profileImage':profileImage,'results':results}
+
     res = render(request, 'user_account.html',context)
     return res
     

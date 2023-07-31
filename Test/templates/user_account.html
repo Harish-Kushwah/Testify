@@ -17,6 +17,9 @@
 </div>
 {% endblock top %}
 
+{% block style %}
+
+{% endblock style%}
   {%block msg %}
   {% if logoutStatus %}
 
@@ -36,20 +39,91 @@
 
 
 {%block content %}
-       <div class="profile-header">
-        <div class="profile-image-sec">
-         <div class="profile-image"> <img src=" /media/{{candidate.profileImage}}" alt="" height="200",width="200"></div>
-         <p class = "profile-name">{{candidate.name}}</p>
-        </div>
-       </div>
+      <div class="profile-page">
+       <div class="body">
 
-       
-       <h1>{{candidate.points}}</h1>
-       <h1>{{candidate.email}}</h1>
-       <p>{{candidate.about}}</p>
-       <h1>{{candidate.test_attempted}}</h1>
-       <h1>{{candidate.contact_no}}</h1>
+       <section class="home">
+        {% if profileImage == 2 %}
+        <img src=" /media/{{candidate.profileImage}}" alt="Add profile pic">
+        {% elif profileImage == 1 %}
+        <div class="alt-image">
+        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-person-badge" viewBox="0 0 16 16">
+          <path d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <path d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z"/>
+        </svg>
+        <p>Set Profile Picture</p> 
+       </div>      
+        {% endif %}
+
+        <div class="home-content">
+          <h1>Hi,i'm {{candidate.name}}</h1>
+          <h3>{{candidate.about}}</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quos incidunt, fugit doloribus iure molestiae porro aperiam eum excepturi debitis exercitationem quod vitae? Non minus incidunt impedit sapiente dolore perferendis. Eligendi sunt commodi ipsam facilis eaque quas accusantium officiis laudantium cumque, excepturi consectetur, mollitia quidem aliquid perferendis voluptas, vero esse?</p>
+          <div class="btn-box">
+            <a href="#performance">Performance</a>
+            <a href="#contact">Let's Talk</a>
+          </div>
+        </div>
+
+       </section>
+       </div>
+       <div class="test-info">
+          <div class="points-sec">
+            <p>{{points}}</p>
+            <span>Points</span>
+          </div>
+          <div class="point-line">
+              <p>|</p>
+          </div>
+          <div class="points-sec">
+          <p>{{candidate.test_attempted}}</p>
+          <span>Test Attempted</span>
+          </div>
+        </div>
+        <div class="info" id="performance">
+              {% for result in results %}
+              <div class="test-per">
+                <h1>Test attempt</h1>
+              </div>
+              <!-- <h1>hello</h1> -->
+              {% endfor %}
+
+        </div>
+        <div class="about" id="contact">
+          <p><span>Email : </span>{{candidate.email}}</p>
+          <p><span>Contact no.:</span>{{candidate.contact_no}}</p>
+      </div>
+      </div>
+      
 
 
 
 {%endblock content%}
+<!-- <div class="profile-header">
+        
+  <div class="profile-image-sec">
+   <div class="profile-image"> <img src=" /media/{{candidate.profileImage}}" alt="" height="200",width="200"></div>
+   <p class = "profile-name">{{candidate.name}}</p>
+  </div>
+
+  <div class="about">
+      <p><span>About Me : </span>{{candidate.about}}</p>
+      <p><span>Email : </span>{{candidate.email}}</p>
+      <p><span>Contact no.:</span>{{candidate.contact_no}}</p>
+  </div>
+ </div>
+
+ <div class="test-info">
+      <div class="points-sec">
+      <p>{{candidate.points}}</p>
+      <span>Points</span>
+      </div>
+      <div class="point-line">
+          <p>|</p>
+      </div>
+      <div class="points-sec">
+      <p>{{candidate.test_attempted}}</p>
+      <span>Test Attempted</span>
+      </div>
+
+ </div> -->
