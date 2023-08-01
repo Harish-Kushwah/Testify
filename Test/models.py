@@ -9,7 +9,7 @@ class Candidate(models.Model):
     test_attempted = models.IntegerField(default=0)
     points = models.FloatField(default=0)
     email = models.EmailField(max_length=254,null=True)
-    profileImage = models.ImageField(upload_to="profile_images/" , max_length=250,null=True,default=None ,blank=True)
+    profileImage = models.ImageField(upload_to="profile_images/" , max_length=250,null=True,default=None,blank=True)
     about = models.TextField(null=True,default=None ,blank=True)
     contact_no = models.TextField(max_length=10,null=True,default=None ,blank=True)
     

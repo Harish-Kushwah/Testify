@@ -166,6 +166,18 @@
    color: rgb(173, 163, 150);
    
 }
+.info-page 
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid #031117;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    background: #dfe9ec;
+}
 .info 
 {
     /* height: 100vh; */
@@ -173,7 +185,7 @@
     display: grid;
     column-gap: 50px;
     row-gap: 50px;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto;
     margin: 10px;
     place-items: center;
 
@@ -181,23 +193,58 @@
 
 .info .test-per 
 {
-    /* height: 300px;
-    width: 200px;
-    border: 2px solid red; */
-
+  
     border:2px solid rgb(2, 32, 7) ;
     margin: 20px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    padding: 20px;    
+    padding:0px;
     box-shadow: 10px -10px 100px rgb(160, 217, 147);
     background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
     border-radius: 10px 10px;
+
     
-    
+}
+.info .test-per .content 
+{
+  padding:5px;
+  margin:10px;
+  border-radius:10px 10px;
+}
+.info .test-per p 
+{
+  color:#081b29;
+  font-weight:500;
+  margin:0px;
+}
+.info .test-per p span 
+{
+  color:#f44336;
+}
+.info .test-per .test-per-title
+{
+  display:flex;
+  justify-content:center;
+  padding:2px;
+  width:100%;
+  margin-top:0px;
+  border:2px solid ;
+  border-radius:4px 4px 10px 10px;
+
+  border-left:0px;
+  border-right:0px;
+  border-bottom:0px;
+  background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
+
+
+}
+.info .test-per .test-per-title h4 
+{
+  margin-bottom:0px;
+
 }
 .home .alt-image 
 {
@@ -223,7 +270,7 @@
   color: #00abf0;
   margin-top: 5px;
 }
-.home .alt-image svg 
+.home .alt-image  svg 
 {
     height:30%;
     width:100%;
@@ -268,8 +315,7 @@
    
     .info 
     {
-    /* height: 100vh; */
-    grid-template-columns: auto auto ;
+    grid-template-columns: 10px 10px ;
 
     }
 }

@@ -11,7 +11,7 @@
        <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">logout</a>
      </li>
      <li class="nav-item">
-       <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">About</a>
+       <a class="nav-link active"   class="btnlinclass" data-bs-toggle="modal" data-bs-target="#staticBackdrop" aria-current="page" href="{% url 'Test:logout' %}">Edit Profile</a>
      </li>
    </ul>
 </div>
@@ -19,21 +19,58 @@
 
 {% block style %}
 
+.about 
+{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background:#081b29;
+    background-image:linear-gradient(to right bottom ,rgba(11, 41, 51) 70% ,rgb(0, 190, 207,0.9)) ;
+
+}
+.about p 
+{
+  margin:5px;
+  color:#00abf0;
+  font-size:18px;
+  font-weight:600;
+}
+.modal-body
+{
+  background:lightgreen;
+}
+.points-sec span a
+{
+  font-size:20px;
+  padding:3px;
+ 
+}
+#test-history-hed 
+{
+  font-size:23px;
+  margin:0px;
+}
+@media(max-width:700px)
+{
+    
+.info 
+    {
+      grid-template-columns: auto auto;
+      place-items:center;
+
+    }
+  }
 {% endblock style%}
-  {%block msg %}
-  {% if logoutStatus %}
+{%block msg %}
 
-  <!-- user logout successfully -->
-  {% if logoutStatus == 2 %}
-  <div class="alert alert-success alert-dismissible fade show " id="success-alert" role="alert">
-  
-    <div class="msg-text">Logout successful, <strong>{{ username }}</strong></div>
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show " role="alert">
+  <div class="msg-text">{{message}}</div>
 
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  {% endif %}
-
-{%endif %}
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
 
 {% endblock msg%}
 
@@ -43,21 +80,25 @@
        <div class="body">
 
        <section class="home">
-        {% if profileImage == 2 %}
+        {% if candidate.profileImage %}
         <img src=" /media/{{candidate.profileImage}}" alt="Add profile pic">
-        {% elif profileImage == 1 %}
+        {% else %}
         <div class="alt-image">
         <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-person-badge" viewBox="0 0 16 16">
           <path d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
           <path d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z"/>
         </svg>
-        <p>Set Profile Picture</p> 
+        <p>
+        <a class="nav-link active"   class="btnlinclass" data-bs-toggle="modal" data-bs-target="#staticBackdrop" aria-current="page" >Set Profile Picture</a>
+        </p> 
        </div>      
         {% endif %}
 
         <div class="home-content">
           <h1>Hi,i'm {{candidate.name}}</h1>
+          {% if candidate.about %}
           <h3>{{candidate.about}}</h3>
+          {% endif %}
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quos incidunt, fugit doloribus iure molestiae porro aperiam eum excepturi debitis exercitationem quod vitae? Non minus incidunt impedit sapiente dolore perferendis. Eligendi sunt commodi ipsam facilis eaque quas accusantium officiis laudantium cumque, excepturi consectetur, mollitia quidem aliquid perferendis voluptas, vero esse?</p>
           <div class="btn-box">
             <a href="#performance">Performance</a>
@@ -79,23 +120,136 @@
           <p>{{candidate.test_attempted}}</p>
           <span>Test Attempted</span>
           </div>
+          <div class="point-line">
+            <p>|</p>
         </div>
+          <div class="points-sec">
+            <p id="test-history-hed">Test Analysis</p>
+            <span> <a href="{% url 'Test:testhistory' %}" > click hear</a></span>
+            
+          </div>
+        </div>
+        <div class="info-page">
+          <h3>Test's Attempted </h3>
         <div class="info" id="performance">
-              {% for result in results %}
+              {% for r in results %}
               <div class="test-per">
-                <h1>Test attempt</h1>
+                <div class="content">
+                <p> Date :<span>{{r.date}}</span></p>
+                <p>Time : <span>{{r.time}}</span></p> 
+                <p>Attempt :<span>{{r.attempt}}</span></p>
+                <p>Right :<span>{{r.right}}</span></p>
+                <p>Wrong :<span>{{r.wrong}}</span></p>
+                <p>Points :<span>{{r.points}}</span></p> 
               </div>
+                <div class="test-per-title">
+                <h4>Test-{{ forloop.counter }}</h4>
+                </div>
+              </div>
+
+            
               <!-- <h1>hello</h1> -->
               {% endfor %}
 
-        </div>
+          </div>
+      </div>
         <div class="about" id="contact">
+          {% if candidate.email %}
           <p><span>Email : </span>{{candidate.email}}</p>
+          {% endif %}
+          {% if candidate.contact_no %}
           <p><span>Contact no.:</span>{{candidate.contact_no}}</p>
+          {% endif %}
       </div>
       </div>
       
 
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Profile Details</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                  <form action="{% url 'Test:edit_profile_info' %}"  method="POST" enctype = "multipart/form-data">
+                      {% csrf_token %}
+
+                  <div class="mb-3">
+                    <label for="profileImage" class="form-label">Set Profile Picture</label>
+                    <div class="input-group mb-3">
+                       <span class="input-group-text" id="basic-addon1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-file-earmark-image" viewBox="0 0 16 16">
+                        <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                        <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z"/>
+                      </svg></span>
+                      <!-- <input class="form-control form-control-sm" id="profileImage" name= profileImage type="file"> -->
+                      <input class="form-control form-control-sm" type="file" id ="img" name = "img" accept="image/*" >
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                      <label for="name" class="form-label">Name</label>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                          </svg></span>  
+                          <input type="text" class="form-control" id="name" name = name  placeholder="Enter new name">
+                      </div>
+                    </div>
+  
+                     <div class="mb-3">
+                      <label for="email" class="form-label">Email address</label>
+                      <div class="input-group mb-3">
+                          <span class="input-group-text" id="basic-addon1">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                          <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2H2Zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671Z"/>
+                          <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034v.21Zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z"/>
+                          </svg></span>  
+                          <input type="email" class="form-control" id="email" name = email placeholder="name@example.com">
+                      </div>
+                    </div>
+
+                     <div class="mb-3">
+                        <label for="contact" class="form-label">Enter phone number</label>
+                      <div class="input-group mb-3">
+                          <span class="input-group-text" id="basic-addon1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                            </svg></span>  
+                          <input type="text" class="form-control" name=contact id="contact" placeholder="Enter phone number">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="about" class="form-label">About</label>
+                      <div class="input-group mb-3">
+                          <span class="input-group-text" id="basic-addon1">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-file-earmark-person" viewBox="0 0 16 16">
+                          <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2v9.255S12 12 8 12s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h5.5v2z"/>
+                          </svg></span>
+                        <textarea class="form-control" id="about" name=about rows="3" placeholder="Enter about yourself"></textarea>
+                      </div>
+                    </div>
+                  
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+
+                  </form>
+                </div>
+              </div>
+                
+  
+              
+            </div>
+          </div>
+        </div>
+      </div>
 
 
 {%endblock content%}
