@@ -307,9 +307,9 @@ def uploadQuestion(request):
     if request.method == 'POST':
         questionImg = QuestionImages()
         questionRating = QuestionRating()
-        questionImg.question_title = request.POST['title']
+        questionImg.question_title = str(request.POST['title']).strip().upper()
         questionImg.ans = request.POST['ans']
-        questionImg.question_in_exam =request.POST['exam']
+        questionImg.question_in_exam =str(request.POST['exam']).strip().upper()
         
         if len(request.FILES)!=0:
             questionImg.question_image = request.FILES['img']
@@ -345,23 +345,24 @@ def testResultHistory(request):
         li = plotTrend(results)
         trend = li[0]
         status =li[1]
-    
-
- 
-    points =format(candidate[0].points, ".2f")
-    context = {'candidate' : candidate[0] ,
-               'results':results,
-               'chart':chart,
-               'testAttempted':test_attempted ,
-                'bar':bar,
-                'Status':status,
-                'points':points,
-                'trend':trend
-                }
-    
-    res = render(request, 'candidate_history.html' , context)
+        points =format(candidate[0].points, ".2f")
+        context = {'candidate' : candidate[0] ,
+                'results':results,
+                'chart':chart,
+                'testAttempted':test_attempted ,
+                    'bar':bar,
+                    'Status':status,
+                    'points':points,
+                    'trend':trend
+                    }
+        
+        res = render(request, 'candidate_history.html' , context)
+    messages.info(request , "No test given")
+    res = HttpResponseRedirect('home')
     return res
 
+#-----------------------------------------------------------------------------------------------------------
+#This view used for Showing test result history by rendering "candidate_history.html" file
 def account(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
@@ -369,16 +370,54 @@ def account(request):
     results = Result.objects.filter(username = request.session['username'])
     points =format(candidate[0].points, ".2f")
     
-    if candidate[0].profileImage ==None:
-        profileImage = 1 #not set
-    else:
-        profileImage = 2 #when set 
-    
-    context = {'candidate':candidate[0],'points':points ,'profileImage':profileImage,'results':results}
+    context = {'candidate':candidate[0],'points':points ,'results':results }
 
     res = render(request, 'user_account.html',context)
     return res
+
+
+#-----------------------------------------------------------------------------------------------------------
+#This view used for edit profile data 
+def edit_profile_info(request):
+    if 'name' not in request.session.keys():
+        res = HttpResponseRedirect('login')
     
+    candidate = Candidate.objects.get(username = request.session['username'])
+    
+    edited = False
+
+    if request.method == 'POST':
+        if 'img' in request.FILES:
+            candidate.profileImage  = request.FILES['img']
+            edited = True
+            candidate.save()
+
+        if len(request.POST['name'])!=0:
+            candidate.name = request.POST['name']
+            edited = True
+
+        if len(request.POST['email'])!=0:
+            candidate.email = request.POST['email']
+            edited = True
+
+        if len(request.POST['contact'])!=0:
+            candidate.contact_no = request.POST['contact']
+            edited = True
+
+        if len(request.POST['about'])!=0:
+            candidate.about = request.POST['about']
+            edited = True
+
+    if edited :
+        candidate.save()
+        messages.success(request,"Successfully Profile updated")
+    else:
+        messages.info(request,"Unable to changed info")
+
+    res = HttpResponseRedirect('account')
+
+    return res
+
 #-----------------------------------------------------------------------------------------------------------
 
 
