@@ -15,6 +15,11 @@ class Candidate(models.Model):
     
     # def __str__(self):
     #     return self
+# This is like a test-series
+class TestExample(models.Model):
+    id = models.BigAutoField(primary_key=True , auto_created=True)
+    title = models.CharField(max_length=100 ,null=True,default=None ,blank=True)
+
 
 class Question(models.Model):
     question_id = models.BigAutoField(primary_key=True , auto_created=True)
@@ -50,9 +55,22 @@ class QuestionImages(models.Model):
     question_image = models.FileField(upload_to="question/" , max_length=250,null=True,default=None)
     ans = models.CharField(max_length=2)
 
+class QuestionExample(models.Model):
+    test = models.ForeignKey(TestExample, on_delete=models.CASCADE)
+    content = models.CharField(max_length=500 ,null=True,default=None ,blank=True)
+    question_title = models.CharField(max_length=100,null=True,default=None ,blank=True)
+    question_in_exam = models.CharField(max_length=100,default="OTHER")
+    question_image = models.FileField(upload_to="question/" , max_length=250,null=True,default=None)
+    ans = models.CharField(max_length=2,null=True,default=None ,blank=True)
+
+class UserResponse(models.Model):
+    test_id = models.BigIntegerField(null=True,default=None ,blank=True)
+    question = models.ForeignKey(QuestionExample, on_delete=models.CASCADE)
+    user_answer = models.PositiveSmallIntegerField()
+
 class QuestionRating(models.Model):
     question_rating_id = models.BigAutoField(primary_key=True , auto_created=True)
-    question_id = models.ForeignKey(QuestionImages,on_delete=models.CASCADE)
+    question_id = models.ForeignKey(QuestionExample,on_delete=models.CASCADE)
     total_times_not_attempted = models.IntegerField(default=0)
     total_times_wrong = models.IntegerField(default=0)
     total_times_right = models.IntegerField(default=0)
@@ -66,3 +84,9 @@ class PiChartData(models.Model):
     time = models.TimeField(auto_now=True)
     current_exam_pi_image = models.ImageField(upload_to="piChart/" , max_length=250,null=True,default=None , blank=True)
     all_exam_pi_image = models.ImageField(upload_to="piChart/" , max_length=250,null=True,default=None ,blank=True)
+
+
+
+
+    # Add any other relevant fields
+

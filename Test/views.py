@@ -8,6 +8,7 @@ import random
 import datetime
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password,check_password
+from django.core.paginator import Paginator
 # from django.contrib.messages.storage.session.SessionStorage
 
 #-----------------------------------------------------------------------------------------------------------
@@ -153,6 +154,7 @@ def customsTestPaper(request):
     sec = 0
     #1 question 1 min
     timeAllot = total_ques
+   
     context = {'questions' : question_list , 
                'examStatus':examStatus ,
                'totalQuestion':total_ques,
@@ -160,9 +162,252 @@ def customsTestPaper(request):
                'time':timeAllot ,
                'hr':hr ,
                 'min':min,
-                'sec':sec
+                'sec':sec,
                 }
+    res  = render(request , 'test_paper.html',context)
+    return res 
 
+
+# NOTE:i am adding test_paper1.html for adding pagination on each question 
+
+# views.py
+
+# views.py
+from django.shortcuts import render
+import json
+from .forms import TestResponseForm
+# views.py
+from django.shortcuts import render, redirect
+'''
+#using django forms
+def test_paper(request, test_id):
+    test = TestExample.objects.get(pk=test_id)
+    questions = QuestionExample.objects.filter(test=test)
+    currentQuestionIndex = 0
+    if request.method == 'POST':
+        form = TestResponseForm(questions[currentQuestionIndex], request.POST)
+        if form.is_valid():
+            question_id = questions[currentQuestionIndex].id
+            user_answer = int(form.cleaned_data[f'answer_{question_id}'])
+            request.session[f'answer_{question_id}'] = user_answer
+            currentQuestionIndex += 1
+            if currentQuestionIndex < questions.count():
+                return redirect('test_paper', test_id=test_id)
+            else:
+                return redirect('test_summary', test_id=test_id)
+    else:
+        currentQuestionIndex = 0
+
+    question = questions[currentQuestionIndex]
+    form = TestResponseForm(question)
+    user_responses = {}
+    for question in questions:
+        question_id = question.id
+        if f'answer_{question_id}' in request.session:
+            user_responses[question_id] = request.session[f'answer_{question_id}']
+
+    return render(request, 'test_paper1.html', {'test': test, 'questions': questions, 'form': form, 'currentQuestionIndex': currentQuestionIndex, 'user_responses': user_responses})
+
+'''
+#using database
+def test_paper(request, test_id):
+    test = TestExample.objects.get(pk=test_id)
+    questions = QuestionExample.objects.filter(test=test)
+    questions_json = json.dumps(list(questions.values('id', 'content','question_image')))
+
+    user_responses = UserResponse.objects.filter(test_id=test.id)
+    user_responses_json = json.dumps(list(user_responses.values('question', 'user_answer')))
+
+    if request.method == 'POST':
+        # if not user_responses.exists():
+            for question in questions:
+                answer_index = request.POST.get(f'answer_{question.id}')
+                if answer_index is not None:
+                    #answer_id = ans
+                    if not request.session.has_key(str(question.id)):
+                        request.session[int(question.id)] = [int(answer_index),'checked']
+                    print("Saved in session variable")
+                    print(question)
+                    # user_response = UserResponse(question=question, user_answer=int(answer_index),)
+                    # user_response.save()
+                else:
+                    print("Not saved")
+        # else:
+        #     print("User response  exits")
+
+        # After processing the answers, you can redirect to a summary page or another page.
+        # return redirect('test_summary', test_id=test_id)
+   
+
+    for k ,val in request.session.items() :
+        print(str(k) + " " + str(val))
+    # del request.session['9']
+
+    
+    # for key in  request.session.keys():
+    #     print(type(key))
+    #     print(key)
+    #     print(" Key=>")
+    #     print(request.session[key])
+    # del request.session[7]
+    # del request.session['checked7']
+    return render(request, 'test_paper1.html', {'test': test, 'questions_json': questions_json, 'user_responses_json': user_responses_json })
+
+
+'''
+#using session variable
+def test_paper(request, test_id):
+    test = TestExample.objects.get(pk=test_id)
+    questions = QuestionExample.objects.filter(test=test)
+
+    if request.method == 'POST':
+        # Process user response and update session data
+        question_id = request.POST.get('question_id')
+        user_answer = int(str(request.POST.get('user_answer')))
+        request.session[f'answer_{question_id}'] = user_answer
+
+        # Check if the user clicked "Next" or "Back" button
+        action = request.POST.get('action')
+        if action == 'next':
+            current_question_index = int(request.POST.get('current_question_index'))
+            if current_question_index < questions.count() - 1:
+                current_question_index += 1
+        elif action == 'prev':
+            current_question_index = int(request.POST.get('current_question_index'))
+            if current_question_index > 0:
+                current_question_index -= 1
+        else:
+            return redirect('test_summary', test_id=test_id)
+
+        return redirect('test_paper', test_id=test_id)
+
+    else:
+        # Clear all user responses when starting the test
+        request.session.clear()
+
+    current_question_index = 0
+    if f'answer_{questions[current_question_index].id}' in request.session:
+        user_answer = request.session[f'answer_{questions[current_question_index].id}']
+    else:
+        user_answer = None
+
+    return render(request, 'test_paper1.html', {'test': test, 'questions': questions, 'current_question_index': current_question_index, 'user_answer': user_answer})
+'''
+#NOTE:this is for uploading question in  new table Question example
+def uploadQuestion1(request):
+    if 'name' not in request.session.keys():
+        return HttpResponseRedirect('login')
+    if request.method == 'POST':
+        questionImg = QuestionExample()
+        questionRating = QuestionRating() 
+        questionImg.question_title = str(request.POST['title']).strip().upper()
+        questionImg.ans = request.POST['ans']
+
+        exam_in = str(request.POST['exam']).strip().upper()
+        questionImg.question_in_exam =exam_in
+       
+        test_obj = TestExample.objects.filter(title=exam_in)
+        for t in test_obj:
+            questionImg.test =t 
+
+        questionImg.content =str(request.POST['content']).strip().upper()
+
+        if len(request.FILES)!=0:
+            questionImg.question_image = request.FILES['img']
+            questionRating.question_id = questionImg
+        else :
+          res = HttpResponseRedirect('home')
+        questionImg.save()
+        questionRating.save()
+        messages.success(request,"Question added successfully")
+    res = render(request, 'upload_question.html' )
+    return res
+
+# def test_paper1(request,question_id):
+
+
+#     # test = Test.objects.get(pk=test_id)
+#     questions = QuestionImages.objects.filter(question_id=question_id)
+#     questions_json = json.dumps(list(questions.values('question_id', 'question_title')))
+#     return render(request, 'test_paper1.html', {'questions_json': questions_json})
+
+# -----------------------
+class Singleton:
+    
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        if Singleton.__instance == None:
+           Singleton()
+        return Singleton.__instance
+       
+    def __init__(self):
+        if Singleton.__instance !=None:
+            raise Exception("This class is a singleTone")
+        else:
+            Singleton.__instance =self
+
+
+
+def data():
+    n = 2
+    question_pool =list(QuestionImages.objects.all())
+    question_list = None
+    
+    if len(question_pool)!=0:
+        random.shuffle(question_pool)
+        question_list = question_pool[:n]
+        examStatus = 1
+        print("Data refreshed ")
+    else:
+        examStatus = 2  
+
+    hr = n//60 
+    min = n%60
+    sec = 0
+    
+
+    context = [ question_list , 
+               examStatus,
+               n,
+               "All",
+               n ,
+               hr , 
+               min,
+               sec, 
+    ]
+    return context
+
+
+s1 = Singleton()
+s1.context = data()
+
+def example(request):
+    # li = s1.context
+    questions = QuestionImages.objects.all()
+    questions_json = json.dumps(list(questions.values('question_id', 'question_title')))
+    print("json data")
+    print(questions_json)
+    li = data()
+    question_list = li[0]
+    paginator = Paginator(question_list , 1)
+    page_number = request.GET.get('page')
+    page_obj  = paginator.get_page(page_number)
+    print(paginator)
+    print(page_number)
+    print(page_obj)
+    context = {'questions' : li[0] , 
+               'examStatus':li[1],
+               'totalQuestion':li[2],
+               'topicName':li[3],
+               'time':li[4],
+               'hr':li[5], 
+               'min':li[6],
+               'sec':li[7], 
+               'page_obj':page_obj ,
+               'questions_json': questions_json,
+               }
     res  = render(request , 'test_paper.html',context)
     return res 
 
@@ -247,17 +492,80 @@ def calculateTestResult(request):
     candidate.save()
     return HttpResponseRedirect('result') 
 
+#NOTE: pagination 
+def calculateTestResult1(request):
+    if 'name' not in request.session.keys():
+        res = HttpResponseRedirect('login')
+    
+    total_attempt = 0
+    total_right = 0
+    total_wrong = 0
+    wrong_attempted_ques =[]
+    right_attempted_ques =[]
+    not_attempted_ques =[]
+    qid_list = [] #all questions of the test
+    for k in request.POST:
+        if k.startswith('qno'):
+            qid_list.append(int(request.POST[k]))
+    
+    for n in qid_list:
+        question_img = QuestionImages.objects.get(question_id = n)
+        try:
+              
+            if question_img.ans == request.POST['op' + str(n)]:
+                total_right +=1
+                right_attempted_ques.append(question_img.question_id)
+            else:
+                total_wrong +=1
+                wrong_attempted_ques.append(question_img.question_id)
+            total_attempt+=1
+            
+        except:
+            pass
+    if total_attempt!=0:
+        points = (total_right - total_wrong) /  total_attempt *10
+    else:
+        points = 0
+
+    # finds the set of not_attempted question of the test
+    right_and_wrong_que = set(right_attempted_ques).union(set(wrong_attempted_ques))
+    qid_list =  set(qid_list)
+    setA  = right_and_wrong_que - qid_list
+    setB  = qid_list - right_and_wrong_que
+    not_attempted_ques = list(setA.union(setB))
+   
+    username = Candidate.objects.get(username = request.session['username'])
+    result = Result()
+    result.username = username
+    result.attempt = total_attempt
+    result.right = total_right
+    result.wrong = total_wrong
+    result.points = points
+    result.not_attempted_ques = not_attempted_ques
+    result.wrong_attempted_ques = wrong_attempted_ques
+    result.right_attempted_ques = right_attempted_ques
+    result.save()
+
+    #update candidate table
+    candidate = username
+    candidate.test_attempted +=1
+    candidate.points = ( candidate.points * (candidate.test_attempted -1) + points )/candidate.test_attempted
+    candidate.save()
+    return HttpResponseRedirect('result') 
+
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for Showing test result of each test  by rendering "show_result.html" file
 # NOTE:When result will be displayed at that time rating will be updated each question 
-
+# BUG:integrity error arise during result storing difficulty each question
 def get_difficulty_of_question(questionRating):
     right = questionRating.total_times_right
     wrong = questionRating.total_times_wrong
     total_attempted = right + wrong
-    difficulty = (right/total_attempted)*100
-    return difficulty
+    if total_attempted !=0:
+        difficulty = (right/total_attempted)*100
+        return difficulty
+    return 0
 
 
 def showTestResult(request):
@@ -357,8 +665,9 @@ def testResultHistory(request):
                     }
         
         res = render(request, 'candidate_history.html' , context)
-    messages.info(request , "No test given")
-    res = HttpResponseRedirect('home')
+    else:
+        messages.info(request , "No test given")
+        res = HttpResponseRedirect('home')
     return res
 
 #-----------------------------------------------------------------------------------------------------------
@@ -419,8 +728,6 @@ def edit_profile_info(request):
     return res
 
 #-----------------------------------------------------------------------------------------------------------
-
-
 
 
 

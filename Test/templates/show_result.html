@@ -14,25 +14,101 @@
         </ul>
     </div>
 {% endblock top%}
+{% block style %}
+.result-page{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:500px;
+  border:2px solid red;  
+}
+.result-page .result-page-content 
+{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  flex-direction:column;
+  border:2px solid blue;
+  height:100%;
+  width:60%;
+  padding:10px
+  
+}
+.result-page .result-page-content .candidate-data
+{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  flex-direction:column;
+  flex-wrap:wrap;
+  border:2px solid blue;
+  border-radius:10px 10px;
+   background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
+  padding:10px;
+  width:80%;
+  margin:10px;
+}
+.result-page .result-page-content .result-data
+{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  flex-direction:column;
+  flex-wrap:wrap;
+  border:2px solid blue;
+  border-radius:10px 10px;
+   background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
+  padding:10px;
+  width:80%;
+}
+.result-page .result-page-image 
+{
+  border:2px solid blue;
+  height:100%;
+  width:40%;
+}
+.result-page .result-page-image img
+{
+
+  height:100%;
+  width:100%;
+  border:2px solid green;
+
+}
+{% endblock style %}
 
 <!-- TODO:DESIGN THE RESULT PAGE -->
 
 {%block content %}
      <p> Welcome to result page</p>
 
-     <div>
+    <div class="result-page">
+     <div class="result-page-content">
+
      {% for r in results %}
+        <div class="candidate-data">
+          <h3>Name : {{r.date}}</h3>
+          <h3>Username : {{r.date}}</h3>
+          <h3>Email : {{r.date}}</h3>
+        </div>
+        <div class="result-data">
         <h3>Date : {{r.date}}</h3>
         <h3>Time : {{r.time}}</h3>
         <h3>Attempt :{{r.attempt}}</h3>
         <h3>Right :{{r.right}}</h3>
         <h3>Wrong :{{r.wrong}}</h3>
         <h3>Points :{{r.points}}</h3>
-        <h3>not_attempted_ques :{{r.not_attempted_ques}}</h3>
+        <!-- <h3>not_attempted_ques :{{r.not_attempted_ques}}</h3>
         <h3>right_attempted_ques :{{r.right_attempted_ques}}</h3>
-        <h3>wrong_attempted_ques :{{r.wrong_attempted_ques}}</h3>
-    {% endfor %}
+        <h3>wrong_attempted_ques :{{r.wrong_attempted_ques}}</h3> -->
+      </div>
+      {% endfor %}
+    </div>
+    <div class="result-page-image">
+    <img src="/static/images/result_img.svg" alt="" height="300" weight="300">
+    </div>
   </div>
+
 
      <!-- <table>
         <tr>
@@ -62,10 +138,10 @@
         {% endfor %}
      </table> -->
   
-    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
      <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-   </svg>
+   </svg> -->
     </h1>
     
      

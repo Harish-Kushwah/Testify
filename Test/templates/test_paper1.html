@@ -1,0 +1,113 @@
+<!-- test_paper.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ test.title }} - Test Paper</title>
+</head>
+<body>
+    <h1>{{ test.title }}</h1>
+    <form id="test-form"  action="{% url 'Test:test_paper' test.id %}" method="post">
+        {% csrf_token %}
+        <div id="question-container">
+            <!-- The current question will be loaded here -->
+        </div>
+        <button id="prev-btn" disabled>Back</button>
+        <button id="next-btn">Next</button>
+        <button type="submit">Submit</button>
+
+    </form>
+     <h1> 
+     </h1> 
+    <script>
+        const questions = JSON.parse('{{ questions_json|escapejs|safe }}');
+        let currentQuestionIndex = 0;
+
+
+        const userResponses = JSON.parse('{{ user_responses_json|escapejs|safe }}');
+        
+        function loadQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const question = questions[currentQuestionIndex];
+            const choices = 'abcd'
+            let choicesHtml = '';
+            for (let i = 1; i <=choices.length; i++) {
+                choicesHtml += `
+                    <input type="radio" name="answer_${question.id}" value="${i}"  required>
+                    <label>${choices[i-1]}</label><br>
+
+                `;
+            }
+            var qid =questions[currentQuestionIndex].id
+            questionContainer.innerHTML = `
+                <h3>Question ${currentQuestionIndex + 1}</h3>
+                <p>${questions[currentQuestionIndex].content}</p>
+                <div class="qimg"> <img src=" /media/${questions[currentQuestionIndex].question_image}" alt="" ></div>
+                <!-- Add form fields for the answer -->
+
+                <!-- <input type="text" name="answer_${questions[currentQuestionIndex].id}" required> -->
+                
+                ${choicesHtml}
+              
+
+            `;
+            
+
+            // Enable or disable the back button based on the current question index
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+        }
+
+        function getChecked(choiceIndex) {
+            // Check if the user has already answered this question
+
+            var id 
+           
+            const questionId = questions[currentQuestionIndex].id;
+            const sessionAnsId = request.session[questionId]
+            console.log(sessionAnsId)
+            //const userResponse = userResponses.find(response => response.question === questionId);
+            if (questionId==id) {
+                return 'checked';
+            }
+            return '';
+        }
+        var question_id=7;
+
+        `{% for k ,val in request.session.items %}
+            console.log({{k}})
+        {% endfor %}`;
+        question_id = question_id.toString()
+        console.log(typeof(`{{request.session.items}}`))
+        console.log(`{% for k , val in request.session.items %}
+                        {% if k == question_id %}
+                         {{val.1}}
+                       {% endif %}
+                    {%endfor %}
+        
+         `)
+        console.log(`{{request.session.values}}`)
+        console.log(typeof(question_id))
+        console.log(question_id.toString())
+        console.log(question_id.toString()=='7')
+        function showNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                // When all questions are answered, submit the form
+                document.getElementById('test-form').submit();
+            }
+        }
+
+        function showPreviousQuestion() {
+            currentQuestionIndex--;
+            loadQuestion();
+        }
+
+        document.getElementById('next-btn').addEventListener('click', showNextQuestion);
+        document.getElementById('prev-btn').addEventListener('click', showPreviousQuestion);
+
+        // Load the first question when the page loads
+        loadQuestion();
+    </script>
+</body>
+</html>

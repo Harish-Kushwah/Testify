@@ -4,13 +4,12 @@
 
 {% load static %}
 {%block top %} 
-       <link rel="stylesheet" href="{% static 'exam.css ' %}" />
-       <style>
-        
-        
-       </style>
+      
+       
 {% endblock top%}
+{%block style%}
 
+{%endblock style%}
 
 {%block content %}
     <form id="form" action="{% url 'Test:calculateTest' %}" method ="POST" >
@@ -67,11 +66,23 @@
             <input type = "hidden" name ="qno{{img.question_id}}" value = "{{img.question_id}}">
 
             <div class = "optGroup">
-                <div class ="options"> <input type="radio" , name ="op{{img.question_id}}" value = "a">A.</div>
-                <div class ="options"> <input type="radio" , name ="op{{img.question_id}}" value = "b">B.</div>
-                <div class ="options"> <input type="radio" , name ="op{{img.question_id}}" value = "c">C.</div>
-                <div class ="options"> <input type="radio" , name ="op{{img.question_id}}" value = "d">D.</div>
-            </div>
+                <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "a">A.</div>
+                <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "b">B.</div>
+                <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "c">C.</div>
+                <div class ="options"> <input type="radio" ,  id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "d">D.</div>
+            
+                <!-- <input type="reset" value = "op{{img.question_id}}" id = "op{{img.question_id}}"  name ="op{{img.question_id}}" > -->
+               <!-- <input id="uncheck{{img.question_id}}"> -->
+               <!-- <button id = onclick="clearRadio()"> -->
+               
+              <script>
+               let output = document.getElementById("output")
+               $("#btn").click(function(){
+                    $("input[type=radio] [name= op{{img.question_id}} ]").prop('checked',false);
+                    output.innerHTML ="All clear"
+               })
+              </script>
+        </div>
             {% endfor %}
 
             <div class="exam-btn">
@@ -84,7 +95,7 @@
         {% elif examStatus == 2 %}
           <h1>Sorry..! please Enter valid topic names </h1>
         {% endif %}
-    </div>
+        </div>
     </form>
 
 

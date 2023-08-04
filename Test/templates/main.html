@@ -9,7 +9,7 @@
     <title>
       {% block title %} {% endblock title%}
     </title>
-
+    <link rel="stylesheet" href="{% static 'exam1.css ' %}" />
     <link rel="stylesheet" href="{% static 'theme.css' %}" />
     <link rel="stylesheet" href="{% static 'user_account.css' %}" />
     <link rel="stylesheet" href="{% static 'welcome.css' %}" />
@@ -238,9 +238,7 @@
     const myModal = document.getElementById('myModal')
     const myInput = document.getElementById('myInput')
 
-    
-
-     </script>
+  </script>
 
      <script type="text/javascript">
 
@@ -252,6 +250,12 @@
           });
       }, 5000);
        
+      });
+
+      //for clearing the radio button 
+      $(".fakeRadio").click(function(){
+        $(".fakeRadio").prop("checked",false);
+        $(this).prop("checked",true);
       });
       </script>
   
