@@ -10,8 +10,6 @@ admin.site.register(Question)
 admin.site.register(QuestionImages)
 admin.site.register(PiChartData)
 admin.site.register(QuestionRating)
-admin.site.register(QuestionExample)
-admin.site.register(TestExample)
 admin.site.register(Session)
 # admin
 # Register your models here.

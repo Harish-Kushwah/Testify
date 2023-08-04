@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>{{ test.title }}</h1>
-    <form id="test-form"  action="{% url 'Test:test_paper' test.id %}" method="post">
+    <form id="test-form"  method="post">
         {% csrf_token %}
         <div id="question-container">
             <!-- The current question will be loaded here -->
@@ -32,7 +32,7 @@
             let choicesHtml = '';
             for (let i = 1; i <=choices.length; i++) {
                 choicesHtml += `
-                    <input type="radio" name="answer_${question.id}" value="${i}"  required>
+                    <input type="radio" name="answer_${question.id}" value="${i}" required>
                     <label>${choices[i-1]}</label><br>
 
                 `;

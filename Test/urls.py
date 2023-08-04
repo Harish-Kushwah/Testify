@@ -14,16 +14,13 @@ urlpatterns = [
     path('login', loginView, name = 'login'),
     path('home', candidateHome , name='home'),
     path('test-paper',testPaper,name = 'testpaper'),
-    path('example',example,name = 'example'),
     path('customs-test-paper',customsTestPaper,name = 'customs_test_paper'),
     path('calculate-result',calculateTestResult ,name="calculateTest"),
     path('calculate-result1',calculateTestResult1 ,name="calculateTest1"),
     path('result',showTestResult , name = 'result'),
     path('logout',logoutView , name = 'logout'),
-    # path('uploadQuestion',uploadQuestion , name = 'uploadQuestion'),
-    path('uploadQuestion',uploadQuestion1 , name = 'uploadQuestion'),
-    path('test_paper/<int:test_id>/', test_paper, name='test_paper'),
-    #NOTE:FOR UPLOADING IN NEW TABLE QUESTION EXAMPLE
+    path('uploadQuestion',uploadQuestion , name = 'uploadQuestion'),
+  
 
 
 
