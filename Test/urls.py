@@ -16,9 +16,12 @@ urlpatterns = [
     path('test-paper',testPaper,name = 'testpaper'),
     path('customs-test-paper',customsTestPaper,name = 'customs_test_paper'),
     path('calculate-result',calculateTestResult ,name="calculateTest"),
+    path('calculate-result1',calculateTestResult1 ,name="calculateTest1"),
     path('result',showTestResult , name = 'result'),
     path('logout',logoutView , name = 'logout'),
     path('uploadQuestion',uploadQuestion , name = 'uploadQuestion'),
+  
+
 
 
 ]

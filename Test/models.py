@@ -50,6 +50,7 @@ class QuestionImages(models.Model):
     question_image = models.FileField(upload_to="question/" , max_length=250,null=True,default=None)
     ans = models.CharField(max_length=2)
 
+
 class QuestionRating(models.Model):
     question_rating_id = models.BigAutoField(primary_key=True , auto_created=True)
     question_id = models.ForeignKey(QuestionImages,on_delete=models.CASCADE)
@@ -66,3 +67,9 @@ class PiChartData(models.Model):
     time = models.TimeField(auto_now=True)
     current_exam_pi_image = models.ImageField(upload_to="piChart/" , max_length=250,null=True,default=None , blank=True)
     all_exam_pi_image = models.ImageField(upload_to="piChart/" , max_length=250,null=True,default=None ,blank=True)
+
+
+
+
+    # Add any other relevant fields
+

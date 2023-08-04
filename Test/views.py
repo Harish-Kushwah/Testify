@@ -8,6 +8,7 @@ import random
 import datetime
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password,check_password
+from django.core.paginator import Paginator
 # from django.contrib.messages.storage.session.SessionStorage
 
 #-----------------------------------------------------------------------------------------------------------
@@ -153,6 +154,7 @@ def customsTestPaper(request):
     sec = 0
     #1 question 1 min
     timeAllot = total_ques
+   
     context = {'questions' : question_list , 
                'examStatus':examStatus ,
                'totalQuestion':total_ques,
@@ -160,9 +162,8 @@ def customsTestPaper(request):
                'time':timeAllot ,
                'hr':hr ,
                 'min':min,
-                'sec':sec
+                'sec':sec,
                 }
-
     res  = render(request , 'test_paper.html',context)
     return res 
 
@@ -247,17 +248,80 @@ def calculateTestResult(request):
     candidate.save()
     return HttpResponseRedirect('result') 
 
+#NOTE: pagination 
+def calculateTestResult1(request):
+    if 'name' not in request.session.keys():
+        res = HttpResponseRedirect('login')
+    
+    total_attempt = 0
+    total_right = 0
+    total_wrong = 0
+    wrong_attempted_ques =[]
+    right_attempted_ques =[]
+    not_attempted_ques =[]
+    qid_list = [] #all questions of the test
+    for k in request.POST:
+        if k.startswith('qno'):
+            qid_list.append(int(request.POST[k]))
+    
+    for n in qid_list:
+        question_img = QuestionImages.objects.get(question_id = n)
+        try:
+              
+            if question_img.ans == request.POST['op' + str(n)]:
+                total_right +=1
+                right_attempted_ques.append(question_img.question_id)
+            else:
+                total_wrong +=1
+                wrong_attempted_ques.append(question_img.question_id)
+            total_attempt+=1
+            
+        except:
+            pass
+    if total_attempt!=0:
+        points = (total_right - total_wrong) /  total_attempt *10
+    else:
+        points = 0
+
+    # finds the set of not_attempted question of the test
+    right_and_wrong_que = set(right_attempted_ques).union(set(wrong_attempted_ques))
+    qid_list =  set(qid_list)
+    setA  = right_and_wrong_que - qid_list
+    setB  = qid_list - right_and_wrong_que
+    not_attempted_ques = list(setA.union(setB))
+   
+    username = Candidate.objects.get(username = request.session['username'])
+    result = Result()
+    result.username = username
+    result.attempt = total_attempt
+    result.right = total_right
+    result.wrong = total_wrong
+    result.points = points
+    result.not_attempted_ques = not_attempted_ques
+    result.wrong_attempted_ques = wrong_attempted_ques
+    result.right_attempted_ques = right_attempted_ques
+    result.save()
+
+    #update candidate table
+    candidate = username
+    candidate.test_attempted +=1
+    candidate.points = ( candidate.points * (candidate.test_attempted -1) + points )/candidate.test_attempted
+    candidate.save()
+    return HttpResponseRedirect('result') 
+
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for Showing test result of each test  by rendering "show_result.html" file
 # NOTE:When result will be displayed at that time rating will be updated each question 
-
+# BUG:integrity error arise during result storing difficulty each question
 def get_difficulty_of_question(questionRating):
     right = questionRating.total_times_right
     wrong = questionRating.total_times_wrong
     total_attempted = right + wrong
-    difficulty = (right/total_attempted)*100
-    return difficulty
+    if total_attempted !=0:
+        difficulty = (right/total_attempted)*100
+        return difficulty
+    return 0
 
 
 def showTestResult(request):
@@ -357,8 +421,9 @@ def testResultHistory(request):
                     }
         
         res = render(request, 'candidate_history.html' , context)
-    messages.info(request , "No test given")
-    res = HttpResponseRedirect('home')
+    else:
+        messages.info(request , "No test given")
+        res = HttpResponseRedirect('home')
     return res
 
 #-----------------------------------------------------------------------------------------------------------
@@ -419,8 +484,6 @@ def edit_profile_info(request):
     return res
 
 #-----------------------------------------------------------------------------------------------------------
-
-
 
 
 
