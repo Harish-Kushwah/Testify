@@ -20,6 +20,7 @@ urlpatterns = [
     path('result',showTestResult , name = 'result'),
     path('logout',logoutView , name = 'logout'),
     path('uploadQuestion',uploadQuestion , name = 'uploadQuestion'),
+    path('NIMCET_Test',NIMCET_Test , name = 'NIMCET_Test'),
   
 
 
