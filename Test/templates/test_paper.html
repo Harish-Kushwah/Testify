@@ -8,6 +8,17 @@
        
 {% endblock top%}
 {%block style%}
+.qhead
+{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width:90%;
+}
+#qnum 
+{
+   margin:0px;
+}
 
 {%endblock style%}
 
@@ -18,87 +29,87 @@
         {% if examStatus == 1 %}
         <!-- Question will be in the form of image -->
         <div class="exam-page">
+
             <div class="exam-header">
                 <h2>Exam Section</h2>
             </div>
             
-          <div class="exam-section">     
-                
-           <div class="questionimg">
-            <div class="info-sec">
-                <h4>Name :<span> {{ request.session.name }}</span></h4>
-               
-           
-                </h4>
-                <h4>Total Question : <span>{{ totalQuestion }}</span>
-                </h4>
-                <h4>Topic Name : <span>{{ topicName }}</span></h4>
-                <h4>Total Time :<span>{{time}} min</span></h4>
-                <h4>Time Remaining :</h4>
-
-                
-                <div class="launch-time">
-                     
-                    <div>
-                        <p id ="hours">00</p>
-                        <span>Hours</span>
-                    </div>
-                    <div>
-                        <p id="colon">:</p>
-                    </div>
-                    <div>
-                        <p id = "minutes">00</p>
-                        <span>Minutes</span>
-                    </div>
-                    <div>
-                        <p id="colon">:</p>
-                    </div>
-                    <div>
-                        <p id ="seconds">00</p>
-                        <span>Second</span>
-                    </div>
+            <div class="exam-section">     
+                    
+                <div class="info-sec">
+                    
+                    <div class="head">
+                    <h4>Name :<span> {{ request.session.name }}</span></h4>
+                    
+                    <h4>Total Question : <span>{{ totalQuestion }}</span>
+                    </h4>
+                    <h4>Topic Name : <span>{{ topicName }}</span></h4>
+                    <h4>Total Time :<span>{{time}} min</span></h4>
+                    <h4>Time Remaining :</h4>
                 </div>
+                    <div class="launch-time">
+                        
+                        <div>
+                            <p id ="hours">00</p>
+                            <span>Hours</span>
+                        </div>
+                        <div>
+                            <p id="colon">:</p>
+                        </div>
+                        <div>
+                            <p id = "minutes">00</p>
+                            <span>Minutes</span>
+                        </div>
+                        <div>
+                            <p id="colon">:</p>
+                        </div>
+                        <div>
+                            <p id ="seconds">00</p>
+                            <span>Second</span>
+                        </div>
+                    </div>
 
-            </div> 
-            {%for img in questions %}
-            <div class="qimg"> <img src=" /media/{{ img.question_image}}" alt="" ></div>
-          
-            <input type = "hidden" name ="qno{{img.question_id}}" value = "{{img.question_id}}">
+                </div> 
+                <div class="questionimg">
+                    {%for img in questions %}
+                
+                       <div class="qhead">
+                        <p id ="qnum">Q.{{forloop.counter}} {{img.question_title}}</p>
+                        </div>
 
-            <div class = "optGroup">
-                <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "a">A.</div>
-                <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "b">B.</div>
-                <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "c">C.</div>
-                <div class ="options"> <input type="radio" ,  id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "d">D.</div>
-            
-                <!-- <input type="reset" value = "op{{img.question_id}}" id = "op{{img.question_id}}"  name ="op{{img.question_id}}" > -->
-               <!-- <input id="uncheck{{img.question_id}}"> -->
-               <!-- <button id = onclick="clearRadio()"> -->
+                    <div class="qimg"> <img src=" /media/{{ img.question_image}}" alt="" ></div>
+                
+                    <input type = "hidden" name ="qno{{img.question_id}}" value = "{{img.question_id}}">
+                
+                    <div class = "optGroup">
+                        <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "a">A.</div>
+                        <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "b">B.</div>
+                        <div class ="options"> <input type="radio" , id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "c">C.</div>
+                        <div class ="options"> <input type="radio" ,  id ="op{{img.question_id}}" name ="op{{img.question_id}}" value = "d">D.</div>
+                    </div>
                
-              <script>
-               let output = document.getElementById("output")
-               $("#btn").click(function(){
-                    $("input[type=radio] [name= op{{img.question_id}} ]").prop('checked',false);
-                    output.innerHTML ="All clear"
-               })
-              </script>
-        </div>
-            {% endfor %}
+                {% endfor %}
 
-            <div class="exam-btn">
-                <input type="submit" value = "Submit" id = "refreshed" value="no">
+                <div class="exam-btn">
+                    <input type="submit" value = "Submit" id = "refreshed" value="no">
 
+                </div>
             </div>
+            
+            
         </div>
-        
-       </div>
         {% elif examStatus == 2 %}
-          <h1>Sorry..! please Enter valid topic names </h1>
+        <h1>Sorry..! please Enter valid topic names </h1>
         {% endif %}
-        </div>
-    </form>
-
-
+   </form>
+      
+   <script>
+    let output = document.getElementById("output")
+    $("#btn").click(function(){
+            $("input[type=radio] [name= op{{img.question_id}} ]").prop('checked',false);
+            output.innerHTML ="All clear"
+    })
+    </script>
     <script >
         var hr = parseInt('{{hr}}')
         var min = parseInt('{{min}}')

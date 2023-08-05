@@ -168,6 +168,71 @@ def customsTestPaper(request):
     return res 
 
 #-----------------------------------------------------------------------------------------------------------
+#This view used for setting NIMCET test paper format by rendering 'test_paper.html' file
+
+def NIMCET_Test(request):
+    if 'name' not in request.session.keys():
+        res = HttpResponseRedirect('login')
+    
+    total_question = 120
+    total_math =  50
+    total_analytical_ability =40
+    total_english = 20
+    total_computer = 10  
+   
+    math_questions = list(QuestionImages.objects.filter(question_title ="MATH"))
+    analytical_ability_questions = list(QuestionImages.objects.filter(question_title ="ANALYTICAL"))
+    english_questions = list(QuestionImages.objects.filter(question_title ="ENGLISH"))
+    computer_questions = list(QuestionImages.objects.filter(question_title ="COMPUTER"))
+    question_list = []
+    if len(math_questions)!=0:
+        random.shuffle(math_questions)
+        for q in math_questions[:total_math]:
+            question_list.append(q)
+        examStatus = 1
+
+    if len(analytical_ability_questions)!=0:
+        random.shuffle(analytical_ability_questions)
+        for q in analytical_ability_questions[:total_analytical_ability]:
+            question_list.append(q)
+        examStatus = 1
+
+    if len(english_questions)!=0:
+        random.shuffle(english_questions)
+        for q in english_questions[:total_english]:
+            question_list.append(q)
+        examStatus = 1
+
+    if len(computer_questions)!=0:
+        random.shuffle(computer_questions)
+        for q in computer_questions[:total_computer]:
+            question_list.append(q)
+        examStatus = 1
+
+    if examStatus!=1:
+        examStatus = 2  #if no question found
+
+    hr = total_question//60 
+    min = total_question%60
+    sec = 0
+    #1 question 1 min
+    timeAllot = total_question
+    if len(question_list)==0:
+        print("NO QUESTION ")
+    print(question_list)
+    context = {'questions' : question_list , 
+               'examStatus':examStatus ,
+               'totalQuestion':total_question,
+               'topicName':"NIMCET",
+               'time':timeAllot ,
+               'hr':hr ,
+                'min':min,
+                'sec':sec,
+                }
+    res  = render(request , 'test_paper.html',context)
+    return res 
+
+#-----------------------------------------------------------------------------------------------------------
 #This view used for showing question in text format by rendering 'test_paper.html' file
 def textTestPaper(request):
     #check whether user is login or not
@@ -313,13 +378,12 @@ def calculateTestResult1(request):
 #-----------------------------------------------------------------------------------------------------------
 #This view used for Showing test result of each test  by rendering "show_result.html" file
 # NOTE:When result will be displayed at that time rating will be updated each question 
-# BUG:integrity error arise during result storing difficulty each question
 def get_difficulty_of_question(questionRating):
     right = questionRating.total_times_right
     wrong = questionRating.total_times_wrong
     total_attempted = right + wrong
     if total_attempted !=0:
-        difficulty = (right/total_attempted)*100
+        difficulty = (wrong/total_attempted)*100
         return difficulty
     return 0
 
@@ -484,8 +548,6 @@ def edit_profile_info(request):
     return res
 
 #-----------------------------------------------------------------------------------------------------------
-
-
 
 
 
