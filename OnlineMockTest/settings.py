@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-w#c4r-)49+64ym6&-_e91woxw5r$=(^y0g+!gughhj0v%zn-t)'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ.get('DEBUG' , 'FALSE').lower == "true"
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+
 
 import os
 STATICFILES_DIRS =[
@@ -86,17 +91,32 @@ WSGI_APPLICATION = 'OnlineMockTest.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 #postgres database connection
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'Testify',
+#          'USER':'postgres',
+#         'PASSWORD':'Harish',
+#         'HOST':'localhost',
+#         'PORT':'5432',
+       
+#     }
+# }
+#hosting purpose
+import dj_database_url
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Testify',
-         'USER':'postgres',
-        'PASSWORD':'Harish',
-        'HOST':'localhost',
+        'NAME': 'testify',
+         'USER':'testify_user',
+        'PASSWORD':'zOYsfblg2kQAws7ZJ2gOniGJN8JI26nz',
+        'HOST':'dpg-cj7p04cl975s7384fdfg-a',
         'PORT':'5432',
        
     }
 }
+database_url = os.environ.get("DATABASE_URL")
+DATABASES['default'] = dj_database_url.parse(database_url)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',

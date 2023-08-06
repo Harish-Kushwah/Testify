@@ -217,9 +217,7 @@ def NIMCET_Test(request):
     sec = 0
     #1 question 1 min
     timeAllot = total_question
-    if len(question_list)==0:
-        print("NO QUESTION ")
-    print(question_list)
+    request.session['NIMCET']  = True
     context = {'questions' : question_list , 
                'examStatus':examStatus ,
                'totalQuestion':total_question,
@@ -257,6 +255,22 @@ def calculateTestResult(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
     
+    if request.session.has_key('NIMCET'):
+        NIMCET = True
+        right ={
+            'MATH':0,
+            'ANALYTICAL':0,
+            'COMPUTER' :0,
+            'ENGLISH':0
+        }
+        wrong ={
+            'MATH':0,
+            'ANALYTICAL':0,
+            'COMPUTER' :0,
+            'ENGLISH':0
+        }
+        del request.session['NIMCET']
+
     total_attempt = 0
     total_right = 0
     total_wrong = 0
@@ -268,6 +282,7 @@ def calculateTestResult(request):
         if k.startswith('qno'):
             qid_list.append(int(request.POST[k]))
     
+   
     for n in qid_list:
         question_img = QuestionImages.objects.get(question_id = n)
         try:
@@ -275,18 +290,27 @@ def calculateTestResult(request):
             if question_img.ans == request.POST['op' + str(n)]:
                 total_right +=1
                 right_attempted_ques.append(question_img.question_id)
+                if NIMCET:
+                    right[question_img.question_title]+=1
+                    
             else:
                 total_wrong +=1
                 wrong_attempted_ques.append(question_img.question_id)
+                if NIMCET:
+                    wrong[question_img.question_title]+=1
             total_attempt+=1
             
+
+
         except:
             pass
+
     if total_attempt!=0:
         points = (total_right - total_wrong) /  total_attempt *10
     else:
         points = 0
 
+  
     # finds the set of not_attempted question of the test
     right_and_wrong_que = set(right_attempted_ques).union(set(wrong_attempted_ques))
     qid_list =  set(qid_list)
@@ -311,8 +335,10 @@ def calculateTestResult(request):
     candidate.test_attempted +=1
     candidate.points = ( candidate.points * (candidate.test_attempted -1) + points )/candidate.test_attempted
     candidate.save()
+
     return HttpResponseRedirect('result') 
 
+'''
 #NOTE: pagination 
 def calculateTestResult1(request):
     if 'name' not in request.session.keys():
@@ -374,7 +400,7 @@ def calculateTestResult1(request):
     candidate.save()
     return HttpResponseRedirect('result') 
 
-
+'''
 #-----------------------------------------------------------------------------------------------------------
 #This view used for Showing test result of each test  by rendering "show_result.html" file
 # NOTE:When result will be displayed at that time rating will be updated each question 
@@ -394,7 +420,12 @@ def showTestResult(request):
     
     #fetch latest result
     results  = Result.objects.filter(result_id = Result.objects.latest('result_id').result_id , username_id = request.session['username'])
-    context = {'results' : results}
+   
+    
+    NIMCET_score = results[0].right*4 - results[0].wrong
+    context = {'results' : results , 'NIMCET_score':NIMCET_score}
+
+
     for res in results:
         not_attempted_ques = res.not_attempted_ques
         right_attempted_ques = res.right_attempted_ques
@@ -497,11 +528,13 @@ def account(request):
         res = HttpResponseRedirect('login')
     candidate = Candidate.objects.filter(username = request.session['username'])
     results = Result.objects.filter(username = request.session['username'])
-    points =format(candidate[0].points, ".2f")
-    
-    context = {'candidate':candidate[0],'points':points ,'results':results }
-
-    res = render(request, 'user_account.html',context)
+    if len(candidate)!=0:
+        points =format(candidate[0].points, ".2f")
+        context = {'candidate':candidate[0],'points':points ,'results':results }
+        res = render(request, 'user_account.html',context)
+    else:
+        messages.info(request , "Account not found")
+        res = HttpResponseRedirect('home')
     return res
 
 
@@ -522,15 +555,29 @@ def edit_profile_info(request):
             candidate.save()
 
         if len(request.POST['name'])!=0:
-            candidate.name = request.POST['name']
-            edited = True
+            name = request.POST['name']
+            if str(name).isalpha():
+                candidate.name = name
+                edited = True
+            else:
+                messages.info(request,"Enter valid Name")
+                edited = False
 
         if len(request.POST['email'])!=0:
             candidate.email = request.POST['email']
             edited = True
 
         if len(request.POST['contact'])!=0:
-            candidate.contact_no = request.POST['contact']
+            contact_no = request.POST['contact']
+            if (not str(contact_no).isnumeric())or len(contact_no)!=10 :
+                messages.info(request,"Please Enter valid phone number")
+                edited = False
+            else:
+                candidate.contact_no = contact_no
+                edited = True
+
+                
+
             edited = True
 
         if len(request.POST['about'])!=0:

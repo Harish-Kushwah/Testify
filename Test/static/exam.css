@@ -2,8 +2,7 @@
 {
     background-image: linear-gradient(rgba(248, 241, 241,0.7),rgba(219, 201, 176, 0.3));
     /* background-image: linear-gradient(rgba(248, 241, 241,0.7),rgba(180, 219, 176, 0.3)); */
-    padding: 10px;
-  
+    /* padding: 10px; */
 }
 .exam-section  .info-sec 
 {
@@ -11,7 +10,8 @@
      border: 3px solid rgb(17, 51, 154);
     padding: 10px;
     display: grid;
-    height: 20%;
+    height: 100%;
+    max-height: 300px;
     align-items: center;
     place-items: center;
     place-content: start;
@@ -20,6 +20,8 @@
     margin-bottom: 10px;
     width: 115%;
     background-color: rgb(215, 239, 212);
+    position:sticky;
+    top:0px;
 }
 .exam-section  .info-sec .head h4 
 {
@@ -33,15 +35,19 @@
     display: grid;
     height: 90%;
     background-color: rgb(215, 239, 212); 
-    position:sticky;
+    /* position:sticky; */
     /* border: 2px solid black; */
 
 
 }
-.exam-section .questionimg .info-sec h4 
+.exam-section .questionimg .info-sec .head h4 
 {
     font-size: 19px;
     
+}
+.head h4 span
+{
+    color: rgb(228, 45, 32);
 }
 .exam-section .questionimg .info-sec h4 span 
 {
@@ -70,14 +76,19 @@
 .exam-section
 {
     margin: 20px;
-    /* border: 2px solid royalblue; */
+    border: 3px solid rgb(12, 14, 20);
     padding: 10px;
     display: grid;
     column-gap: 30px;
     grid-template-columns: 0fr auto;
-    border-radius: 5px;
-    margin-top: 0px;
+    /* border-radius: 5px; */
+    margin-top: 10px;
+    padding-top: 30px;
     place-items: start;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+
 
    
     /* background-color: greenyellow; */
@@ -166,8 +177,8 @@
     border-left:0px ;
     border-right: 0px;
     margin-top: 20px;
-    position: sticky;
-    top: 0px;
+    /* position: sticky;
+    top: 0px; */
  }
  .launch-time div
  {
@@ -211,14 +222,11 @@
     {
     /* margin: 20px; */
         border: 3px solid rgb(17, 51, 154);
-        padding: 10px;
+        padding: 5px;
         display: grid;
         grid-template-columns: auto auto;
         row-gap: 5px;
         height: 100%;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        /* place-content: center; */
         width: 90%;
     }
     .exam-section .questionimg 
@@ -245,6 +253,11 @@
     .exam-section .exam-btn
     {
         width: 100%;
+    }
+    .launch-time
+    {
+        position: sticky;
+        top: 0px;
     }
     .launch-time div #colon
     {
