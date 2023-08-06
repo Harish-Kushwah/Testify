@@ -36,12 +36,13 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 import os
-STATICFILES_DIRS =[
-    os.path.join(BASE_DIR,'Test/static')
-]
+# STATICFILES_DIRS =[
+#     os.path.join(BASE_DIR,'Test/static')
+# ]
 STATIC_URL ='/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # SECRET_ROOT = os.path.join(BASE_DIR,'')
 
 MEDIA_URL = '/media/'
@@ -52,7 +53,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 INSTALLED_APPS = [
     'Test',
-     'whitenoise.runserver_nostatic',
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
