@@ -91,32 +91,32 @@ WSGI_APPLICATION = 'OnlineMockTest.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 #postgres database connection
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'Testify',
-#          'USER':'postgres',
-#         'PASSWORD':'Harish',
-#         'HOST':'localhost',
-#         'PORT':'5432',
-       
-#     }
-# }
-#hosting purpose
-import dj_database_url
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'testify',
-         'USER':'testify_user',
-        'PASSWORD':'zOYsfblg2kQAws7ZJ2gOniGJN8JI26nz',
-        'HOST':'dpg-cj7p04cl975s7384fdfg-a',
+        'NAME': 'Testify',
+         'USER':'postgres',
+        'PASSWORD':'Harish',
+        'HOST':'localhost',
         'PORT':'5432',
        
     }
 }
-database_url = os.environ.get("DATABASE_URL")
-DATABASES['default'] = dj_database_url.parse(database_url)
+#hosting purpose
+import dj_database_url
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'testify',
+#          'USER':'testify_user',
+#         'PASSWORD':'zOYsfblg2kQAws7ZJ2gOniGJN8JI26nz',
+#         'HOST':'dpg-cj7p04cl975s7384fdfg-a',
+#         'PORT':'5432',
+       
+#     }
+# }
+# database_url = os.environ.get("DATABASE_URL")
+# DATABASES['default'] = dj_database_url.parse(database_url)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
