@@ -1,0 +1,22 @@
+.login-image
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:linear-gradient(rgba(10, 10, 14, 0.7),rgba(7, 17, 55, 0.7)),url(images/banner1.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+    padding-bottom: 10%;
+    /* background-color: brown; */
+}
+.login-image .container{
+     height: 500px;
+     width: 80%;
+}
+
+@media screen and (min-device-width :640px)
+{
+    
+    
+}

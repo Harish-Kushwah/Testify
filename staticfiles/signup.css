@@ -1,0 +1,35 @@
+
+
+.signup-page
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:linear-gradient(rgba(10, 10, 14, 0.7),rgba(7, 17, 55, 0.7)),url(images/banner1.jpg);
+    background-position: center;
+    background-size: cover;
+    /* width: 200px; */
+    /* height: 80vh; */
+    height: 500px;
+    max-height: 600px;
+    padding-bottom: 30px;
+    /* background-color: brown; */
+}
+.signup-page .container{
+     /* height: 500px; */
+     width: 80%;
+}
+@media screen and (min-device-width :640px)
+{
+    
+    /* .login-page .login-image
+    {
+        /* min-height: 500px; */
+    /* } */ */
+    .signup-page{
+        height: 500px;
+        padding-bottom: 10px;
+        
+   }
+    
+}

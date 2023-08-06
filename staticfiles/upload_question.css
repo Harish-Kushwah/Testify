@@ -1,0 +1,18 @@
+/* .uploadPage
+{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: rgb(17, 255, 0);
+
+} */
+.uploadPage .upload-page-form
+{
+    margin: 10px;
+    border: 2px solid royalblue;
+    padding: 20px;
+}

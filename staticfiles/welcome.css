@@ -1,0 +1,53 @@
+.header
+{
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)) , url(images/banner.jpg); 
+    background-position: center;
+    background-size: cover;
+    position: relative;    
+}
+
+.header div.textbox{
+    width: 90%;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+.header div.textbox h1{
+    font-size: 62px;
+}
+.header .textbox h1 span{
+    color: #f44336;
+}
+.header div.textbox p{
+    margin: 10px 0 40px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.hero-btn{
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 12px 34px;
+    font-size: 13px;
+    background: transparent;
+    cursor: pointer;
+
+}
+.hero-btn:hover{
+    border: 1px solid #f44336;
+    background: #f44336;
+    transition: 1s;
+}
+@media(max-width:700px){
+    .textbox h1{
+        font-size: 20px;
+       
+    }
+}

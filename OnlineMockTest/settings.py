@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = os.environ.get('DEBUG' , 'FALSE').lower == "true"
@@ -39,7 +40,8 @@ STATICFILES_DIRS =[
     os.path.join(BASE_DIR,'Test/static')
 ]
 STATIC_URL ='/static/'
-
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # SECRET_ROOT = os.path.join(BASE_DIR,'')
 
 MEDIA_URL = '/media/'
@@ -50,6 +52,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 INSTALLED_APPS = [
     'Test',
+     'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +63,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -92,18 +96,6 @@ WSGI_APPLICATION = 'OnlineMockTest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#postgres database connection
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'Testify',
-#          'USER':'postgres',
-#         'PASSWORD':'Harish',
-#         'HOST':'localhost',
-#         'PORT':'5432',
-       
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -117,19 +109,10 @@ DATABASES = {
 }
 #hosting purpose
 import dj_database_url
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'testify',
-#          'USER':'testify_user',
-#         'PASSWORD':'zOYsfblg2kQAws7ZJ2gOniGJN8JI26nz',
-#         'HOST':'dpg-cj7p04cl975s7384fdfg-a',
-#         'PORT':'5432',
-       
-#     }
-# }
+
 database_url = os.environ.get("DATABASE_URL")
 DATABASES['default'] = dj_database_url.parse(database_url)
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
