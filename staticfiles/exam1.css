@@ -1,38 +1,53 @@
 .exam-page 
 {
-
-    /* border: 2px solid black; */
-    /* background-image: linear-gradient(rgb(112, 220, 118),rgba(174, 221, 176), rgba(214, 228, 202)); */
-    /* background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)) , url(images/banner.jpg);  */
-    /* background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7)) , url(images/banner.jpg); 
-    background-position: center;
-    background-size: cover; */
-    /* background-color: rgb(248, 241, 241); */
     background-image: linear-gradient(rgba(248, 241, 241,0.7),rgba(219, 201, 176, 0.3));
     /* background-image: linear-gradient(rgba(248, 241, 241,0.7),rgba(180, 219, 176, 0.3)); */
-    padding: 10px;
+    /* padding: 10px; */
 }
 .exam-section  .info-sec 
 {
     /* margin: 20px; */
-    border: 3px solid rgb(17, 51, 154);
+     border: 3px solid rgb(17, 51, 154);
     padding: 10px;
-    display: flex;
+    display: grid;
+    height: 100%;
+    max-height: 300px;
     align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
+    place-items: center;
+    place-content: start;
+    justify-content: space-around;
     border-radius: 5px;
     margin-bottom: 10px;
-    width: 80%;
-    flex-wrap: wrap;
-    position: sticky;
-    top: 0px;
+    width: 115%;
     background-color: rgb(215, 239, 212);
+    position:sticky;
+    top:0px;
 }
-.exam-section .info-sec h4 
+.exam-section  .info-sec .head h4 
+{
+    font-size: 20px;
+    margin: 5px;
+    /* border: 2px solid red; */
+    
+}
+.exam-section .info-sec .head 
+{
+    display: grid;
+    height: 90%;
+    background-color: rgb(215, 239, 212); 
+    /* position:sticky; */
+    /* border: 2px solid black; */
+
+
+}
+.exam-section .questionimg .info-sec .head h4 
 {
     font-size: 19px;
     
+}
+.head h4 span
+{
+    color: rgb(228, 45, 32);
 }
 .exam-section .questionimg .info-sec h4 span 
 {
@@ -61,24 +76,49 @@
 .exam-section
 {
     margin: 20px;
-    border: 2px solid royalblue;
+    border: 3px solid rgb(12, 14, 20);
     padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    border-radius: 5px;
-    margin-top: 0px;
+    display: grid;
+    column-gap: 30px;
+    grid-template-columns: 0fr auto;
+    /* border-radius: 5px; */
+    margin-top: 10px;
+    padding-top: 30px;
+    place-items: start;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+
+
+   
+    /* background-color: greenyellow; */
 }
 .exam-section .questionimg
 {
     /* border: 2px solid red; */
-    width: 80%;
-    display: flex;
+    border:2px solid royalblue;
+    border-radius: 10px 10px;
+
+    /* width: 80%; */
+    /* display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: column; */
+    display: grid;
+    place-items: center;
+    padding: 10px;
 
+}
+.qhead
+{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width:90%;
+}
+#qnum 
+{
+   margin:0px;
 }
 .exam-section .questionimg .qimg small
 {
@@ -90,14 +130,14 @@
     border: 3px solid green;
     /* margin: 10px; */
     margin-bottom: 0px;
-    width: 80%;
+    width: 90%;
     border-radius: 5px;
     background-color: white;
     align-items: flex-start;
 }
 .exam-section .questionimg .qimg img 
 {
-    width: 500px;
+    width: 100%;
 }
 .exam-section .questionimg .optGroup
 {
@@ -107,11 +147,10 @@
     justify-content: space-around;
     flex-wrap: wrap;
     flex-direction: row;
-    /* margin: 10px; */
     margin-bottom: 20px;
     margin-top: 0px;
     padding: 10px;
-    width: 80%;
+    width: 90%;
     border-radius: 5px;
 }
 .exam-section .questionimg .optGroup .options
@@ -122,7 +161,7 @@
 {
     border: 2px solid rgb(17, 51, 154);
    
-    width: 80%;
+    width: 90%;
     padding: 8px;
     display: flex;
     align-items: center;
@@ -141,19 +180,23 @@
 }
 
 .launch-time{
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
     border: 3px solid rgb(17, 51, 154);
     /* border-top:0px ; */
     border-left:0px ;
     border-right: 0px;
-    margin: 10px;
-    position: sticky;
-    top: 0px;
+    margin-top: 20px;
+    /* position: sticky;
+    top: 0px; */
  }
  .launch-time div
  {
-   flex-basis: 60px;
-   margin: 5px;
+   /* flex-basis: 50px; */
+   width: 100%;
+   margin: 2px;
+   height: 10%;
+   /* max-width: 150px; */
  }
  .launch-time div #colon
  {
@@ -164,19 +207,37 @@
     font-size: 30px;
     margin-bottom: -14px;
     color: rgb(228, 45, 32);
+    /* border: 2px solid green; */
  }
  .launch-time div span {
     margin: 2px;
     font-size: 13px;
+    /* border: 2px solid green; */
+
+
  }
 @media(max-width:700px)
 {
     .exam-section
     {
+        grid-template-columns: auto;
         margin: 5px;
         padding: 0px;
         padding-top:10px;
         padding-bottom: 10px;
+        place-items: center;
+        
+    }
+    .exam-section  .info-sec 
+    {
+    /* margin: 20px; */
+        border: 3px solid rgb(17, 51, 154);
+        padding: 5px;
+        display: grid;
+        grid-template-columns: auto auto;
+        row-gap: 5px;
+        height: 100%;
+        width: 90%;
     }
     .exam-section .questionimg 
     {
@@ -203,9 +264,17 @@
     {
         width: 100%;
     }
+    .launch-time
+    {
+        position: sticky;
+        top: 0px;
+    }
     .launch-time div #colon
     {
        color: rgb(37, 48, 20);
+    }
+    .launch-time div{
+        height: 10%;
     }
     .launch-time div p
     {

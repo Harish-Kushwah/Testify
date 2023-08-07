@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Candidate(models.Model):
@@ -9,7 +10,8 @@ class Candidate(models.Model):
     test_attempted = models.IntegerField(default=0)
     points = models.FloatField(default=0)
     email = models.EmailField(max_length=254,null=True)
-    profileImage = models.ImageField(upload_to="profile_images/" , max_length=250,null=True,default=None,blank=True)
+    # profileImage = models.ImageField(upload_to="profile_images/" , max_length=250,null=True,default=None,blank=True)
+    profileImage = CloudinaryField('image')
     about = models.TextField(null=True,default=None ,blank=True)
     contact_no = models.TextField(max_length=10,null=True,default=None ,blank=True)
     
@@ -47,7 +49,8 @@ class QuestionImages(models.Model):
     question_id = models.BigAutoField(primary_key=True , auto_created=True)
     question_title = models.CharField(max_length=100)
     question_in_exam = models.CharField(max_length=100,default="OTHER")
-    question_image = models.FileField(upload_to="question/" , max_length=250,null=True,default=None)
+    question_image = CloudinaryField('question')
+    # question_image = models.FileField(upload_to="question/" , max_length=250,null=True,default=None)
     ans = models.CharField(max_length=2)
 
 

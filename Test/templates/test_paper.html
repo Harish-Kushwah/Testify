@@ -2,23 +2,14 @@
 
 {% block title %} Welcome to Online Testing System {% endblock title %}
 
-{% load static %}
 {%block top %} 
+{% load static %}
+    <link rel="stylesheet" href="{% static 'exam1.css ' %}" />
       
        
 {% endblock top%}
 {%block style%}
-.qhead
-{
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width:90%;
-}
-#qnum 
-{
-   margin:0px;
-}
+
 
 
 
@@ -79,7 +70,7 @@
                         <p id ="qnum">Q.{{forloop.counter}} {{img.question_title}}</p>
                         </div>
 
-                    <div class="qimg"> <img src=" /media/{{ img.question_image}}" alt="" ></div>
+                    <div class="qimg"> <img src="{{img.question_image.url}}" alt="question not found" ></div>
                 
                     <input type = "hidden" name ="qno{{img.question_id}}" value = "{{img.question_id}}">
                 

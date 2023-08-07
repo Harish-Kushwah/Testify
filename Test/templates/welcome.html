@@ -2,6 +2,8 @@
  {% block title %} Welcome to Online Testing System {%endblock title %}
 
   {%block top %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'welcome.css' %}" />
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
@@ -18,6 +20,8 @@
         </li>
       </ul>
   </div>
+
+
   {% endblock top%}
 
   {%block msg %}

@@ -45,8 +45,25 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # SECRET_ROOT = os.path.join(BASE_DIR,'')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+#for deploying media files
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# cloudinary django confi
+cloudinary.config( 
+    cloud_name =os.environ.get("CLOUD_NAME"),
+    api_key = os.environ.get("API_KEY"),
+    api_secret =os.environ.get("API_SECRET")
+) 
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
+MEDIA_URL = '/OnlineMockTest/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 # Application definition
@@ -54,6 +71,8 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 INSTALLED_APPS = [
     'Test',
     'whitenoise.runserver_nostatic',
+    'cloudinary_storage',
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -162,3 +181,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load static %}
  {% block title %} Profile {%endblock title %}
 
  {%block top %} 
@@ -15,6 +16,9 @@
      </li>
    </ul>
 </div>
+
+<link rel="stylesheet" href="{% static 'user_account.css' %}" />
+
 {% endblock top %}
 
 {% block style %}
@@ -74,14 +78,15 @@
 
 {% endblock msg%}
 
-
+{% load cloudinary %}
 {%block content %}
       <div class="profile-page">
        <div class="body">
 
        <section class="home">
         {% if candidate.profileImage %}
-        <img src=" /media/{{candidate.profileImage}}" alt="Add profile pic">
+        <!-- <img src=" /media/{{candidate.profileImage}}" alt="Add profile pic"> -->
+        <img src="{{candidate.profileImage.url}}" alt="Add profile pic">
         {% else %}
         <div class="alt-image">
         <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-person-badge" viewBox="0 0 16 16">
