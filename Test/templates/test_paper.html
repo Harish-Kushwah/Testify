@@ -320,6 +320,7 @@
 {%endblock style%}
 
 {%block content %}
+
     <form id="form" action="{% url 'Test:calculateTest' %}" method ="POST" >
         {% csrf_token %}
 
@@ -407,6 +408,7 @@
             output.innerHTML ="All clear"
     })
     </script>
+
     <script >
         var hr = parseInt('{{hr}}')
         var min = parseInt('{{min}}')
@@ -439,7 +441,7 @@
          } , 1000)
 
          //prevent back reloading of page
-         /*
+         
          $(document).ready(function(){
             function disableBack(){
                 window.history.forward()
@@ -449,7 +451,7 @@
                 if(evt.persisted) disableBack()
             }
          });
-
+/*
          window.onload = function()
          {
             var e = document.getElementById("refreshed")
@@ -462,6 +464,8 @@
             }
          }*/
          
+         /*
+         //this is for preventing for comming back after submiting form
          function preventBack()
          {
             window.history.forward();
@@ -471,6 +475,6 @@
          {
             null
          };
-        
+        */
         </script> 
 {%endblock content%}

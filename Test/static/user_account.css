@@ -185,7 +185,7 @@
     display: grid;
     column-gap: 50px;
     row-gap: 50px;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto ;
     margin: 10px;
     place-items: center;
 
@@ -315,7 +315,7 @@
    
     .info 
     {
-    grid-template-columns: 10px 10px ;
+      grid-template-columns: auto auto ;
 
     }
 }

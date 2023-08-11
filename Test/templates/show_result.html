@@ -1,149 +1,97 @@
 {% extends 'main.html' %}
-
-{% block title %} Test Result {% endblock title %}
-
-{%block top %} 
-    <div class="collapse navbar-collapse " id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'Test:home' %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">Logout</a>
-          </li>
-        </ul>
-    </div>
-{% endblock top%}
-{% block style %}
-.result-page{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  height:500px;
-  border:2px solid red;  
-}
-.result-page .result-page-content 
-{
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  flex-direction:column;
-  border:2px solid blue;
-  height:100%;
-  width:60%;
-  padding:10px
-  
-}
-.result-page .result-page-content .candidate-data
-{
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  flex-direction:column;
-  flex-wrap:wrap;
-  border:2px solid blue;
-  border-radius:10px 10px;
-   background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
-  padding:10px;
-  width:80%;
-  margin:10px;
-}
-.result-page .result-page-content .result-data
-{
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  flex-direction:column;
-  flex-wrap:wrap;
-  border:2px solid blue;
-  border-radius:10px 10px;
-   background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
-  padding:10px;
-  width:80%;
-}
-.result-page .result-page-image 
-{
-  border:2px solid blue;
-  height:100%;
-  width:40%;
-}
-.result-page .result-page-image img
-{
-
-  height:100%;
-  width:100%;
-  border:2px solid green;
-
-}
-{% endblock style %}
+ {% block title %} Test Result {% endblock title %}
+ 
+{%load static %} 
+{%block top %}
+<link rel="stylesheet" href="{% static 'result.css' %}" />
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a
+        class="nav-link active"
+        aria-current="page"
+        href="{% url 'Test:home' %}"
+        >Home</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link active"
+        aria-current="page"
+        href="{% url 'Test:logout' %}"
+        >Logout</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link active"
+        aria-current="page"
+        href="{% url 'Test:account' %}"
+        >Account</a
+      >
+    </li>
+  </ul>
+</div>
+{% endblock top%} {% block style %} {% endblock style %}
 
 <!-- TODO:DESIGN THE RESULT PAGE -->
 
 {%block content %}
-     <p> Welcome to result page</p>
 
-    <div class="result-page">
-     <div class="result-page-content">
-
-     {% for r in results %}
-        <div class="candidate-data">
-          <h3>Name : {{r.date}}</h3>
-          <h3>Username : {{r.date}}</h3>
-          <h3>Email : {{r.date}}</h3>
-        </div>
-        <div class="result-data">
-        <h3>Date : {{r.date}}</h3>
-        <h3>Time : {{r.time}}</h3>
-        <h3>Attempt :{{r.attempt}}</h3>
-        <h3>Right :{{r.right}}</h3>
-        <h3>Wrong :{{r.wrong}}</h3>
-        <h3>Points :{{r.points}}</h3>
-          <h3>MARKS :{{NIMCET_score}}</h3>
-        <!-- <h3>not_attempted_ques :{{r.not_attempted_ques}}</h3>
-        <h3>right_attempted_ques :{{r.right_attempted_ques}}</h3>
-        <h3>wrong_attempted_ques :{{r.wrong_attempted_ques}}</h3> -->
-      </div>
-      {% endfor %}
+  <div class="result-page-content">
+    <div class="candidate-data">
+      <h3>Name : <span>{{candidate.name}}</span></h3>
+      <h3>Username : <span>{{candidate.username}}</span></h3>
+      {% if candidate.email %}
+      <h3>Email : <span>{{candidate.email}}</span></h3>
+      {% endif %}
     </div>
-    <div class="result-page-image">
-    <img src="/static/images/result_img.svg" alt="" height="300" weight="300">
+
+    {% for r in results %}
+    <div class="main-result">
+      <div class="result-data">
+        <h3>Date :<span> {{r.date}}</span></h3>
+        <h3>Time : <span>{{r.time}}</span></h3>
+        <h3>Attempt :<span>{{r.attempt}}</span></h3>
+        <h3>Right :<span>{{r.right}}</span></h3>
+        <h3>Wrong :<span>{{r.wrong}}</span></h3>
+        <h3>Points :<span>{{r.points}}</span></h3>
+        <h3>Marks :<span>{{NIMCET_score}}</span></h3>
+        <!-- <h3>not_attempted_ques :{{r.not_attempted_ques}}</h3>
+          <h3>right_attempted_ques :{{r.right_attempted_ques}}</h3>
+          <h3>wrong_attempted_ques :{{r.wrong_attempted_ques}}</h3> -->
+      </div>
+      <div class="success-image">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="200"
+          height="200"
+          fill="green"
+          class="bi bi-check-circle"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+          />
+          <path
+            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
+          />
+        </svg>
+        <p>Test Submit Successfully</p>
+      </div>
+    </div>
+ 
+    {% endfor %}
+
+    <div class="button-link">
+      <p>
+        Check Test Analysis :
+        <a href="{% url 'Test:testhistory' %}"><span> click hear</span></a>
+      </p>
+      <p>
+        Take one more test :
+        <a href="{% url 'Test:home' %}"><span> click hear</span></a>
+      </p>
     </div>
   </div>
-
-
-     <!-- <table>
-        <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Attempt</th>
-            <th>Right</th>
-            <th>Wrong</th>
-            <th>Points</th>
-            <th>not_attempted_ques</th>
-            <th>right_attempted_ques</th>
-            <th>wrong_attempted_ques</th>
-        </tr>
-        {% for r in results %}
-         <tr>
-            <td>{{r.date}}</td>
-            <td>{{r.time}}</td>
-            <td>{{r.attempt}}</td>
-            <td>{{r.right}}</td>
-            <td>{{r.wrong}}</td>
-            <td>{{r.points}}</td>
-            <td>{{r.not_attempted_ques}}</td>
-            <td>{{r.right_attempted_ques}}</td>
-            <td>{{r.wrong_attempted_ques}}</td>
-          
-         </tr>
-        {% endfor %}
-     </table> -->
-  
-    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
-     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-     <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-   </svg> -->
-    </h1>
-    
-     
 {%endblock content%}

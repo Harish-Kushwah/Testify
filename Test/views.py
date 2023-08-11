@@ -420,10 +420,11 @@ def showTestResult(request):
     
     #fetch latest result
     results  = Result.objects.filter(result_id = Result.objects.latest('result_id').result_id , username_id = request.session['username'])
+    candidates = Candidate.objects.filter(username = request.session['username'])
    
     
     NIMCET_score = results[0].right*4 - results[0].wrong
-    context = {'results' : results , 'NIMCET_score':NIMCET_score}
+    context = {'results' : results , 'NIMCET_score':NIMCET_score ,'candidate':candidates[0]}
 
 
     for res in results:
@@ -451,7 +452,6 @@ def showTestResult(request):
                 questionRating.total_times_wrong+=1
                 questionRating.difficulty=get_difficulty_of_question(questionRating)
                 questionRating.save()
-        
     res = render(request,'show_result.html' , context)
     return res
 
