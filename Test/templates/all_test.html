@@ -1,0 +1,72 @@
+{% extends 'main.html' %}
+
+{% block title %} home{% endblock title %}
+{% load static %}
+{%block top %} 
+<link rel="stylesheet" href="{% static 'home.css' %}" />
+
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">logout</a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link active" aria-current="page" href="{% url 'Test:account' %}">Account</a>
+        </li>
+      </ul>
+  </div>
+
+  <style>
+    table,th,td,tr{
+        border: 1px solid black;
+        padding: 5px;
+    }
+    .test-table 
+    {
+        height: 60vh;
+    }
+</style>
+{% endblock top %}
+{%block msg %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show " id="success-alert" role="alert">
+        
+        <div class="msg-text">{{message}} <strong>{{ request.session.name }}</strong>  </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %}
+{% endblock msg%}
+
+
+{%block content %}
+  
+  <div class="test-table">
+   <h1>All test's </h1>
+   <table>
+    <tr>
+       <th>Code</th>
+       <th>Name</th>
+       <th>start_date</th>
+       <th>start_time</th>
+       <th>end_date</th>
+       <th>end_time</th>
+       <th>created_by</th>
+    </tr>
+        {% for testPaper in testPapers %}
+        <tr>
+        <td>{{testPaper.code}}</td>
+        <td>{{testPaper.test_paper_name}}</td>
+        <td>{{testPaper.start_date}}</td>
+        <td>{{testPaper.start_time}}</td>
+        <td>{{testPaper.end_date}}</td>
+        <td>{{testPaper.end_time}}</td>
+        <td>{{testPaper.created_by}}</td>
+       </tr>
+       
+       {% endfor %}
+    </table>
+</div>
+{%endblock content%}

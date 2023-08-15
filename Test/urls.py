@@ -16,11 +16,15 @@ urlpatterns = [
     path('test-paper',testPaper,name = 'testpaper'),
     path('customs-test-paper',customsTestPaper,name = 'customs_test_paper'),
     path('calculate-result',calculateTestResult ,name="calculateTest"),
-    # path('calculate-result1',calculateTestResult1 ,name="calculateTest1"),
+    path('set-test-paper',createTestPaper ,name="setTestPaper"),
+    path('set-question-set',setQuestionSet ,name="setQuestionSet"),
+    path('start-test-paper',startTestPaper ,name="startTestPaper"),
     path('result',showTestResult , name = 'result'),
     path('logout',logoutView , name = 'logout'),
     path('uploadQuestion',uploadQuestion , name = 'uploadQuestion'),
     path('NIMCET_Test',NIMCET_Test , name = 'NIMCET_Test'),
+    path('compete',compete , name = 'compete'),
+
   
 
 

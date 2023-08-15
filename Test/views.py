@@ -167,8 +167,194 @@ def customsTestPaper(request):
     res  = render(request , 'test_paper.html',context)
     return res 
 
+#create a custome test created and time is set when it will start 
+#it will provide test_id to all those who want to appear in that exam
+
+
+import time
+from datetime import date
+from datetime import datetime ,time , date
+import datetime as dt
+# from dateutil.relativedelta import relativedelta
+
+
+def createTestPaper(request):
+    if 'name' not in request.session.keys():
+        res  = HttpResponseRedirect('login')
+    question_pool =list(QuestionImages.objects.all())
+    context = {'questions' :question_pool}
+    
+    res  = render(request , 'set_test_paper.html' , context)
+    return res
+
+
+
+def setQuestionSet(request):
+    if 'name' not in request.session.keys():
+        res  = HttpResponseRedirect('login')
+
+    if request.method == 'POST':
+        test_paper_name = str(request.POST['test_paper_name']).strip().upper()
+        total_question =  request.POST['total_question']
+        start_date = request.POST['start_date']
+        start_time =  request.POST['start_time']
+        # meridian =  request.POST['meridian'] 
+      
+        #convert time duration into exam end_time
+        start_time_list = [int(i) for i in start_time.split(':')]
+        start_date_list = [int(i) for i in start_date.split('-')]
+        print(start_date)
+        #    end_hr duration + start_time_hour
+        hr = int(request.POST['hr']) + start_time_list[0]
+        min = int(request.POST['min']) + start_time_list[1]
+        sec = int(request.POST['sec']) + 0
+ 
+        end_year = start_date_list[0]
+        end_month = start_date_list[1]
+        end_day = start_date_list[2]
+        
+        #NOTE:here we are only tool care of day this is bruit force need to optimize logic
+        if hr>=24 or start_time_list[0] == 0:
+            end_day+= hr//24
+            hr = hr%24
+        if sec>60:
+            min+=sec//60
+            sec = sec%60
+        if min>60:
+            hr+=min//60
+            min = min%60
+        # delta = relativedelta(year=+)
+        # end_date = start_data + (start_time+ duration_of_test)
+
+        end_date = dt.datetime(end_year, end_month , end_day ,hour=hr , minute=min , second=sec)
+        # start_date = dt.datetime(start_year, start_month , start_day)
+        # future_date =relativedelta(hour=+hr , minute=+min , second=+sec)
+
+        end_time = dt.time(hour=hr , minute=min , second=sec)
+        qid_list =[]
+        for k in request.POST:
+            if k.startswith('qno'):
+                qid_list.append(int(request.POST[k]))
+        
+        new_test_paper = TestPaperSet()
+        new_test_paper.test_paper_name = test_paper_name
+        new_test_paper.start_date = start_date
+        new_test_paper.start_time = start_time
+        new_test_paper.end_time= end_time
+        new_test_paper.end_date= end_date
+        new_test_paper.total_question = total_question
+        new_test_paper.created_by = request.session['username']
+        new_test_paper.save()
+        
+        for id in qid_list:
+            question_set  = QuestionSet()
+            question_set.test_paper_id = new_test_paper
+            question_set.question_id  = id
+            question_set.save()
+    messages.info(request,"Test paper added successfully:")
+    messages.info(request,"Test paper id is : " +  str(new_test_paper.test_paper_id))
+    res =  HttpResponseRedirect('home')
+    return res
+
+
+def startTestPaper(request):
+    if 'name' not in request.session.keys():
+        res  = HttpResponseRedirect('login')
+    
+    #NOTE:we are taking  code which is 6 upper case character
+    if request.method == 'POST':
+        test_paper_id = str(request.POST['test_paper_id'])
+        if test_paper_id.isdigit():
+            test_paper_set =TestPaperSet.objects.filter(test_paper_id=test_paper_id)
+            if len(test_paper_set)!=0:
+                for test_paper in test_paper_set:
+                    question_pool = []
+                    question_set = QuestionSet.objects.filter(test_paper_id=test_paper)
+                    for question in question_set:
+                        question_pool.append(QuestionImages.objects.get(question_id =question.question_id))   
+                
+                    # Exam set date and time
+                    start_date = test_paper.start_date
+                    start_time = test_paper.start_time
+
+                    end_time = test_paper.end_time
+                    end_date = test_paper.end_date
+                    
+                    end_hr = end_time.hour
+                    end_min =end_time.minute
+                    end_sec = end_time.second
+                
+                
+                    # Current date time 
+                    currentDate = date.today()
+                    currentTime = datetime.now()
+                    currentTimeObj = time(currentTime.hour , currentTime.minute , currentTime.second) 
+                    currHr = currentTime.hour
+                    currMin = currentTime.minute
+
+                    total_day_diff =end_date.day - start_date.day
+
+                    # time set on timer timer 
+                    hr = (end_time.hour - currHr)  + total_day_diff*24
+                    min = end_time.minute - currMin
+                    sec = end_time.second  -currentTime.second
+                    start = (currentTimeObj.hour == 0  and start_time.hour>=0 ) or (end_time.hour == 0 and currentTimeObj.hour>=0)
+                    print(end_time.hour)
+                 
+                    timeAllot = str(end_hr  - start_time.hour) +":" + str(end_min - start_time.minute) +":" + str(end_sec - start_time.second)
+                    if start_date == currentDate and currentDate<=end_date :
+                        if (currentTimeObj == start_time and currentTimeObj<end_time ) or start:
+                            print("Exam started")
+                    
+                        elif currentTimeObj>=end_time:
+                            messages.info(request , 'Exam time finished ')
+                            return HttpResponseRedirect('home')
+                        elif currentTimeObj<start_time:
+                            messages.info(request , 'Exam is not started')
+                            return HttpResponseRedirect('home')
+                    elif start_date > currentDate:
+                        messages.info(request , 'Test is not started')
+                        return HttpResponseRedirect('home')
+                    else:
+                        messages.info(request , 'Test was finished')
+                        return HttpResponseRedirect('home')
+                    
+                       #1 question 1 min
+                    total_ques = test_paper.total_question           
+                    examStatus = 1
+                    context = {'questions' : question_pool , 
+                            'examStatus':examStatus ,
+                            'totalQuestion':total_ques,
+                            'topicName':test_paper.test_paper_name,
+                            'time':timeAllot ,
+                            'hr':hr ,
+                            'examStatus':examStatus ,
+                                'min':min,
+                                'sec':sec,
+                                }
+                    res  = render(request , 'test_paper.html',context)
+            else:
+
+                messages.info(request , 'No Test Available')
+                return  HttpResponseRedirect('home')
+        else:
+            messages.info(request , 'Enter valid code for test')
+            return  HttpResponseRedirect('home')
+      
+    return res 
+
+    
 #-----------------------------------------------------------------------------------------------------------
 #This view used for setting NIMCET test paper format by rendering 'test_paper.html' file
+def compete(request):
+    if 'name' not in request.session.keys():
+        res = HttpResponseRedirect('login')
+    
+    testPaper = TestPaperSet.objects.all()
+    
+    context = {'testPapers':testPaper ,'hello':1}
+    res  = render(request , 'all_test.html',context)
+    return res
 
 def NIMCET_Test(request):
     if 'name' not in request.session.keys():
@@ -596,6 +782,7 @@ def edit_profile_info(request):
     return res
 
 #-----------------------------------------------------------------------------------------------------------
+
 
 
 

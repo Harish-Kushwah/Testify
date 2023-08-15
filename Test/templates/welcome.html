@@ -13,14 +13,13 @@
           <a class="nav-link active" aria-current="page" href="{% url 'Test:login' %}">login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">About</a>
+          <a class="nav-link active" aria-current="page" href="#about">About</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link active" aria-current="page" href="{% url 'Test:uploadQuestion' %}">Contact</a>
+         <a class="nav-link active" aria-current="page" href="#contact">Contact</a>
         </li>
       </ul>
   </div>
-
 
   {% endblock top%}
 
@@ -49,14 +48,58 @@
         Welcome to Online Exam Testing <br />
         here you can test your skills and learn new things
         </p>
-        <a href="" class="hero-btn">Visit Us to Know More</a>
+  <a href="#welcome-page" class="hero-btn">Visit Us to Know More</a>
+  <a href="{% url 'Test:home' %}" class="hero-btn">Start for Test's </a>
     </div>
    </div>
    {% endblock headerContent %}
 
 
 {%block content %}
-    
+
+<div class="welcome-page-content" id="welcome-page">
+
+  <div class="about-content">
+  <div id="about" class="welcome-card">
+    <h2 >About Us</h2>
+    <p>
+      At Testify, we provide you with a seamless online exam experience, making it easier for you to take your exams remotely from anywhere and at any time. Whether you are a student preparing for exams or a professional looking to upskill, we've got you covered!
+    </p>
+  </div>
+
+  <div id="mission" class="welcome-card">
+    <h2>Our Mission</h2>
+    <p>Our mission is to provide a comprehensive and user-friendly platform that empowers learners to excel in their exams...</p>
+  </div>
+  </div>
+
+ 
+
+  <section id="offerings" class="welcome-card">
+      <h2>What We Offer</h2>
+      <p>
+      <ul>
+          <li><strong>Extensive Question Bank:</strong> Our platform offers an extensive and diverse question bank covering various subjects and topics.</li>
+          <li><strong>Real Exam Experience:</strong> Our mock exams are designed to simulate the real exam environment.</li>
+          <li><strong>Personalized Learning:</strong> We understand that every learner is unique.</li>
+          <li><strong>Detailed Performance Analysis:</strong> After completing a test, you'll receive a detailed performance analysis.</li>
+          <li><strong>Convenient Learning:</strong> Our platform is accessible anytime, anywhere.</li>
+      </ul>
+    </p>
+  </section>
+
+  <section id="team" class="welcome-card">
+      <h2>Our Team</h2>
+      <p>Behind Testify is a dedicated team of educators, developers, and designers who are passionate about education and technology...</p>
+  </section>
+
+  <section id="contact" class="welcome-card">
+      <h2>Contact Us</h2>
+      <p>We'd love to hear from you! If you have any questions, suggestions, or feedback, don't hesitate to reach out to us...</p>
+  </section>
+</div>
+
+
     
 
 {%endblock content%}

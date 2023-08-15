@@ -62,6 +62,7 @@ class QuestionRating(models.Model):
     total_times_right = models.IntegerField(default=0)
     difficulty  = models.FloatField(default=0.0)
 
+
     
 class PiChartData(models.Model):
     piChart_id = models.BigAutoField(primary_key=True , auto_created=True)
@@ -72,7 +73,42 @@ class PiChartData(models.Model):
     all_exam_pi_image = models.ImageField(upload_to="piChart/" , max_length=250,null=True,default=None ,blank=True)
 
 
+import string
+import random 
+def generate_unique_code():
+    length = 6
+    while True:
+        code= ''.join(random.choices(string.ascii_uppercase,k=length))
+        if TestPaper.objects.filter(code=code).count()==0:
+            break
+    return code
+
+class TestPaper(models.Model):
+    test_paper_id = models.BigAutoField(primary_key=True,auto_created=True)
+    # code=models.CharField(max_length=8,default=generate_unique_code,unique=True)
+    test_paper_name = models.CharField(max_length=100 , blank=True)
+    start_date = models.DateField(blank=True)
+    start_time = models.TimeField(blank=True)
+    end_date = models.DateField(blank=True,default=None)
+    end_time = models.TimeField(blank=True ,default=None)
+    total_question = models.IntegerField(blank=True)
+    created_by = models.CharField(max_length=100 , blank=True)
+
+class TestPaperSet(models.Model):
+    test_paper_id = models.BigAutoField(primary_key=True,auto_created=True)
+    # code=models.CharField(max_length=8,default=generate_unique_code(),unique=True)
+    test_paper_name = models.CharField(max_length=100 , blank=True)
+    start_date = models.DateField(blank=True)
+    start_time = models.TimeField(blank=True)
+    end_date = models.DateField(blank=True,default=None)
+    end_time = models.TimeField(blank=True ,default=None)
+    total_question = models.IntegerField(blank=True)
+    created_by = models.CharField(max_length=100 , blank=True)
 
 
-    # Add any other relevant fields
-
+        
+class QuestionSet(models.Model):
+    question_set_id = models.BigAutoField(primary_key=True,auto_created=True)
+    test_paper_id = models.ForeignKey(TestPaperSet,on_delete=models.CASCADE)
+    # question_title = models.CharField(max_length=100)
+    question_id =  models.IntegerField(blank=True)

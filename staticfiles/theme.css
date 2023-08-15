@@ -4,7 +4,6 @@
    text-decoration: none;
    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
- 
 .nav-item::after{
     content: ' ';
     width: 0%;
@@ -13,10 +12,12 @@
     display: block;
     margin: auto;
     transition: 0.5s;
+
 }
 .nav-item a:hover::after{
     width: 100%;
 }
+
 
 /* .content{
     width: 70%;

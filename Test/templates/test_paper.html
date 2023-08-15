@@ -4,7 +4,7 @@
 
 {%block top %} 
 {% load static %}
-    <link rel="stylesheet" href="{% static 'exam1.css ' %}" />
+    {% comment %} <link rel="stylesheet" href="{% static 'exam1.css ' %}" /> {% endcomment %}
       
        
 {% endblock top%}
@@ -342,7 +342,7 @@
                     <h4>Total Question : <span>{{ totalQuestion }}</span>
                     </h4>
                     <h4>Topic Name : <span>{{ topicName }}</span></h4>
-                    <h4>Total Time :<span>{{time}} min</span></h4>
+                    <h4>Total Time :<span>{{time}}</span></h4>
                     <h4>Time Remaining :</h4>
                     </div>
                     <div class="launch-time">

@@ -3,6 +3,7 @@
     min-height: 100vh;
     width: 100%;
     background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)) , url(images/banner.jpg); 
+    /* background-image: linear-gradient(rgba(215, 221, 245, 0.0),rgba(28, 29, 34, 0.9)) , url(images/home_img.svg);  */
     background-position: center;
     background-size: cover;
     position: relative;    
@@ -18,14 +19,14 @@
     text-align: center;
 }
 .header div.textbox h1{
-    font-size: 62px;
+    font-size: 70px;
 }
 .header .textbox h1 span{
     color: #f44336;
 }
 .header div.textbox p{
     margin: 10px 0 40px;
-    font-size: 14px;
+    font-size: 17px;
     color: #fff;
 }
 
@@ -35,9 +36,10 @@
     color: #fff;
     border: 1px solid #fff;
     padding: 12px 34px;
-    font-size: 13px;
+    font-size: 15px;
     background: transparent;
     cursor: pointer;
+    margin: 5px;
 
 }
 .hero-btn:hover{
@@ -45,9 +47,115 @@
     background: #f44336;
     transition: 1s;
 }
+.welcome-page-content
+{
+    height: 40%;
+    border: 2px solid red;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    background-image: linear-gradient(to top left,rgba(236, 227, 215, 0.5), rgba(232, 228, 223));
+    
+
+}
+.about-content
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    /* border: 2px solid green; */
+    max-width: 1000px;
+    height: 20%;
+}
+.welcome-card
+{
+    margin: 10px;
+    border: 2px solid blue;
+    padding: 5px;
+    border-radius: 10px 10px ;
+    box-shadow: 5px 5px 10px gray;
+    background-image: linear-gradient(to top left,rgba(215, 236, 218, 0.5), rgb(213, 242, 216));
+    /* background-image: linear-gradient(to top left,rgba(1, 11, 3, 0.5), rgb(4, 9, 76)); */
+
+
+
+}
+.welcome-card h2
+{
+   text-align: center;
+   color: rgb(23, 28, 24);
+   text-shadow: 1px 2px 2px gray;
+}
+.welcome-card p 
+{
+    border: 2px solid black;
+    border-width: 2px 0px 0px 0px;
+    border-radius: 5px ;
+}
+#offerings
+{
+    font-size: 20px;
+    flex-wrap: wrap;
+    text-overflow:none ;
+    max-width: 1000px;
+    margin: 10px;
+    box-shadow: #f44336;
+}
+#team
+{
+    font-size: 20px;
+    flex-wrap: wrap;
+    text-overflow:none ;
+    max-width: 1000px;
+    margin: 10px;
+}
+#contact
+{
+    font-size: 20px;
+    flex-wrap: wrap;
+    text-overflow:none ;
+    max-width: 1000px;
+    margin: 10px;
+
+}
+#offerings li 
+{
+    margin: 5px;
+}
+#about 
+{
+    font-size: 20px;
+    text-indent: 5%;
+    width: 50%;
+    height: 100%;
+   
+}
+
+#mission
+{
+  
+    font-size: 20px;
+    text-indent: 5%;
+    width: 50%;
+    height: 100%;
+    
+}
 @media(max-width:700px){
     .textbox h1{
         font-size: 20px;
        
     }
+    .about-content
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* border: 2px solid green; */
+    width: 100%;
+    height: 20%;
+}
 }

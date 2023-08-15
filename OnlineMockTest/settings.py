@@ -12,6 +12,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG =True
 # ALLOWED_HOSTS = []
 
+#Using external url of database during deployment
+
 # STATICFILES_DIRS =[
 #     os.path.join(BASE_DIR,'Test/static')
 # ]
@@ -58,11 +60,11 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # cloudinary configuration for using cloudinary
-cloudinary.config( 
-    cloud_name =os.environ.get("CLOUD_NAME"),
-    api_key = os.environ.get("API_KEY"),
-    api_secret =os.environ.get("API_SECRET")
-) 
+# cloudinary.config( 
+#     cloud_name =os.environ.get("CLOUD_NAME"),
+#     api_key = os.environ.get("API_KEY"),
+#     api_secret =os.environ.get("API_SECRET")
+# ) 
 
 #using cloudinary storage for media files storage
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
