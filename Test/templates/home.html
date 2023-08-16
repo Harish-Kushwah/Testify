@@ -14,9 +14,6 @@
           <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">logout</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">About</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'Test:compete' %}">compete</a>
         </li>
         <li class="nav-item">
@@ -79,8 +76,8 @@
      <form action="{% url 'Test:startTestPaper' %}" method="post">
       {% csrf_token %}
         <div class="form-item">
-          <label for="topic_name">Enter Test id</label>
-          <input type="text" name = test_paper_id required placeholder="Enter code">
+          <label for="topic_name">Enter Test code</label>
+          <input type="text" name = code required placeholder="Enter code">
         </div>    
         <div class="btn-field">
             <input type="submit" value="Submit" > 

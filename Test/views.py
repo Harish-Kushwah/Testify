@@ -9,6 +9,11 @@ import datetime
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password,check_password
 from django.core.paginator import Paginator
+import time
+from datetime import date
+from datetime import datetime ,time , date
+import datetime as dt
+# from dateutil.relativedelta import relativedelta
 # from django.contrib.messages.storage.session.SessionStorage
 
 #-----------------------------------------------------------------------------------------------------------
@@ -167,17 +172,9 @@ def customsTestPaper(request):
     res  = render(request , 'test_paper.html',context)
     return res 
 
-#create a custome test created and time is set when it will start 
-#it will provide test_id to all those who want to appear in that exam
 
-
-import time
-from datetime import date
-from datetime import datetime ,time , date
-import datetime as dt
-# from dateutil.relativedelta import relativedelta
-
-
+#-----------------------------------------------------------------------------------------------------------
+#This view used for creating test paper question in IMAGE format by rendering 'set_test_paper.html' file
 def createTestPaper(request):
     if 'name' not in request.session.keys():
         res  = HttpResponseRedirect('login')
@@ -187,6 +184,18 @@ def createTestPaper(request):
     res  = render(request , 'set_test_paper.html' , context)
     return res
 
+
+#-----------------------------------------------------------------------------------------------------------
+#This view used for set questions into test paper  IMAGE format into database
+import string
+import random 
+def generate_unique_code():
+    length = 6
+    while True:
+        code= ''.join(random.choices(string.ascii_uppercase,k=length))
+        if TestPaperSet.objects.filter(code=code).count()==0:
+            break
+    return code
 
 
 def setQuestionSet(request):
@@ -213,7 +222,7 @@ def setQuestionSet(request):
         end_month = start_date_list[1]
         end_day = start_date_list[2]
         
-        #NOTE:here we are only tool care of day this is bruit force need to optimize logic
+        #NOTE:here we are only took care of day this is bruit force need to optimize logic
         if hr>=24 or start_time_list[0] == 0:
             end_day+= hr//24
             hr = hr%24
@@ -223,6 +232,7 @@ def setQuestionSet(request):
         if min>60:
             hr+=min//60
             min = min%60
+
         # delta = relativedelta(year=+)
         # end_date = start_data + (start_time+ duration_of_test)
 
@@ -236,8 +246,10 @@ def setQuestionSet(request):
             if k.startswith('qno'):
                 qid_list.append(int(request.POST[k]))
         
+        # insert data into testpaper set
         new_test_paper = TestPaperSet()
         new_test_paper.test_paper_name = test_paper_name
+        new_test_paper.code = generate_unique_code()
         new_test_paper.start_date = start_date
         new_test_paper.start_time = start_time
         new_test_paper.end_time= end_time
@@ -246,116 +258,119 @@ def setQuestionSet(request):
         new_test_paper.created_by = request.session['username']
         new_test_paper.save()
         
+        #add all the questions of testpaper set
         for id in qid_list:
             question_set  = QuestionSet()
             question_set.test_paper_id = new_test_paper
             question_set.question_id  = id
             question_set.save()
+
     messages.info(request,"Test paper added successfully:")
-    messages.info(request,"Test paper id is : " +  str(new_test_paper.test_paper_id))
     res =  HttpResponseRedirect('home')
     return res
 
-
+#-----------------------------------------------------------------------------------------------------------
+#This view used for starting the test paper on the basis of Test Paper code
 def startTestPaper(request):
     if 'name' not in request.session.keys():
-        res  = HttpResponseRedirect('login')
+        res =  HttpResponseRedirect('login')
     
     #NOTE:we are taking  code which is 6 upper case character
-    if request.method == 'POST':
-        test_paper_id = str(request.POST['test_paper_id'])
-        if test_paper_id.isdigit():
-            test_paper_set =TestPaperSet.objects.filter(test_paper_id=test_paper_id)
-            if len(test_paper_set)!=0:
-                for test_paper in test_paper_set:
-                    question_pool = []
-                    question_set = QuestionSet.objects.filter(test_paper_id=test_paper)
-                    for question in question_set:
-                        question_pool.append(QuestionImages.objects.get(question_id =question.question_id))   
-                
-                    # Exam set date and time
-                    start_date = test_paper.start_date
-                    start_time = test_paper.start_time
+    if request.GET:
+        code = str(request.GET['code']).strip()
+    elif request.POST:
+        code = str(request.POST['code']).strip()
 
-                    end_time = test_paper.end_time
-                    end_date = test_paper.end_date
-                    
-                    end_hr = end_time.hour
-                    end_min =end_time.minute
-                    end_sec = end_time.second
-                
-                
-                    # Current date time 
-                    currentDate = date.today()
-                    currentTime = datetime.now()
-                    currentTimeObj = time(currentTime.hour , currentTime.minute , currentTime.second) 
-                    currHr = currentTime.hour
-                    currMin = currentTime.minute
+    if code.isalpha():
+        test_paper_set =TestPaperSet.objects.filter(code=code)
+        if len(test_paper_set)!=0:
+            for test_paper in test_paper_set:
+                question_pool = []
+                question_set = QuestionSet.objects.filter(test_paper_id=test_paper)
+                for question in question_set:
+                    question_pool.append(QuestionImages.objects.get(question_id =question.question_id))   
+            
+                # Exam set date and time
+                start_date = test_paper.start_date
+                start_time = test_paper.start_time
 
-                    total_day_diff =end_date.day - start_date.day
+                end_time = test_paper.end_time
+                end_date = test_paper.end_date
+                
+                end_hr = end_time.hour
+                end_min =end_time.minute
+                end_sec = end_time.second
+            
+            
+                # Current date time 
+                currentDate = date.today()
+                currentTime = datetime.now()
+                currentTimeObj = time(currentTime.hour , currentTime.minute , currentTime.second) 
+                currHr = currentTime.hour
+                currMin = currentTime.minute
 
-                    # time set on timer timer 
-                    hr = (end_time.hour - currHr)  + total_day_diff*24
-                    min = end_time.minute - currMin
-                    sec = end_time.second  -currentTime.second
-                    start = (currentTimeObj.hour == 0  and start_time.hour>=0 ) or (end_time.hour == 0 and currentTimeObj.hour>=0)
-                    print(end_time.hour)
-                 
-                    timeAllot = str(end_hr  - start_time.hour) +":" + str(end_min - start_time.minute) +":" + str(end_sec - start_time.second)
-                    if start_date == currentDate and currentDate<=end_date :
-                        if (currentTimeObj == start_time and currentTimeObj<end_time ) or start:
-                            print("Exam started")
-                    
-                        elif currentTimeObj>=end_time:
-                            messages.info(request , 'Exam time finished ')
-                            return HttpResponseRedirect('home')
-                        elif currentTimeObj<start_time:
-                            messages.info(request , 'Exam is not started')
-                            return HttpResponseRedirect('home')
-                    elif start_date > currentDate:
-                        messages.info(request , 'Test is not started')
+                total_day_diff =end_date.day - start_date.day
+
+                # time set on timer timer 
+                hr = (end_time.hour - currHr)  + total_day_diff*24
+                min = end_time.minute - currMin
+                sec = end_time.second  -currentTime.second
+                start = (currentTimeObj.hour == 0  and start_time.hour>=0 ) or (end_time.hour == 0 and currentTimeObj.hour>=0)
+                print(end_time.hour)
+                
+                timeAllot = str(end_hr  - start_time.hour) +":" + str(end_min - start_time.minute) +":" + str(end_sec - start_time.second)
+                if start_date == currentDate and currentDate<=end_date :
+                    if (currentTimeObj == start_time and currentTimeObj<end_time ) or start:
+                        print("Exam started")
+                
+                    elif currentTimeObj>=end_time:
+                        messages.info(request , 'Exam time finished ')
                         return HttpResponseRedirect('home')
-                    else:
-                        messages.info(request , 'Test was finished')
+                    elif currentTimeObj<start_time:
+                        messages.info(request , 'Exam is not started')
                         return HttpResponseRedirect('home')
-                    
-                       #1 question 1 min
-                    total_ques = test_paper.total_question           
-                    examStatus = 1
-                    context = {'questions' : question_pool , 
-                            'examStatus':examStatus ,
-                            'totalQuestion':total_ques,
-                            'topicName':test_paper.test_paper_name,
-                            'time':timeAllot ,
-                            'hr':hr ,
-                            'examStatus':examStatus ,
-                                'min':min,
-                                'sec':sec,
-                                }
-                    res  = render(request , 'test_paper.html',context)
-            else:
-
-                messages.info(request , 'No Test Available')
-                return  HttpResponseRedirect('home')
+                elif start_date > currentDate:
+                    messages.info(request , 'Test is not started')
+                    return HttpResponseRedirect('home')
+                else:
+                    messages.info(request , 'Test was finished')
+                    return HttpResponseRedirect('home')
+                
+                #1 question 1 min
+                total_ques = test_paper.total_question           
+                examStatus = 1
+                context = {'questions' : question_pool , 
+                        'examStatus':examStatus ,
+                        'totalQuestion':total_ques,
+                        'topicName':test_paper.test_paper_name,
+                        'time':timeAllot ,
+                        'hr':hr ,
+                        'examStatus':examStatus ,
+                            'min':min,
+                            'sec':sec,
+                            }
+                res  = render(request , 'test_paper.html',context)
         else:
-            messages.info(request , 'Enter valid code for test')
-            return  HttpResponseRedirect('home')
-      
+            messages.info(request , 'No Test Available')
+            res = HttpResponseRedirect('home')
+    else:
+        messages.info(request , 'Enter valid code for test')
+        res =  HttpResponseRedirect('home')
     return res 
 
     
 #-----------------------------------------------------------------------------------------------------------
-#This view used for setting NIMCET test paper format by rendering 'test_paper.html' file
+#This view used for showing all the test paper set are going on and give then
 def compete(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
-    
     testPaper = TestPaperSet.objects.all()
-    
-    context = {'testPapers':testPaper ,'hello':1}
+    context = {'testPapers':testPaper}
     res  = render(request , 'all_test.html',context)
     return res
 
+#-----------------------------------------------------------------------------------------------------------
+#This view used for setting NIMCET test paper format by rendering 'test_paper.html' file
 def NIMCET_Test(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
@@ -471,8 +486,7 @@ def calculateTestResult(request):
    
     for n in qid_list:
         question_img = QuestionImages.objects.get(question_id = n)
-        try:
-              
+        try:    
             if question_img.ans == request.POST['op' + str(n)]:
                 total_right +=1
                 right_attempted_ques.append(question_img.question_id)
@@ -484,17 +498,10 @@ def calculateTestResult(request):
                 wrong_attempted_ques.append(question_img.question_id)
                 if NIMCET:
                     wrong[question_img.question_title]+=1
-            total_attempt+=1
             
-
-
         except:
             pass
-
-    if total_attempt!=0:
-        points = (total_right - total_wrong) /  total_attempt *10
-    else:
-        points = 0
+   
 
   
     # finds the set of not_attempted question of the test
@@ -503,6 +510,14 @@ def calculateTestResult(request):
     setA  = right_and_wrong_que - qid_list
     setB  = qid_list - right_and_wrong_que
     not_attempted_ques = list(setA.union(setB))
+
+    total_attempt = len(right_and_wrong_que)
+    print("Total attempted question :")
+    print(total_attempt)
+    if total_attempt!=0:
+        points = (total_right - total_wrong) /  total_attempt *10
+    else:
+        points = 0
    
     username = Candidate.objects.get(username = request.session['username'])
     result = Result()
@@ -641,7 +656,6 @@ def showTestResult(request):
     res = render(request,'show_result.html' , context)
     return res
 
-
 #-----------------------------------------------------------------------------------------------------------
 #This view used for Uploading Question  by rendering "upload_question.html" file
 # NOTE:When new question will uploaded at that time question row added in QuestionRating table 
@@ -666,8 +680,6 @@ def uploadQuestion(request):
         messages.success(request,"Question added successfully")
     res = render(request, 'upload_question.html' )
     return res
-
-
 
 
 #-----------------------------------------------------------------------------------------------------------

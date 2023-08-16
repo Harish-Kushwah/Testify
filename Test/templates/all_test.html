@@ -3,7 +3,7 @@
 {% block title %} home{% endblock title %}
 {% load static %}
 {%block top %} 
-<link rel="stylesheet" href="{% static 'home.css' %}" />
+<link rel="stylesheet" href="{% static 'all_test.css' %}" />
 
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -19,16 +19,6 @@
       </ul>
   </div>
 
-  <style>
-    table,th,td,tr{
-        border: 1px solid black;
-        padding: 5px;
-    }
-    .test-table 
-    {
-        height: 60vh;
-    }
-</style>
 {% endblock top %}
 {%block msg %}
     {% for message in messages %}
@@ -42,31 +32,44 @@
 
 
 {%block content %}
+
+<div class="all_test_page">
+<div class="all_test">
+    <p>All Test's</p>
+  {% for testPaper in testPapers %}
   
-  <div class="test-table">
-   <h1>All test's </h1>
-   <table>
-    <tr>
-       <th>Code</th>
-       <th>Name</th>
-       <th>start_date</th>
-       <th>start_time</th>
-       <th>end_date</th>
-       <th>end_time</th>
-       <th>created_by</th>
-    </tr>
-        {% for testPaper in testPapers %}
-        <tr>
-        <td>{{testPaper.code}}</td>
-        <td>{{testPaper.test_paper_name}}</td>
-        <td>{{testPaper.start_date}}</td>
-        <td>{{testPaper.start_time}}</td>
-        <td>{{testPaper.end_date}}</td>
-        <td>{{testPaper.end_time}}</td>
-        <td>{{testPaper.created_by}}</td>
-       </tr>
+  <table class="table table-striped table-hover ">
+  
+      <thead id="thead">
        
-       {% endfor %}
-    </table>
+        <tr class="table-success">
+         <th scop="col">Test No.</th>
+         <th scope="col">Name</th>
+         <th scope="col">start_date</th>
+         <th scope="col">start_time</th>
+         <th scope="col">end_date</th>
+         <th scope="col">end_time</th>
+         <th scope="col">Code</th>
+         <th scope="col">Participate</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>{{forloop.counter}}</td>
+      <td>{{testPaper.test_paper_name}}</td>
+      <td>{{testPaper.start_date}}</td>
+      <td>{{testPaper.start_time}}</td>
+      <td>{{testPaper.end_date}}</td>
+      <td>{{testPaper.end_time}}</td>
+      <td>{{testPaper.code}}</td>
+      <td><a href="{% url 'Test:startTestPaper' %}?code={{testPaper.code}}" ><span> click hear</span></a>
+      </td>
+     </tr> 
+    </tbody>    
+  </table>
+  {% endfor %}
+
 </div>
+</div>
+
 {%endblock content%}

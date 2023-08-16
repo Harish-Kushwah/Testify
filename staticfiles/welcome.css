@@ -50,7 +50,6 @@
 .welcome-page-content
 {
     height: 40%;
-    border: 2px solid red;
     display: flex;
     justify-content: flex-start;
     align-items: center;

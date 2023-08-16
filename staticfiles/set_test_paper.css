@@ -98,7 +98,7 @@
     row-gap: 5px;
     grid-template-columns: auto auto;
     border-radius: 10px 10px;
-    background-image: linear-gradient(to left top ,rgba(208, 225, 204,0.9), rgba(232, 228, 223,0.2));
+    background-image: linear-gradient(to left top ,rgba(164, 235, 148, 0.9), rgba(255, 255, 255, 0.2));
 
 }
 .test-paper-form .form-item 

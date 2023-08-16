@@ -1,0 +1,86 @@
+.table {
+    border: 1px solid black;
+    border-radius: 10px 10px;
+    padding: 10px;
+    width: 70%;
+    margin: 10px; 
+    background-color: rgb(246, 247, 238);
+    box-shadow: 5px 5px 8px gray;
+    
+  }
+ th, td {
+    border: 1px solid black; 
+    margin: 2px;
+}
+.test-table 
+{
+    height: 60vh;
+}
+.all_test_page
+{
+    min-height: 800px;
+    background-image: linear-gradient(to left top ,rgba(246, 239, 203, 0.9), rgba(232, 228, 223,0.2));
+
+}
+.all_test 
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+   
+}
+.all_test  p{
+    text-align: center;
+    margin: 10px;
+    
+    border: 2px solid grey;
+    border-radius: 8px 8px;
+    font-size: 20px;
+    font-weight: 800;
+    padding: 5px;
+    box-shadow: 5px 5px 5px grey;
+    
+ }
+  @media screen and (max-width: 700px) {
+    .table{
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     justify-content: center;
+     padding: 5px;
+     border: 1px solid black;
+     width: 90%;
+     margin: 10px;
+    
+    
+      }
+     thead { 
+      margin: 5px;
+    
+    }
+     tbody {
+      padding: 0px;
+      width: 80%;
+    }
+    tr{
+      display: flex;
+      flex-direction: column;
+      margin: 0px;
+      padding: 0px;
+      
+    }
+    #thead {
+      width: 30%;
+    }
+    #thead tr{
+      width: 100px;
+    }
+    th{
+      border-radius: 5px 0px 0px 5px;
+    }
+    td{
+      border-radius: 0px 5px 5px 0px;
+    }
+    
+  }

@@ -24,6 +24,7 @@
    
    <!-- NOTE: some problem to add CSS from the theme.css thats why added in main.html -->
    <style>
+    
     .form-select
     {
     height: 50px;
@@ -40,7 +41,6 @@
       justify-content:center;
       flex-direction:row;
     }
-
     .home-page .test
     {
       box-shadow: 10px 10px 90px rgb(105, 109, 105);
@@ -64,10 +64,13 @@
     a{
       text-decoration: none;
     }
+
     .navbar-brand
     {
       color: #F64C72;
       font-size: 30px;
+      margin:0px;
+      padding:0px;
     }
     .navbar-brand span
     {
@@ -82,115 +85,8 @@
     border: 2px solid black;
     }
 
-    .nav-item::after{
-      content: ' ';
-      width: 0%;
-      height: 2px;
-      background: #f44336;
-      display: block;
-      margin: auto;
-      transition: 0.5s;
-    }
-    .nav-item a:hover::after{
-      width: 100%;
-    }
-    li.nav-item {
-      font-size: 18px;
-      color: black;
-      font-weight: bold;
-    }
+  
 
-    .uploadPage
-    {
-      height: 700px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      flex-direction: column;
-      flex-wrap: wrap;
-      background-image: linear-gradient(rgba(220, 201, 175), rgba(232, 228, 223));
-      padding-top:20px;
-    }
-    .uploadPage h3 {
-      border:3px solid rgb(16, 24, 171) ;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 12px 0px ;
-    color: rgb(11, 41, 12);
-    font-size: 30px;
-   border: 2px solid black;
-   padding: 10px;
-   border-radius: 10px 0px;
-   box-shadow: 10px -10px 100px rgb(32, 160, 3);
-   /* background-color: rgb(141, 137, 133); */
-   background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
-
-
-    }
-    .uploadPage .upload-page-form
-    {
-      margin: 10px;
-      border: 2px solid royalblue;
-      border-radius:5px;
-      padding: 20px;
-      width: 80%;
-      max-width :600px;
-      box-shadow: 10px 10px 90px rgb(105, 109, 105);
-      background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
-    }
-    .uploadPage .upload-page-form .input-field
-    {
-    
-      padding:10px;
-      font-weight: 400px;
-      font-size: 15px;
-      /* border: 3px solid rgb(12, 46, 9); */
-      border-radius:15px 0px ;
-      margin: 10px;
-      background-color: aliceblue;
-      display:flex;
-      max-width:500px;
-  }
-    .uploadPage .upload-page-form .input-field input
-    {
-      width:90%;
-      max-width:70%;
-      margin:3px;
-      padding:5px;
-      border-radius:10px;
-      max-height:40px;
-    
-    }
-    .uploadPage .upload-page-form .input-field label
-    {
-      margin:3px;
-      padding:5px;
-      font-size:18px;
-    }
-  .uploadPage .upload-page-form .btn-field
-  {
-    border: 2px solid rgb(214, 210, 203);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      box-shadow: 10px 10px 150px greenyellow;
-      border-radius: 10px;
-      padding: 10px;
-      margin: 10px;
-      flex-wrap: wrap;
-      max-width:500px
-  }
-  .uploadPage .upload-page-form .btn-field input{
-    
-    height: 40px;
-    width: 80px;
-    border-radius: 5px;
-    margin: 3px;
-    padding: 5px;
-    background-color: rgb(70, 70, 227);
-    color: white;
-  }
   .home-page .custome-test{
     width:90%;
     max-width: 700px;
@@ -206,8 +102,6 @@
     margin-bottom: 0px;
   }
  
-  
- 
   .alert .msg-text
   {
     font-size: 18px;
@@ -218,14 +112,6 @@
     color: #f44336;
   }
   
-  .card-header{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .card-header h4{
-    text-shadow: 1px 2px 5px rgb(0, 0, 0);
-  }
  
   {% block style %}
   {% endblock style %}
@@ -342,5 +228,5 @@
     </footer>
     <!-- Footer End -->
 
-  </body>
+ </body>
 </html>

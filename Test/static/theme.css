@@ -4,7 +4,8 @@
    text-decoration: none;
    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.nav-item::after{
+
+/* .nav-item::after{
     content: ' ';
     width: 0%;
     height: 2px;
@@ -16,36 +17,28 @@
 }
 .nav-item a:hover::after{
     width: 100%;
-}
-
-
-/* .content{
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
 } */
 
-/*welcome page CSS start */
 
 
-
-/* header color for form */
 
 .card .custom-header {
     background-color: #226e0f; /* Pink color */
-    /* box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); */
 
     
 }
 .card{
     background-image: linear-gradient(to left,#8fd290, #8fd292, #59c256,#59c257);
     box-shadow: 0px 20px 120px rgb(20, 34, 6) ;
-    /* background-color: rgba(199, 16, 16, 0.2); */
-
-    /* background: rgba(255,255,255,0.3);
-    box-shadow: rgba(255,255,255,0.2);
-    backdrop-filter: blur(34px); */
 }
+.card-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-header h4{
+    text-shadow: 1px 2px 5px rgb(0, 0, 0);
+  }
 
 .form-btn{
     display: flex;
@@ -68,30 +61,58 @@
 }
 
 
+.nav-item {
+    font-size: 17px;
+    color: black;
+    font-weight:500;
+    
+  }
+ 
+  .collapse ul li ::after{
+    content: ' ';
+    width: 0%;
+    height: 2px;
+    background: #f44336;
+    display: block;
+    margin: auto;
+    transition: 0.5s;
+  }
+  
+  .collapse ul li :hover:after{
+    width:100%;
+  }
+
+@media(max-width:900px)
+{
+    .collapse ul li
+    {
+       width: 10%;
+    }
+}
 @media(max-width:700px)
 {
     .header div.textbox h1{
         font-size: 20px;
     }
-     /* .top div.menu a
-    { */
-    /* display: block; */
-    /* } */
     div.menu
     {
         position: relative;
         background: #f44336;
         height: 200vh;
         width:20px;
-        /* top:0;
-        right:0; */
-
         text-align: left;
-        /* z-index: 1; */
 
 
     }
-    
+    .collapse ul li
+    {
+       width: 10%;
+    }
+   
+    .collapse ul li :hover:after{
+        width:100%;
+       
+      }
    
     
 }

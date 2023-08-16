@@ -18,6 +18,7 @@ class Candidate(models.Model):
     # def __str__(self):
     #     return self
 
+# not using
 class Question(models.Model):
     question_id = models.BigAutoField(primary_key=True , auto_created=True)
     question_statement = models.TextField()
@@ -63,7 +64,7 @@ class QuestionRating(models.Model):
     difficulty  = models.FloatField(default=0.0)
 
 
-    
+# not using
 class PiChartData(models.Model):
     piChart_id = models.BigAutoField(primary_key=True , auto_created=True)
     username  = models.ForeignKey(Candidate,on_delete=models.CASCADE)
@@ -73,16 +74,7 @@ class PiChartData(models.Model):
     all_exam_pi_image = models.ImageField(upload_to="piChart/" , max_length=250,null=True,default=None ,blank=True)
 
 
-import string
-import random 
-def generate_unique_code():
-    length = 6
-    while True:
-        code= ''.join(random.choices(string.ascii_uppercase,k=length))
-        if TestPaper.objects.filter(code=code).count()==0:
-            break
-    return code
-
+# not using
 class TestPaper(models.Model):
     test_paper_id = models.BigAutoField(primary_key=True,auto_created=True)
     # code=models.CharField(max_length=8,default=generate_unique_code,unique=True)
@@ -96,7 +88,7 @@ class TestPaper(models.Model):
 
 class TestPaperSet(models.Model):
     test_paper_id = models.BigAutoField(primary_key=True,auto_created=True)
-    # code=models.CharField(max_length=8,default=generate_unique_code(),unique=True)
+    code=models.CharField(max_length=8,default="",unique=True)
     test_paper_name = models.CharField(max_length=100 , blank=True)
     start_date = models.DateField(blank=True)
     start_time = models.TimeField(blank=True)
@@ -104,9 +96,7 @@ class TestPaperSet(models.Model):
     end_time = models.TimeField(blank=True ,default=None)
     total_question = models.IntegerField(blank=True)
     created_by = models.CharField(max_length=100 , blank=True)
-
-
-        
+ 
 class QuestionSet(models.Model):
     question_set_id = models.BigAutoField(primary_key=True,auto_created=True)
     test_paper_id = models.ForeignKey(TestPaperSet,on_delete=models.CASCADE)
