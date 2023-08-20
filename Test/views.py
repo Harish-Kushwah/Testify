@@ -83,7 +83,7 @@ def loginView(request):
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for user to reach on Home page by rendering 'home.html'
-def candidateHome(request):
+def home(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
     else:
@@ -111,7 +111,9 @@ def testPaper(request):
         res = HttpResponseRedirect('login')
     
     #fetch question from db
-    n = int(request.GET['n'])
+    n = 0
+    if request.method == 'GET':
+        n = int(request.GET['n'])
     question_pool =list(QuestionImages.objects.all())
     question_list = None
     if len(question_pool)!=0:
@@ -796,10 +798,29 @@ def edit_profile_info(request):
 #-----------------------------------------------------------------------------------------------------------
 
 
+def postMessage(request):
+    if 'name' not in request.session.keys():
+        res = HttpResponseRedirect('login')
+    if request.method == 'POST':
+        user_message = request.POST['message']
+        discuss_room = DiscussRoom()
+        user = Candidate.objects.get(username = request.session['username'])
+        discuss_room.message = user_message
+        discuss_room.username = user
+        discuss_room.save()
+        print(user_message)
+    res =HttpResponseRedirect('show_room_chat')
+    return res
 
-
-
-
+def showRoomChat(request):
+    if 'name' not in request.session.keys():
+        res = HttpResponseRedirect('login')
+    discuss_room = DiscussRoom.objects.filter().order_by('-discuss_room_id')[:50][::1]
+    context = {
+        'room' : discuss_room
+    }
+    res =render(request ,'discuss_room.html',context)
+    return res
 
 
 

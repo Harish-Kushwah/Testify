@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 
-{% block title %} home{% endblock title %}
+{% block title %}home{% endblock title %}
 {% load static %}
 {%block top %} 
 <link rel="stylesheet" href="{% static 'home.css' %}" />
@@ -14,13 +14,16 @@
           <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">logout</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'Test:compete' %}">compete</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:compete' %}" name="nav_compete">compete</a>
         </li>
         <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{% url 'Test:uploadQuestion' %}">uploadQuestion</a>
         </li>
         <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{% url 'Test:account' %}">Account</a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link active" aria-current="page" href="{% url 'Test:show_room_chat' %}">Discuss Room</a>
         </li>
       </ul>
   </div>
@@ -43,7 +46,7 @@
     <div class="home-page">
       
      <div class="home-page-header">
-      <h1> Welcome ,<br> "<span> {{ request.session.name }}</span> " to your home page</h1>
+      <h1> Welcome ,<br> "<span name="homename"> {{ request.session.name }}</span> " to your home page</h1>
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta perferendis molestias cupiditate officiis tempora veniam laudantium! Natus nostrum totam reprehenderit accusamus non voluptatibus quo nobis fugiat, sunt necessitatibus dolor? Doloremque, ipsa in nobis quos ad cum sunt delectus quasi deleniti quaerat accusamus, eaque repellendus nam illo. Facere quam facilis ullam?</p>
      </div>
      
@@ -63,7 +66,7 @@
         </div>
       
         <div class="btn-field">
-            <input type="submit" value="Submit" > 
+            <input type="submit" value="Submit"  name='custome_test_paper_btn'> 
           
             <input type = "reset" value = "Clear" required>
         </div>
@@ -80,7 +83,7 @@
           <input type="text" name = code required placeholder="Enter code">
         </div>    
         <div class="btn-field">
-            <input type="submit" value="Submit" > 
+            <input type="submit" value="Submit" name="paper_set_btn" > 
           
             <input type = "reset" value = "Clear" required>
         </div>
@@ -104,14 +107,14 @@
 
      </div>
      <div class = "button-link">
-        <a href="{% url 'Test:setTestPaper' %}" >set Test Paper<br><span> click hear</span></a>
+        <a href="{% url 'Test:setTestPaper' %}" name="set_test_paper">set Test Paper<br><span> click hear</span></a>
      </div>
      <div class = "button-link">
-        <a href="{% url 'Test:NIMCET_Test' %}" 
+        <a href="{% url 'Test:NIMCET_Test' %}" name="NIMCET_link"
        >Test NIMCET<br><span> click hear</span></a>
      </div>
      <div class = "button-link">
-        <a href="{% url 'Test:testhistory' %}" >Test history<br><span> click hear</span></a>
+        <a href="{% url 'Test:testhistory' %}" name="paper_analysis">Test history<br><span> click hear</span></a>
      </div>
     </div>
   </div>

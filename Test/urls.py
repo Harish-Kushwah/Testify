@@ -12,7 +12,7 @@ urlpatterns = [
     path('test-history',testResultHistory ,name = 'testhistory'),
     path('registrationform', candidateRegistration , name ='registrationform' ),
     path('login', loginView, name = 'login'),
-    path('home', candidateHome , name='home'),
+    path('home', home , name='home'),
     path('test-paper',testPaper,name = 'testpaper'),
     path('customs-test-paper',customsTestPaper,name = 'customs_test_paper'),
     path('calculate-result',calculateTestResult ,name="calculateTest"),
@@ -24,6 +24,9 @@ urlpatterns = [
     path('uploadQuestion',uploadQuestion , name = 'uploadQuestion'),
     path('NIMCET_Test',NIMCET_Test , name = 'NIMCET_Test'),
     path('compete',compete , name = 'compete'),
+    path('show_room_chat',showRoomChat , name = 'show_room_chat'),
+    path('post-message',postMessage, name = 'post_message'),
+
 
   
 

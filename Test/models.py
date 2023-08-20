@@ -102,3 +102,10 @@ class QuestionSet(models.Model):
     test_paper_id = models.ForeignKey(TestPaperSet,on_delete=models.CASCADE)
     # question_title = models.CharField(max_length=100)
     question_id =  models.IntegerField(blank=True)
+
+class DiscussRoom(models.Model):
+    discuss_room_id = models.BigAutoField(primary_key=True,auto_created=True)
+    username  = models.ForeignKey(Candidate,on_delete=models.CASCADE)
+    message = models.TextField(blank=True)
+    post_date = models.DateField(auto_now=True)
+    post_time = models.TimeField(auto_now=True)

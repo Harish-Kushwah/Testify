@@ -1,0 +1,81 @@
+{% extends 'main.html' %}
+
+{% block title %}home{% endblock title %}
+{% load static %}
+{%block top %} 
+<link rel="stylesheet" href="{% static 'discuss_room.css' %}" />
+
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:logout' %}">logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:compete' %}" name="nav_compete">compete</a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link active" aria-current="page" href="{% url 'Test:account' %}">Account</a>
+        </li>
+      </ul>
+  </div>
+{% endblock top %}
+{%block msg %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show " id="success-alert" role="alert">
+        
+        <div class="msg-text">{{message}} <strong>{{ request.session.name }}</strong>  </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %}
+{% endblock msg%}
+{% block scripts %}
+
+{%endblock scripts %}
+
+{%block content %}
+   
+   
+ 
+     <script>
+        function bottomFunction(){
+        var elem = document.getElementById('room')     
+        elem.scrollTop = elem.scrollHeight;
+       }
+     </script>
+   
+  <div class="room-page">
+    <h1>Let's Discuss</h1>
+  <div class="room" id="room">
+    {% if room %}
+       {% for r in room %}
+       {% if r.username_id == request.session.username %}
+       <div class="user-msg">
+       <p >{{r.message}}</p>
+      </div>
+       {% else %}
+       <div class="group-msg">
+        
+        <p><small>{{r.username_id}}</small>{{r.message}}</p>
+       </div>
+       {% endif %}
+       {% endfor %}
+    {% endif %}
+  </div>
+
+    <div class="room-foot"> 
+     <form action="{% url 'Test:post_message' %}" method="post">
+      {% csrf_token %}
+        <div class="form-item">
+          <input type="text" name = message required placeholder="Enter message" autocomplete="off">
+        </div>
+        <div class="btn-field">
+          
+            <input onsubmit="bottomFunction()" type="submit" value="send" class="btn btn-primary" name='post_message' id="submit">  
+        </div>
+      </form>
+    </div>
+  </div>
+{%endblock content%}

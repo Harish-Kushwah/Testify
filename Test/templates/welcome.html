@@ -7,16 +7,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'Test:registrationform' %}">SignUp</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:registrationform' %}" name="nav_signUp">SignUp</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'Test:login' %}">login</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:login' %}" name="nav_login">login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#about">About</a>
+          <a class="nav-link active" aria-current="page" href="#about" name="nav_about">About</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link active" aria-current="page" href="#contact">Contact</a>
+         <a class="nav-link active" aria-current="page" href="#contact" name="nav_contact">Contact</a>
         </li>
       </ul>
   </div>
@@ -40,7 +40,7 @@
 
 {% endblock msg%}
 
-  {% block headerContent %}
+{% block headerContent %}
   <div class="header">  
     <div class="textbox">
         <h1>Test your knowledge with  Testi<span>fy.</span></h1>
@@ -48,8 +48,8 @@
         Welcome to Online Exam Testing <br />
         here you can test your skills and learn new things
         </p>
-  <a href="#welcome-page" class="hero-btn">Visit Us to Know More</a>
-  <a href="{% url 'Test:home' %}" class="hero-btn">Start for Test's </a>
+  <a href="#welcome-page" class="hero-btn" name="know_more_link">Visit Us to Know More</a>
+  <a href="{% url 'Test:home' %}" class="hero-btn" name ="start_link">Start for Test's </a>
     </div>
    </div>
    {% endblock headerContent %}

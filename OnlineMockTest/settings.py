@@ -1,4 +1,3 @@
-
 from pathlib import Path
 import os
 import dj_database_url
@@ -8,32 +7,8 @@ import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-#===================[DEVELOPMENT SECTION]=================================
-# DEBUG =True
-# ALLOWED_HOSTS = []
 
-#Using external url of database during deployment
 
-# STATICFILES_DIRS =[
-#     os.path.join(BASE_DIR,'Test/static')
-# ]
-#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-# SECRET_ROOT = os.path.join(BASE_DIR,'')
-
-# for media files
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-
-#Default database for development purpose
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-#NOTE:CURRENTLY USING LOCAL OFFLINE DATABASE POSTGREES NEED TO CHANGE WHILE DEPLOYMENT
 #NOTE:MEDIA FILE STORING IN cloudinary
 DATABASES = {
     'default': {
@@ -53,8 +28,6 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 #cloudinary is image hosting service provider used for serving media files---
-
-
 # cloudinary configuration for using cloudinary
 cloudinary.config( 
     cloud_name =os.environ.get("CLOUD_NAME"),
@@ -176,3 +149,13 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# this is added for testing purpose
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#         'LOCATION': 'unique-snowflake',
+#     }
+# }
+
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
