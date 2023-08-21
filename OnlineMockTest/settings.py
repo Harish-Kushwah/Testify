@@ -26,9 +26,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get('DEBUG' , 'FALSE').lower == "true"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
-
-#cloudinary is image hosting service provider used for serving media files---
-# cloudinary configuration for using cloudinary
 cloudinary.config( 
     cloud_name =os.environ.get("CLOUD_NAME"),
     api_key = os.environ.get("API_KEY"),

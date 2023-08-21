@@ -17,13 +17,13 @@
           <a class="nav-link active" aria-current="page" href="{% url 'Test:compete' %}" name="nav_compete">compete</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link active" aria-current="page" href="{% url 'Test:uploadQuestion' %}">uploadQuestion</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:uploadQuestion' %}">uploadQuestion</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link active" aria-current="page" href="{% url 'Test:account' %}">Account</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:account' %}">Account</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link active" aria-current="page" href="{% url 'Test:show_room_chat' %}">Discuss Room</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'Test:show_room_chat' %}">Discuss</a>
         </li>
       </ul>
   </div>
@@ -45,16 +45,16 @@
    
     <div class="home-page">
       
-     <div class="home-page-header">
+    <div class="home-page-header">
       <h1> Welcome ,<br> "<span name="homename"> {{ request.session.name }}</span> " to your home page</h1>
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta perferendis molestias cupiditate officiis tempora veniam laudantium! Natus nostrum totam reprehenderit accusamus non voluptatibus quo nobis fugiat, sunt necessitatibus dolor? Doloremque, ipsa in nobis quos ad cum sunt delectus quasi deleniti quaerat accusamus, eaque repellendus nam illo. Facere quam facilis ullam?</p>
-     </div>
-     
+    </div>
+    
     <div class="test-header">
       <h3> Create Your Own Test </h3>
     </div>
     <div class="custome-test"> 
-     <form action="{% url 'Test:customs_test_paper' %}" method="post">
+    <form action="{% url 'Test:customs_test_paper' %}" method="post">
       {% csrf_token %}
         <div class="form-item">
           <label for="topic_name">Topic Name</label>
