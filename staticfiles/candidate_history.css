@@ -57,6 +57,7 @@
     color: rgb(7, 7, 7);
     font-size: 20px;
     font-weight: 600;
+    overflow: auto;
 
 }
 .report-card-page .report-card-para p .special
@@ -133,6 +134,7 @@
    color: black;
    overflow-wrap: break-word;
    flex: wrap;
+   overflow: auto;
 }
 .report-card-page .pichart-image img{
     /* position: relative; */

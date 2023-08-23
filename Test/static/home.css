@@ -159,13 +159,126 @@
     color: white;
     width: 60%;
 }
-.home-page .home-page-header p
+.info
 {
     color: white;
     flex-wrap: wrap;
     width: 60%;
+    margin: 5px;
+    overflow: auto;
+    font-weight: 400;
+    margin-top: 10px;
+
+}
+.info p 
+{
+    align-items: center;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.points
+{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin: 5px;
+    border: 2px solid rgb(188, 188, 206);
+    border-radius: 10px 10px ;
+    /* background-image: linear-gradient(to right ,rgba(90, 219, 4, 0.5),rgba(158, 227, 112, 0.5), rgb(156, 151, 145,0.5)); */
+    background-image: linear-gradient(to right ,rgba(3, 2, 49,0.5),rgb(68, 63, 197,0.5),rgb(103, 99, 205,0.5), rgba(242, 239, 237, 0.5));
+    box-shadow: 2px 2px 2px grey;
+   padding: 5px;
+   padding-left: 10px;
+}
+.points:hover
+{
+    background-image: linear-gradient(to right ,rgba(66, 65, 121, 0.5),rgba(127, 124, 213, 0.5),rgba(144, 142, 200, 0.5), rgba(255, 255, 255, 0.5));
+}
+.add-icon
+{
+    height: 60px;
+    width: 50px;
+    min-height: 60px;
+    min-width: 50px;
+    background-position: center;
+    background-size: cover;
+    position: relative; 
+    margin-right: 20px;
+}
+#icon1
+{
+    background-image: url(images/test_image.png);
+}
+#icon2
+{
+    background-image: url(images/analysis.png);
+}
+#icon3
+{
+    background-image: url(images/puzzle.png);
+}
+#icon4
+{
+    background-image: url(images/online-test.png);
+}
+#icon5
+{
+    background-image: url(images/girl.png);
 }
 .home-page .home-page-header h1 span 
 {
     color: #f44336;
+}
+.home-page .custome-test{
+    width:90%;
+    max-width: 700px;
+  }
+  .home-page .custome-test .form-item{
+    width:90%;
+  }
+  .home-page .custome-test .form-item input
+  {
+    width:90%;
+  }
+  .home-page .test
+  {
+    box-shadow: 10px 10px 90px rgb(105, 109, 105);
+    background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
+  }
+  .home-page .custome-test
+  {
+    box-shadow: 10px 10px 90px rgb(105, 109, 105);
+    background-image: linear-gradient(rgba(200, 202, 210, 0.7),rgba(236, 236, 236, 0.7));
+  }
+
+  @media(max-width:700px){
+    .points
+    {
+       
+        flex-direction: column;
+         margin: 5px;
+    }
+    .info
+    {
+    width: 90%;
+    margin: 5px;
+
+    }
+    .add-icon
+    {
+    height: 80px;
+    width: 70px;
+     margin-bottom: 10px;
+    }
+    .info p 
+    {
+        width: 80%;
+    }
+    
+    .home-page .home-page-header h1 {
+      color: white;
+      width: 80%;
+      margin-top: 10px;
+    }
 }

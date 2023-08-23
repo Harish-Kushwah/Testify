@@ -8,7 +8,6 @@ import cloudinary.api
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-
 #NOTE:MEDIA FILE STORING IN cloudinary
 DATABASES = {
     'default': {
@@ -156,3 +155,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 # SESSION_CACHE_ALIAS = "default"
+
+
+EMAIL_BACKEND  = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587
+

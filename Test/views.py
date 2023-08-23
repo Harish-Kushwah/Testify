@@ -1,3 +1,4 @@
+import threading
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import loader
@@ -15,12 +16,17 @@ from datetime import datetime ,time , date
 import datetime as dt
 # from dateutil.relativedelta import relativedelta
 # from django.contrib.messages.storage.session.SessionStorage
+import smtplib
+from django.core.mail import send_mail
+from django.conf import settings
+
+
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for showing welcome page to new  user  by rendering 'welcome.html'
 def welcome(request):
     logoutStatus = 1
-    template = loader.get_template('welcome.html')  #load the html file
+    # template = loader.get_template('welcome.html')  #load the html file
     return render(request , 'welcome.html',{'logoutStatus':logoutStatus})
 
 
@@ -30,22 +36,52 @@ def candidateRegistrationForm(request):
     res = render(request , 'registration_form.html')
     return res
 
+
+
+from .email_info import *
+class EmailThread(threading.Thread):
+    def __init__(self,user):
+        self.email = user['email'] 
+        self.user_name = user['name']
+        threading.Thread.__init__(self)
+
+    def send_email_to_client(self):
+        subject = get_email_subject()
+        message = get_email_message(self.user_name)
+        from_email=settings.EMAIL_HOST_USER
+        recipient_list=[]
+        recipient_list.append(self.email)
+        send_mail(subject,message,from_email,recipient_list)
+
+    def run(self):
+        self.send_email_to_client()
 #-----------------------------------------------------------------------------------------------------------
 #This view used for SignUp new  user  by rendering 'registration.html'
 def candidateRegistration(request):
     if request.method =='POST':
         username = request.POST['username']
+        email = request.POST['userEmail']
+        name = request.POST['name']
+        user ={
+                'name' :name,
+                'email':email,
+                }
+        print(email)
         #check if the user already exists
         if len(Candidate.objects.filter(username=username)) :
             userStatus = 1
             messages.info(request,"Sorry,Username Already exists , please try different Username")
             return HttpResponseRedirect('registrationform')
         else:
+            EmailThread(user).start()
+
             candidate =  Candidate()
             candidate.username = username
             candidate.password = make_password(request.POST['password'])
             candidate.name =request.POST['name']
+            candidate.email = email
             candidate.save()
+           
             userStatus = 2
             messages.info(request,"Account Created Successfully,Please Login Yourself")
             return render(request,'login.html')
@@ -486,10 +522,13 @@ def calculateTestResult(request):
             qid_list.append(int(request.POST[k]))
     
    
+    total_skip_question = 0
     for n in qid_list:
         question_img = QuestionImages.objects.get(question_id = n)
         try:    
-            if question_img.ans == request.POST['op' + str(n)]:
+            if request.POST['op' + str(n)]=="skip":
+                total_skip_question+=1
+            elif question_img.ans == request.POST['op' + str(n)] :
                 total_right +=1
                 right_attempted_ques.append(question_img.question_id)
                 if NIMCET:
@@ -511,11 +550,9 @@ def calculateTestResult(request):
     qid_list =  set(qid_list)
     setA  = right_and_wrong_que - qid_list
     setB  = qid_list - right_and_wrong_que
-    not_attempted_ques = list(setA.union(setB))
+    not_attempted_ques =list(setA.union(setB))
 
     total_attempt = len(right_and_wrong_que)
-    print("Total attempted question :")
-    print(total_attempt)
     if total_attempt!=0:
         points = (total_right - total_wrong) /  total_attempt *10
     else:
@@ -821,6 +858,10 @@ def showRoomChat(request):
     }
     res =render(request ,'discuss_room.html',context)
     return res
+
+
+
+
 
 
 
