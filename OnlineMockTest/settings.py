@@ -7,29 +7,65 @@ import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+#===================[DEVELOPMENT SECTION]=================================
+SECRET_KEY = 'django-insecure-w#c4r-)49+64ym6&-_e91woxw5r$=(^y0g+!gughhj0v%zn-t)'
+DEBUG =True
+ALLOWED_HOSTS = []
 
-#NOTE:MEDIA FILE STORING IN cloudinary
+#Using external url of database during deployment
+
+# STATICFILES_DIRS =[
+#     os.path.join(BASE_DIR,'Test/static')
+# ]
+#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# SECRET_ROOT = os.path.join(BASE_DIR,'')
+
+# for media files
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+#Default database for development purpose
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'Testify',
+         'USER':'postgres',
+        'PASSWORD':'Harish',
+        'HOST':'localhost',
+        'PORT':'5432',
+       
     }
 }
+
+cloudinary.config( 
+cloud_name = "dfdvv1awl",
+api_key = "828992967288959",
+api_secret ="O10H2zW0KtVg-wp3UG-7m5cjYaw"
+)
+
+#NOTE:MEDIA FILE STORING IN cloudinary
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 #=======================================================================
 
 #===================[DEPLOYMENT SECTION]=================================
 # Environment variables set ---------------------------------------------
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = os.environ.get('DEBUG' , 'FALSE').lower == "true"
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+# DEBUG = os.environ.get('DEBUG' , 'FALSE').lower == "true"
+# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
-cloudinary.config( 
-    cloud_name =os.environ.get("CLOUD_NAME"),
-    api_key = os.environ.get("API_KEY"),
-    api_secret =os.environ.get("API_SECRET")
-) 
+# cloudinary.config( 
+#     cloud_name =os.environ.get("CLOUD_NAME"),
+#     api_key = os.environ.get("API_KEY"),
+#     api_secret =os.environ.get("API_SECRET")
+# ) 
 
 #using cloudinary storage for media files storage
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
@@ -43,8 +79,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 #[for deploying database] -------------------------------------------------------
 
-database_url = os.environ.get("DATABASE_URL")
-DATABASES['default'] = dj_database_url.parse(database_url)
+# database_url = os.environ.get("DATABASE_URL")
+# DATABASES['default'] = dj_database_url.parse(database_url)
 # =============================================================================
 
 
@@ -160,8 +196,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND  = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = 'testify8953@gmail.com'
+EMAIL_HOST_PASSWORD = 'kaom ridr dvep qlfe'
 EMAIL_PORT = 587
 

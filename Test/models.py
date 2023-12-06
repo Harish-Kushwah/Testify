@@ -15,20 +15,8 @@ class Candidate(models.Model):
     about = models.TextField(null=True,default=None ,blank=True)
     contact_no = models.TextField(max_length=10,null=True,default=None ,blank=True)
     
-    # def __str__(self):
-    #     return self
-
-# not using
-class Question(models.Model):
-    question_id = models.BigAutoField(primary_key=True , auto_created=True)
-    question_statement = models.TextField()
-    opt_a = models.CharField(max_length=255)
-    opt_b = models.CharField(max_length=255)
-    opt_c = models.CharField(max_length=255)
-    opt_d = models.CharField(max_length=255)
-    ans = models.CharField(max_length=2)
-    # def __str__(self):
-    #     return self
+    def __str__(self):
+        return self.username
 
 class Result(models.Model):
     result_id = models.BigAutoField(primary_key=True,auto_created=True)
@@ -42,9 +30,9 @@ class Result(models.Model):
     wrong_attempted_ques = ArrayField(models.TextField(),null=True)
     not_attempted_ques = ArrayField(models.TextField(),null=True)
     right_attempted_ques = ArrayField(models.TextField(),null=True)
+    def __str__(self):
+        return str(self.username)
 
-    # def __str__(self):
-    #     return self.username
 
 class QuestionImages(models.Model):
     question_id = models.BigAutoField(primary_key=True , auto_created=True)
@@ -53,6 +41,9 @@ class QuestionImages(models.Model):
     question_image = CloudinaryField('question')
     # question_image = models.FileField(upload_to="question/" , max_length=250,null=True,default=None)
     ans = models.CharField(max_length=2)
+    def __str__(self):
+        return str(self.question_title)
+    
 
 
 class QuestionRating(models.Model):
@@ -62,7 +53,51 @@ class QuestionRating(models.Model):
     total_times_wrong = models.IntegerField(default=0)
     total_times_right = models.IntegerField(default=0)
     difficulty  = models.FloatField(default=0.0)
+    def __str__(self):
+        return str(self.question_id)
 
+class TestPaperSet(models.Model):
+    test_paper_id = models.BigAutoField(primary_key=True,auto_created=True)
+    code=models.CharField(max_length=8,default="",unique=True)
+    test_paper_name = models.CharField(max_length=100 , blank=True)
+    start_date = models.DateField(blank=True)
+    start_time = models.TimeField(blank=True)
+    end_date = models.DateField(blank=True,default=None)
+    end_time = models.TimeField(blank=True ,default=None)
+    total_question = models.IntegerField(blank=True)
+    created_by = models.CharField(max_length=100 , blank=True)
+    def __str__(self):
+        return str(self.test_paper_name)
+ 
+class QuestionSet(models.Model):
+    question_set_id = models.BigAutoField(primary_key=True,auto_created=True)
+    test_paper_id = models.ForeignKey(TestPaperSet,on_delete=models.CASCADE)
+    # question_title = models.CharField(max_length=100)
+    question_id =  models.IntegerField(blank=True)
+    def __str__(self):
+        return str(self.test_paper_id)
+
+class DiscussRoom(models.Model):
+    discuss_room_id = models.BigAutoField(primary_key=True,auto_created=True)
+    username  = models.ForeignKey(Candidate,on_delete=models.CASCADE)
+    message = models.TextField(blank=True)
+    post_date = models.DateField(auto_now=True)
+    post_time = models.TimeField(auto_now=True)
+    def __str__(self):
+        return str(self.username)
+    
+# ------------------------------------------------------------------------------------------------
+# not using
+class Question(models.Model):
+    question_id = models.BigAutoField(primary_key=True , auto_created=True)
+    question_statement = models.TextField()
+    opt_a = models.CharField(max_length=255)
+    opt_b = models.CharField(max_length=255)
+    opt_c = models.CharField(max_length=255)
+    opt_d = models.CharField(max_length=255)
+    ans = models.CharField(max_length=2)
+    # def __str__(self):
+    #     return self
 
 # not using
 class PiChartData(models.Model):
@@ -72,7 +107,6 @@ class PiChartData(models.Model):
     time = models.TimeField(auto_now=True)
     current_exam_pi_image = models.ImageField(upload_to="piChart/" , max_length=250,null=True,default=None , blank=True)
     all_exam_pi_image = models.ImageField(upload_to="piChart/" , max_length=250,null=True,default=None ,blank=True)
-
 
 # not using
 class TestPaper(models.Model):
@@ -85,27 +119,3 @@ class TestPaper(models.Model):
     end_time = models.TimeField(blank=True ,default=None)
     total_question = models.IntegerField(blank=True)
     created_by = models.CharField(max_length=100 , blank=True)
-
-class TestPaperSet(models.Model):
-    test_paper_id = models.BigAutoField(primary_key=True,auto_created=True)
-    code=models.CharField(max_length=8,default="",unique=True)
-    test_paper_name = models.CharField(max_length=100 , blank=True)
-    start_date = models.DateField(blank=True)
-    start_time = models.TimeField(blank=True)
-    end_date = models.DateField(blank=True,default=None)
-    end_time = models.TimeField(blank=True ,default=None)
-    total_question = models.IntegerField(blank=True)
-    created_by = models.CharField(max_length=100 , blank=True)
- 
-class QuestionSet(models.Model):
-    question_set_id = models.BigAutoField(primary_key=True,auto_created=True)
-    test_paper_id = models.ForeignKey(TestPaperSet,on_delete=models.CASCADE)
-    # question_title = models.CharField(max_length=100)
-    question_id =  models.IntegerField(blank=True)
-
-class DiscussRoom(models.Model):
-    discuss_room_id = models.BigAutoField(primary_key=True,auto_created=True)
-    username  = models.ForeignKey(Candidate,on_delete=models.CASCADE)
-    message = models.TextField(blank=True)
-    post_date = models.DateField(auto_now=True)
-    post_time = models.TimeField(auto_now=True)

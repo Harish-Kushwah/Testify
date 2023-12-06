@@ -1,3 +1,4 @@
+import sys
 import threading
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
@@ -28,6 +29,24 @@ def welcome(request):
     logoutStatus = 1
     # template = loader.get_template('welcome.html')  #load the html file
     return render(request , 'welcome.html',{'logoutStatus':logoutStatus})
+def codingPage(request):
+    context={}
+    if request.method=="POST":
+        code = request.POST['code']
+        try:
+            original_output = sys.stdout
+            sys.stdout = open('file.txt','w')
+            exec(code)
+            sys.stdout.close()
+            sys.stdout = original_output
+            output = open('file.txt','r').read()
+        except Exception as e:
+            sys.stdout= original_output
+            
+            output = e
+        context={'code':code,'output':output}
+
+    return render(request , 'coding_page.html',context)
 
 
 #-----------------------------------------------------------------------------------------------------------
@@ -38,6 +57,7 @@ def candidateRegistrationForm(request):
 
 
 
+#Threading is used to increase the speed of sending email to the user
 from .email_info import *
 class EmailThread(threading.Thread):
     def __init__(self,user):
@@ -55,6 +75,7 @@ class EmailThread(threading.Thread):
 
     def run(self):
         self.send_email_to_client()
+
 #-----------------------------------------------------------------------------------------------------------
 #This view used for SignUp new  user  by rendering 'registration.html'
 def candidateRegistration(request):
@@ -66,9 +87,9 @@ def candidateRegistration(request):
                 'name' :name,
                 'email':email,
                 }
-        print(email)
+        
         #check if the user already exists
-        if len(Candidate.objects.filter(username=username)) :
+        if len(Candidate.objects.filter(username=username)):
             userStatus = 1
             messages.info(request,"Sorry,Username Already exists , please try different Username")
             return HttpResponseRedirect('registrationform')
@@ -403,6 +424,10 @@ def compete(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
     testPaper = TestPaperSet.objects.all()
+    # display_test_papers =[]
+    # for tp in testPaper:
+    #     if tp.start_date 
+
     context = {'testPapers':testPaper}
     res  = render(request , 'all_test.html',context)
     return res
