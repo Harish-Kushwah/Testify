@@ -9,9 +9,9 @@
   height:100%;
   width:100%;
   padding:10px;
-  background-image:linear-gradient(to left top , rgba(207, 252, 188, 0.5) ,rgba(185, 238, 104, 0.5) );
-  
+  background-image:linear-gradient(to left top , rgba(255, 255, 255, 0.5) ,rgba(189, 189, 189, 0.5) );
 }
+
 .result-page-content .candidate-data
 {
   display:flex;
@@ -19,14 +19,14 @@
   justify-content:space-evenly;
   flex-direction:row;
   flex-wrap:wrap;
-  border:2px solid blue;
+  border:2px solid rgb(99, 99, 243);
   border-radius:10px 10px;
   background-image: linear-gradient(to left top , rgba(245, 247, 255, 0.4),rgba(242, 247, 183, 0.7));
   padding:10px;
   width:80%;
   margin:10px;
   max-width: 700px;
-  box-shadow: 10px 10px 40px gray;
+  box-shadow: 4px 4px 10px gray;
 }
 .result-page-content span
 {
@@ -38,12 +38,13 @@
   align-items:center;
   justify-content:space-between;
   flex-direction:row;
-  border:2px solid blue;
+  border:2px solid rgb(99, 99, 243);
   border-radius:10px 10px;
   width:80%;
   max-width: 700px;
   background-image: linear-gradient(to left top , rgba(245, 247, 255, 0.4),rgba(240, 244, 206, 0.7));
-  box-shadow: 10px 10px 40px gray;
+  box-shadow: 4px 4px 10px gray;
+
  
 }
 .main-result .success-image
@@ -71,18 +72,26 @@
 
   
 }
+
+.candidate-data h3  
+{
+  font-size: 17px;
+
+}
 h3 
 {
   color: rgb(3, 39, 2);
+  font-size: 16px;
+
 }
 .button-link
 {
   margin:10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border:2px solid blue;
-  flex-direction: column;
+  justify-content: space-around;
+  border:2px solid rgb(99, 99, 243);
+  flex-direction: row;
   width:80%;
   max-width: 700px;
   border-radius: 10px 10px;
@@ -91,19 +100,30 @@ h3
   font-weight:400 ;
   flex-wrap: wrap;
   background-image: linear-gradient(to left top , rgba(245, 247, 255, 0.4),rgba(242, 247, 183, 0.7));
-  box-shadow: 10px 10px 40px gray;
+  box-shadow: 4px 4px 10px gray;
+
 
 
 }
-.button-link span
+.button-link p 
 {
+   font-size: 16px;
+}
+.button-link a 
+{
+  padding-top: 10px;
   color: white;
+}
+.button-link button
+{
+  height: 35px;
+  width: 80px;
   border: 2px solid rgb(116, 116, 130);
-  margin: 5px;
+  margin: 3px;
   padding: 5px;
   border-radius: 5px 5px;
-  font-size: 18px;
   background-color: rgb(46, 46, 224);    
+  
 }
 .button-link span :hover
 {
