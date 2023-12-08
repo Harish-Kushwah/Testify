@@ -38,7 +38,13 @@
 
 {%block content %}
 
+  
   <div class="result-page-content">
+    
+    <div class="result-head">
+      <h4>Test Result</h4>
+     </div>
+
     <div class="candidate-data">
       <h3>Name : <span>{{candidate.name}}</span></h3>
       <h3>Username : <span>{{candidate.username}}</span></h3>
@@ -85,12 +91,12 @@
 
     <div class="button-link">
       <p>
-        Check Test Analysis :
-        <a href="{% url 'Test:testhistory' %}"><span> click hear</span></a>
+        <label>Test Analysis </label>
+       <button > <a href="{% url 'Test:testhistory' %}">click hear</a></button>
       </p>
       <p>
-        Take one more test :
-        <a href="{% url 'Test:home' %}"><span> click hear</span></a>
+        <label> Take one more test </label>
+        <button> <a href="{% url 'Test:home' %}">click hear</a></button>
       </p>
     </div>
   </div>

@@ -144,6 +144,8 @@ def home(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
     else:
+        # ready all charts when user came on the home page 
+        GraphThread(request).start()
         res = render(request,'home.html')
     return res
 
@@ -683,6 +685,8 @@ def showTestResult(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
     
+    GraphThread(request).start()
+
     #fetch latest result
     results  = Result.objects.filter(result_id = Result.objects.latest('result_id').result_id , username_id = request.session['username'])
     candidates = Candidate.objects.filter(username = request.session['username'])
@@ -745,6 +749,67 @@ def uploadQuestion(request):
     res = render(request, 'upload_question.html' )
     return res
 
+class Graph:  
+    graph = None
+    def __init__(self):  
+        if Graph.graph == None:
+            Graph.graph = self
+            self.chart = self.bar = self.li = None
+        else:
+            raise Exception("This class has more instances")
+
+    @staticmethod
+    def getInstance():
+        if  Graph.graph == None :
+            Graph()
+       
+        return Graph.graph
+    
+
+from threading import Thread
+class GraphThread(threading.Thread):
+    def __init__(self , request):
+        results = Result.objects.filter(username_id =request.session['username']).select_related('username')
+        self.results = results
+        
+        threading.Thread.__init__(self)
+
+    graph = None
+    def draw_graphs(self):
+        
+        if len(self.results)!=0:
+            global graph
+            graph = Graph.getInstance()
+            threads = [
+              Thread(target=self.set_pi_chart),
+              Thread(target=self.set_bar_chart),
+              Thread(target=self.set_trend_chart),
+            ]
+            for t in threads:
+                t.start()
+                t.join()
+            
+    def set_pi_chart(self):
+        global graph 
+        graph.chart = plotPi(self.results)
+
+    def set_bar_chart(self):
+        global graph 
+        graph.bar  = plotBar(self.results)
+    
+    def set_trend_chart(self):
+        global graph 
+        graph.li = plotTrend(self.results)
+    
+
+    def run(self):
+        self.draw_graphs()
+        
+
+
+
+   
+
 
 #-----------------------------------------------------------------------------------------------------------
 #This view used for Showing test result history by rendering "candidate_history.html" file
@@ -753,21 +818,30 @@ def testResultHistory(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
 
-    candidate = Candidate.objects.filter(username = request.session['username'])
-    results = Result.objects.filter(username_id =request.session['username'])
+    
+    candidate = Candidate.objects.get(username = request.session['username'])
+    results = Result.objects.filter(username_id =request.session['username']).select_related('username')
     test_attempted = 2
-    chart = None
-    bar  = None
+
     if len(results)!=0:
-        chart = plotPi(results)
-        bar = plotBar(results)
+        graph = Graph.getInstance()
+        if graph ==None or graph.chart == None:
+            GraphThread(request).start()
+            graph.chart = plotPi(results)
+            graph.bar  = plotBar(results)
+            graph.li = plotTrend(results)
+          
+        chart = graph.chart
+        bar = graph.bar
+        li = graph.li
+        
         test_attempted = 1 
         # status =getTrendResult(results)
-        li = plotTrend(results)
+    
         trend = li[0]
         status =li[1]
-        points =format(candidate[0].points, ".2f")
-        context = {'candidate' : candidate[0] ,
+        points =format(candidate.points, ".2f")
+        context = {'candidate' : candidate ,
                 'results':results,
                 'chart':chart,
                 'testAttempted':test_attempted ,
@@ -799,6 +873,7 @@ def account(request):
         messages.info(request , "Account not found")
         res = HttpResponseRedirect('home')
     return res
+
 
 
 #-----------------------------------------------------------------------------------------------------------

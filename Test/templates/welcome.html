@@ -48,17 +48,18 @@
     <div class="textbox">
         <h1>Test your knowledge with  Testi<span>fy.</span></h1>
         <p>
-        Welcome to Online Exam Testing <br />
-        here you can test your skills and learn new things
+          Welcome to Online Exam Testing <br />
+          here you can test your skills and learn new things
         </p>
-  <a href="#welcome-page" class="hero-btn" name="know_more_link">Visit Us to Know More</a>
-  <a href="{% url 'Test:home' %}" class="hero-btn" name ="start_link">Start for Test's </a>
-    </div>
+        <a href="#about-us" class="hero-btn" name="know_more_link">Visit Us to Know More</a>
+        <a href="{% url 'Test:home' %}" class="hero-btn" name ="start_link">Start for Test's </a>
+      </div>
+    
    </div>
-   {% endblock headerContent %}
+{% endblock headerContent %}
 
 
-{%block content %}
+{%block content1 %}
 
 <div class="welcome-page-content" id="welcome-page">
 
@@ -102,10 +103,7 @@
   </section>
 </div>
 
-
-    
-
-{%endblock content%}
+{%endblock content1%}
 
 
 
