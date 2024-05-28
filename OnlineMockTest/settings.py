@@ -96,7 +96,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'OnlineMockTest.wsgi.application'
+# WSGI_APPLICATION = 'OnlineMockTest.wsgi.application'
 
 
 # Database
