@@ -7,23 +7,6 @@ import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-#===================[DEVELOPMENT SECTION]=================================
-SECRET_KEY = 'django-insecure-w#c4r-)49+64ym6&-_e91woxw5r$=(^y0g+!gughhj0v%zn-t)'
-DEBUG =True
-ALLOWED_HOSTS = []
-
-#Using external url of database during deployment
-
-# STATICFILES_DIRS =[
-#     os.path.join(BASE_DIR,'Test/static')
-# ]
-#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-# SECRET_ROOT = os.path.join(BASE_DIR,'')
-
-# for media files
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 #Default database for development purpose
 DATABASES = {
