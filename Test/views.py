@@ -1,7 +1,7 @@
 import sys
 import threading
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect, JsonResponse
 from django.template import loader
 from Test.models import *
 import pandas as pd
@@ -946,19 +946,35 @@ def postMessage(request):
         discuss_room.username = user
         discuss_room.save()
         print(user_message)
-    res =HttpResponseRedirect('show_room_chat')
-    return res
+    return HttpResponse("Message send successfully")
+    # res =HttpResponseRedirect('show_room_chat')
+    # return res
 
 def showRoomChat(request):
     if 'name' not in request.session.keys():
         res = HttpResponseRedirect('login')
     discuss_room = DiscussRoom.objects.filter().order_by('-discuss_room_id')[:50][::1]
+    # discuss_room = DiscussRoom.objects.all()
+    # print(discuss_room)
+    for m in discuss_room:
+        print(m)
     context = {
         'room' : discuss_room
     }
     res =render(request ,'discuss_room.html',context)
     return res
 
+def getMessages(request):
+    if 'name' not in request.session.keys():
+      return HttpResponseRedirect('login')
+    discuss_room = DiscussRoom.objects.filter().order_by('-discuss_room_id')[:50][::1]
+    # discuss_room = DiscussRoom.objects.all()
+    # print(discuss_room)
+    messages = []
+    for m in discuss_room:
+        messages.append([m.message , m.username_id ,  request.session['username']])
+    # messages.reverse()  
+    return JsonResponse({"messages":messages})
 
 
 

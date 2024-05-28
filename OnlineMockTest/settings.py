@@ -7,8 +7,25 @@ import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+#===================[DEVELOPMENT SECTION]=================================
+SECRET_KEY = 'django-insecure-w#c4r-)49+64ym6&-_e91woxw5r$=(^y0g+!gughhj0v%zn-t)'
+DEBUG =True
+ALLOWED_HOSTS = []
 
-#NOTE:MEDIA FILE STORING IN cloudinary
+#Using external url of database during deployment
+
+# STATICFILES_DIRS =[
+#     os.path.join(BASE_DIR,'Test/static')
+# ]
+#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# SECRET_ROOT = os.path.join(BASE_DIR,'')
+
+# for media files
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+#Default database for development purpose
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -63,6 +80,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "debug_toolbar"
 ]
 
 MIDDLEWARE = [
@@ -70,6 +88,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",  #required middleware for serving static files in development
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -164,3 +183,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
+

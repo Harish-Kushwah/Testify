@@ -27,6 +27,7 @@ urlpatterns = [
     path('compete',compete , name = 'compete'),
     path('show_room_chat',showRoomChat , name = 'show_room_chat'),
     path('post-message',postMessage, name = 'post_message'),
+     path('getMessages', getMessages, name='getMessages'),
 
 
   
