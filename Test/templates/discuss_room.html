@@ -45,11 +45,88 @@
         elem.scrollTop = elem.scrollHeight;
        }
      </script>
-   
+     <div id="display">
+     
+    </div>
+<script>
+  $(document).ready(function () {
+    // Function to append a single message to the chat room
+    function appendMessage(message) {
+        var temp = "";
+        if (message[1] === message[2]) {
+            temp += "<div class='user-msg'>" +
+                "<p>" + message[0] + "</p>" +
+                "</div>";
+        } else {
+            temp += "<div class='group-msg'>" +
+                "<p><small>" + message[1] + "</small>" + message[0] + "</p>" +
+                "</div>";
+        }
+        $("#room").append(temp);
+    }
+
+    setInterval(function () {
+        $.ajax({
+            type: "GET",
+            url: "/getMessages",
+            dataType: "json", // Assuming the response is JSON
+            success: function (response) {
+                console.log(response);
+
+                // Empty the room only if there are new messages
+                if (response.messages.length > 0) {
+                    $("#room").empty();
+                    response.messages.forEach(function (message) {
+                        appendMessage(message);
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("Error fetching messages:", errorThrown);
+                // Handle error gracefully, e.g., display a message to the user
+            },
+        });
+    }, 1000);
+});
+
+</script>
+     <!-- <script>
+      $(document).ready(function () {
+        setInterval(function () {
+          $.ajax({
+            type: "GET",
+            url: "/getMessages",
+            success: function (response) {
+              console.log(response);
+              $("#room").empty();
+              for (var key in response.messages) {
+                var temp =""
+                  if(response.messages[key][1] == response.messages[key][2] ){
+                    temp += "<div class='user-msg'>" + 
+                      "<p>" + response.messages[key][0] +  "</p>"+
+                    "</div>"
+                  }
+                  else{
+                   temp+= "<div class='group-msg'>" +  
+                     "<p><small>" + response.messages[key][1] + "</small>" + response.messages[key][0] + "</p>"
+                    +" </div>"
+                  }
+                
+                $("#room").append(temp);
+              }
+          
+            },
+            error: function (response) {
+             // alert("An error occured");
+            },
+          });
+        }, 1000);
+      });
+    </script> -->
   <div class="room-page">
     <h1>Let's Discuss</h1>
   <div class="room" id="room">
-    {% if room %}
+    <!-- {% if room %}
        {% for r in room %}
        {% if r.username_id == request.session.username %}
        <div class="user-msg">
@@ -62,14 +139,14 @@
        </div>
        {% endif %}
        {% endfor %}
-    {% endif %}
+    {% endif %} -->
   </div>
 
     <div class="room-foot"> 
-     <form action="{% url 'Test:post_message' %}" method="post">
+     <form  id="post-form">
       {% csrf_token %}
         <div class="form-item">
-          <input type="text" name = message required placeholder="Enter message" autocomplete="off">
+          <input type="text" name = message id = "message"  placeholder="Enter message" autocomplete="off">
         </div>
         <div class="btn-field">
           
@@ -78,4 +155,23 @@
       </form>
     </div>
   </div>
+
+  <script type="text/javascript">
+    $(document).on("submit", "#post-form", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        type: "POST",
+        url: "/post-message",
+        data: {
+          message: $("#message").val(),
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function (data) {
+          //alert(data)
+        },
+      });
+      document.getElementById("message").value = "";
+    });
+  </script>
 {%endblock content%}
