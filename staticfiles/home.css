@@ -190,6 +190,7 @@
     box-shadow: 2px 2px 2px grey;
    padding: 5px;
    padding-left: 10px;
+   transition: 1s;
 }
 .points:hover
 {

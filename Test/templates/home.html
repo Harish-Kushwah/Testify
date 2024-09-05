@@ -50,8 +50,8 @@
       
     <div class="home-page-header">
       <h1> Welcome ,<br> "<span name="homename"> {{ request.session.name }}</span> " to your home page</h1>
-   
-    <div class="info">
+      </div>
+    <!-- <div class="info">
 
       <div class="points">
       <div class="add-icon" id="icon1"></div>
@@ -78,14 +78,16 @@
       <div class="add-icon" id="icon5"></div>
       <p> Help other students by Uploading new questions in question bank </p>
       </div>
-    </div>
-  </div>
+    </div> -->
+  
        
     
   
+    <div class="container">
 
+      <div class="left-box">
     <div class="test-header">
-      <h3> Create Your Own Test </h3>
+      <p> Create Your Own Test </p>
     </div>
     <div class="custome-test"> 
     <form action="{% url 'Test:customs_test_paper' %}" method="post">
@@ -102,12 +104,13 @@
         <div class="btn-field">
             <input type="submit" value="Submit"  name='custome_test_paper_btn'> 
           
-            <input type = "reset" value = "Clear" required>
+            <input type = "reset" value = "Clear" class="clear-btn" required>
         </div>
       
       </form>
 
     </div>
+  
     
     <div class="custome-test"> 
      <form action="{% url 'Test:startTestPaper' %}" method="post">
@@ -119,38 +122,47 @@
         <div class="btn-field">
             <input type="submit" value="Submit" name="paper_set_btn" > 
           
-            <input type = "reset" value = "Clear" required>
+            <input type = "reset" value = "Clear" class="clear-btn" required>
         </div>
       
       </form>
 
     </div>
+  </div>
 
-    <div class="test-header">
-      <h3>SELECT THE TEST'S</h3>
+<div class="right-box">
+     <div class="test-header">
+      <p>Select the test'S</p>
       </div>
     
       <div class="test">
+ 
+     <div class = "button-link">
+        <a href="{% url 'Test:setTestPaper' %}" name="set_test_paper">Set Test Paper<br><span> click hear</span></a>
+     </div>
+    
+     <div class = "button-link">
+        <a href="{% url 'Test:testhistory' %}" name="paper_analysis">Test history<br><span> click hear</span></a>
+     </div>
+    </div>
+    <div class="test">
      <div class = "button-link">
         <!-- <a  href="#exampleModal" class="btnlinclass" data-bs-toggle="modal" data-bs-target="#exampleModal" id="btnlink">
          
           Test of One question <br><span> click hear</span></a> -->
           <!-- <a data-toggle="modal" data-id="@book.Id" title="Add this item" class="open-AddBookDialog"></a> -->
           <!-- <a href="#exampleModal" data-bs-target="#exampleModal" data-toggle="modal" data-book-id="my_id_value">Open Modal</a> -->
-          <a href="{% url 'Test:testpaper' %}?n=1" >Test of One question<br><span> click hear</span></a>
+          <a href="{% url 'Test:testpaper' %}?n=1" >One question<br><span> click hear</span></a>
 
      </div>
+     
      <div class = "button-link">
-        <a href="{% url 'Test:setTestPaper' %}" name="set_test_paper">set Test Paper<br><span> click hear</span></a>
+        <a href="{% url 'Test:NIMCET_Test' %}" name="NIMCET_link">Test NIMCET<br><span> click hear</span></a>
      </div>
-     <div class = "button-link">
-        <a href="{% url 'Test:NIMCET_Test' %}" name="NIMCET_link"
-       >Test NIMCET<br><span> click hear</span></a>
-     </div>
-     <div class = "button-link">
-        <a href="{% url 'Test:testhistory' %}" name="paper_analysis">Test history<br><span> click hear</span></a>
-     </div>
+    
     </div>
+     </div>
+  </div>
   </div>
   <!-- Button trigger modal -->
 
